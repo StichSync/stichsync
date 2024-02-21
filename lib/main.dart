@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stichsync/components/header_nav.dart';
 import 'package:stichsync/config/app_config.dart';
 import 'package:stichsync/config/theme_config.dart';
-import 'package:stichsync/views/feed.dart';
+import 'package:stichsync/views/inspirations.dart';
 
 void main() {
   runApp(const StichSyncApp());
@@ -38,7 +38,7 @@ class MainAppComponent extends StatelessWidget {
         context: context,
         title: AppConfig.headerTitle,
       ),
-      body: const Feed(),
+      body: const Inspirations(),
     );
   }
 }

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:stichsync/config/theme_config.dart';
 
-class Feed extends StatefulWidget {
-  const Feed({super.key});
+// This page will be something similar to linkedIn feed.
+// The user can scroll trough the app, and posts they see will
+// contain crochet ideas that the user can save, like, dislike, comment
+class Inspirations extends StatefulWidget {
+  const Inspirations({super.key});
 
   @override
-  State<Feed> createState() => _FeedState();
+  State<Inspirations> createState() => _InspirationsState();
 }
 
-class _FeedState extends State<Feed> {
+class _InspirationsState extends State<Inspirations> {
   int _counter = 0;
 
   void _incrementCounter() {
