@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:stichsync/main.dart';
+import 'package:stichsync/shared/models/crochet.dart';
+import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
+import 'package:stichsync/views/home/inspirations/data_access/crochet_service.dart';
+
+// This page will be something similar to linkedIn feed.
+// The user can scroll trough the app, and posts they see will
+// contain crochet ideas that the user can save, like, dislike, comment
+class Inspirations extends StatefulWidget {
+  const Inspirations({super.key});
+
+  @override
+  State<Inspirations> createState() => _InspirationsState();
+}
+
+class _InspirationsState extends State<Inspirations> {
+  final crochetService = getIt<CrochetService>();
+  late List<Crochet> crochets;
+
+  @override
+  void initState() {
+    super.initState();
+    crochets = crochetService.get(10, 1);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: crochets.length,
+        itemBuilder: (context, index) {
+          return InspirationPost(crochet: crochets[index]);
+        },
+      ),
+    );
+  }
+}

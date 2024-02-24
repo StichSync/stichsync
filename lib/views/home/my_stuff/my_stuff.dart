@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stichsync/config/theme_config.dart';
+import 'package:stichsync/shared/config/theme_config.dart';
 
 // This page will display users in-progress projects
 // This is the default place the user gets redirected after successful login.
