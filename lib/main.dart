@@ -4,8 +4,8 @@ import 'package:stichsync/shared/config/app_config.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
 import 'package:stichsync/views/home/home.dart';
 
-void main() {
-  Startup().registerServices();
+Future<void> main() async {
+  await Startup().registerServices();
   runApp(const StichSyncApp());
 }
 
