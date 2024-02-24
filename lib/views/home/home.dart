@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:stichsync/shared/config/app_config.dart';
 import 'package:stichsync/views/home/inspirations/inspirations.dart';
