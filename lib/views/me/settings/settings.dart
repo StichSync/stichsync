@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:stichsync/shared/components/authorized_view.dart';
 
 // this site will contain general app settings
 // will also contain big sidebar with all settings subsites and/or
@@ -8,6 +9,8 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    throw UnimplementedError();
+    return AuthorizedView(
+      child: throw UnimplementedError(),
+    );
   }
 }

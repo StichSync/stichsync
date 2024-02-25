@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:stichsync/shared/components/authorized_view.dart';
 import 'package:stichsync/shared/config/app_config.dart';
+import 'package:stichsync/views/auth/register.dart';
 import 'package:stichsync/views/home/inspirations/inspirations.dart';
 import 'package:stichsync/views/home/my_stuff/my_stuff.dart';
 import 'package:stichsync/views/home/saved/saved.dart';
@@ -50,29 +52,49 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          AppConfig.appTitle,
-          style: TextStyle(
-            color: Colors.white,
+    return AuthorizedView(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            AppConfig.appTitle,
+            style: TextStyle(
+              color: Colors.white,
+            ),
           ),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 8,
+                left: 8,
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.person_rounded,
+                  color: Colors.white,
+                  size: 36,
+                ),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, "/me");
+                },
+              ),
+            ),
+          ],
         ),
-      ),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) => onPageChanged(index),
-        padEnds: false,
-        children: const [
-          Saved(),
-          MyStuff(),
-          Inspirations(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: _items,
-        currentIndex: _currentIndex,
-        onTap: changePage,
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) => onPageChanged(index),
+          padEnds: false,
+          children: const [
+            Saved(),
+            MyStuff(),
+            Inspirations(),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: _items,
+          currentIndex: _currentIndex,
+          onTap: changePage,
+        ),
       ),
     );
   }
