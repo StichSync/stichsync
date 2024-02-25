@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stichsync/shared/components/authorized_view.dart';
 import 'package:stichsync/shared/config/app_config.dart';
-import 'package:stichsync/views/auth/register.dart';
 import 'package:stichsync/views/home/inspirations/inspirations.dart';
 import 'package:stichsync/views/home/my_stuff/my_stuff.dart';
 import 'package:stichsync/views/home/saved/saved.dart';
