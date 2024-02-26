@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
@@ -45,6 +46,16 @@ class AuthService {
       );
       var session = _client.currentSession;
       setSession(session);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> logout() async {
+    try {
+      await _client.signOut();
+      setSession(null);
       return true;
     } catch (_) {
       return false;

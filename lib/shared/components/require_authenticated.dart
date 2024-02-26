@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
 
-class AuthorizedView extends StatefulWidget {
+class RequireAuthenticated extends StatefulWidget {
   final Widget child;
-  const AuthorizedView({super.key, required this.child});
+  const RequireAuthenticated({super.key, required this.child});
 
   @override
-  State<AuthorizedView> createState() => _AuthorizedViewState();
+  State<RequireAuthenticated> createState() => _RequireAuthenticatedState();
 }
 
-class _AuthorizedViewState extends State<AuthorizedView> {
+class _RequireAuthenticatedState extends State<RequireAuthenticated> {
   late AuthService authService;
   late bool isAuthenticated;
 

@@ -34,8 +34,7 @@ class _StichSyncAppState extends State<StichSyncApp> {
         '/login': (context) => const Login(),
         '/register': (context) => const Register(),
         '/me': (context) => const Me(),
-        '/me/settings': (context) =>
-            const Settings() // maybe use subrouting if available
+        '/settings': (context) => const Settings()
       },
     );
   }
