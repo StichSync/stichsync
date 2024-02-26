@@ -1,4 +1,4 @@
-class Crochet {
+class CrochetModel {
   final String id;
   final DateTime createdAt;
   final String name;
@@ -9,7 +9,7 @@ class Crochet {
   final int saveCount;
   final String authorNickname;
 
-  Crochet({
+  CrochetModel({
     required this.id,
     required this.createdAt,
     required this.name,
