@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:stichsync/main.dart';
-import 'package:stichsync/shared/models/crochet.dart';
+import 'package:get_it/get_it.dart';
+import 'package:stichsync/shared/models/crochet_model.dart';
 import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
-import 'package:stichsync/views/home/inspirations/data_access/crochet_service.dart';
+import 'package:stichsync/views/home/inspirations/data_access/inspirations_service.dart';
 
 // This page will be something similar to linkedIn feed.
 // The user can scroll trough the app, and posts they see will
@@ -14,9 +14,10 @@ class Inspirations extends StatefulWidget {
   State<Inspirations> createState() => _InspirationsState();
 }
 
-class _InspirationsState extends State<Inspirations> {
-  final crochetService = getIt<CrochetService>();
-  late List<Crochet> crochets;
+class _InspirationsState extends State<Inspirations>
+    with AutomaticKeepAliveClientMixin<Inspirations> {
+  final crochetService = GetIt.instance.get<CrochetService>();
+  late List<CrochetModel> crochets;
 
   @override
   void initState() {
@@ -26,6 +27,7 @@ class _InspirationsState extends State<Inspirations> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: ListView.builder(
         itemCount: crochets.length,
@@ -35,4 +37,7 @@ class _InspirationsState extends State<Inspirations> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
