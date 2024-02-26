@@ -13,6 +13,9 @@ class InspirationPost extends StatefulWidget {
 class _InspirationPostState extends State<InspirationPost> {
   @override
   Widget build(BuildContext context) {
+    double textSizeS = MediaQuery.of(context).size.width / 50;
+    double textSizeM = MediaQuery.of(context).size.width / 40;
+    double textSizeL = MediaQuery.of(context).size.width / 25;
     return Card(
       margin: const EdgeInsets.only(
         top: 32.0,
@@ -40,30 +43,36 @@ class _InspirationPostState extends State<InspirationPost> {
               children: <Widget>[
                 Text(
                   widget.crochet.name,
-                  style: Theme.of(context).textTheme.titleLarge,
+                  style: TextStyle(fontSize: textSizeL),
                 ),
                 Text(
                   widget.crochet.description,
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: TextStyle(fontSize: textSizeM),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     const Icon(Icons.thumb_up),
-                    Text('${widget.crochet.upvoteCount}'),
+                    Text('${widget.crochet.upvoteCount}',
+                    style: TextStyle(fontSize: textSizeM)),
+
                     const Icon(Icons.thumb_down),
-                    Text('${widget.crochet.downvoteCount}'),
+                    Text('${widget.crochet.downvoteCount}',
+                    style: TextStyle(fontSize: textSizeM)),
+
                     const Icon(Icons.bookmark),
-                    Text('${widget.crochet.saveCount}'),
+                    Text('${widget.crochet.saveCount}',
+                    style: TextStyle(fontSize: textSizeM)),
+                    
                   ],
                 ),
                 Text(
                   'Created by: ${widget.crochet.authorNickname}',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: TextStyle(fontSize: textSizeS),
                 ),
                 Text(
                   'Date: ${widget.crochet.createdAt.toLocal()}',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: TextStyle(fontSize: textSizeS),
                 ),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
+import 'package:stichsync/shared/components/horizontal_carousel.dart';
 
 // This page will display users in-progress projects
 // This is the default place the user gets redirected after successful login.
@@ -42,13 +43,11 @@ class _MyStuffState extends State<MyStuff> {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            HorizCarousel(),
             Text(
-              '$_counter',
+              'Button has been pressed $_counter times',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
