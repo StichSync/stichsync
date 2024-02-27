@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
 
 class HorizCarousel extends StatefulWidget {
   final List items;
@@ -17,14 +16,13 @@ class HorizCarousel extends StatefulWidget {
 }
 
 class _HorizCarouselState extends State<HorizCarousel> {
-
+  
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      items: widget.items.map((crochet) {
-        return InspirationPost(crochet: crochet);
-      }).toList(),
-      
+    return CarouselSlider.builder(
+      itemCount: widget.items.length,
+      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => widget.items[itemIndex],
+
       // IMPORTANT to change amount of visible items, change viewportFraction and height
       options: CarouselOptions(
         height: widget.optionsOver?.height ?? MediaQuery.of(context).size.width * 0.78,

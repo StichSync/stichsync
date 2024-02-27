@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stichsync/shared/components/horizontal_carousel.dart';
 import 'package:stichsync/shared/models/crochet_model.dart';
+import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
 
 // This page will display users in-progress projects
 // This is the default place the user gets redirected after successful login.
@@ -19,11 +20,11 @@ class _MyStuffState extends State<MyStuff> {
   int _counter = 0;
   
   List crochets = [
-    CrochetModel(id: "69", createdAt: DateTime.now(), name: "Kaktus", description: "Niesamowity kaktus wyszydełkowany, strasznie fajny", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 2137, downvoteCount: 0, saveCount: 420, authorNickname: "lasgra"),
-    CrochetModel(id: "69", createdAt: DateTime.now(), name: "Żabka", description: "Fajna mała żabka, nie skacze, ale za to ładnie wygląda", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 352523, downvoteCount: 574344, saveCount: 232424, authorNickname: "Eugieniusz"),
-    CrochetModel(id: "69", createdAt: DateTime.now(), name: "Pżyszczoła", description: "Fajna pżyszczoła, nawet lata", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 222, downvoteCount: 123, saveCount: 420, authorNickname: "Ewelina"),
-    CrochetModel(id: "69", createdAt: DateTime.now(), name: "Smoczek", description: "20-metrowy smok, wczoraj wieczorkiem go wyhaftowałem", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 2, downvoteCount: 31, saveCount: 0, authorNickname: "Paulina"),
-    CrochetModel(id: "69", createdAt: DateTime.now(), name: "Piwerko", description: "Piwo, smaczne polecam", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 54, downvoteCount: 3, saveCount: 18, authorNickname: "Izabela"),
+    InspirationPost(crochet: CrochetModel(id: "69", createdAt: DateTime.now(), name: "Kaktus", description: "Niesamowity kaktus wyszydełkowany, strasznie fajny", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 2137, downvoteCount: 0, saveCount: 420, authorNickname: "lasgra")),
+    InspirationPost(crochet: CrochetModel(id: "69", createdAt: DateTime.now(), name: "Żabka", description: "Fajna mała żabka, nie skacze, ale za to ładnie wygląda", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 352523, downvoteCount: 574344, saveCount: 232424, authorNickname: "Eugieniusz")),
+    InspirationPost(crochet: CrochetModel(id: "69", createdAt: DateTime.now(), name: "Pżyszczoła", description: "Fajna pżyszczoła, nawet lata", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 222, downvoteCount: 123, saveCount: 420, authorNickname: "Ewelina")),
+    InspirationPost(crochet: CrochetModel(id: "69", createdAt: DateTime.now(), name: "Smoczek", description: "20-metrowy smok, wczoraj wieczorkiem go wyhaftowałem", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 2, downvoteCount: 31, saveCount: 0, authorNickname: "Paulina")),
+    InspirationPost(crochet: CrochetModel(id: "69", createdAt: DateTime.now(), name: "Piwerko", description: "Piwo, smaczne polecam", mediaUrl: "https://placehold.co/600x400/png", upvoteCount: 54, downvoteCount: 3, saveCount: 18, authorNickname: "Izabela")),
   ];
 
   void _incrementCounter() {
