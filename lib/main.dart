@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:stichsync/startup.dart';
 import 'package:stichsync/shared/config/app_config.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
+import 'package:stichsync/views/auth/login.dart';
+import 'package:stichsync/views/auth/register.dart';
 import 'package:stichsync/views/home/home.dart';
+import 'package:stichsync/views/me/me.dart';
+import 'package:stichsync/views/me/settings/settings.dart';
 
-void main() {
-  Startup().registerServices();
+Future<void> main() async {
+  await Startup().registerServices();
   runApp(const StichSyncApp());
 }
 
@@ -25,6 +29,13 @@ class _StichSyncAppState extends State<StichSyncApp> {
       title: AppConfig.appTitle,
       theme: ThemeConfig.themeData,
       home: const Home(),
+      routes: {
+        '': (context) => const Home(),
+        '/login': (context) => const Login(),
+        '/register': (context) => const Register(),
+        '/me': (context) => const Me(),
+        '/settings': (context) => const Settings()
+      },
     );
   }
 }

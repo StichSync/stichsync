@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:stichsync/shared/models/crochet.dart';
+import 'package:stichsync/shared/models/crochet_model.dart';
 
 class InspirationPost extends StatefulWidget {
-  final Crochet crochet;
+  final CrochetModel crochet;
 
   const InspirationPost({super.key, required this.crochet});
 

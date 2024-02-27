@@ -1,14 +1,14 @@
-import 'package:stichsync/shared/models/crochet.dart';
+import 'package:stichsync/shared/models/crochet_model.dart';
 
 class CrochetService {
   // returning mock crochets for now
-  List<Crochet> get(int pageSize, int pageNumber) {
-    List<Crochet> crochets = [];
+  List<CrochetModel> get(int pageSize, int pageNumber) {
+    List<CrochetModel> crochets = [];
 
     int startIndex = (pageNumber - 1) * pageSize;
 
     for (int i = startIndex; i < startIndex + pageSize; i++) {
-      Crochet crochet = Crochet(
+      CrochetModel crochet = CrochetModel(
         id: 'id_$i',
         createdAt: DateTime.now().subtract(Duration(days: i * 2)),
         name: 'Crochet Name $i',
