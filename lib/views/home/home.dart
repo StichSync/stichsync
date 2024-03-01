@@ -59,6 +59,7 @@ class _HomeState extends State<Home> {
     return RequireAuthenticated(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Padding(
             padding: EdgeInsets.only(
               left: 8.0,
