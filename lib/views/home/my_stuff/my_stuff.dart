@@ -37,7 +37,7 @@ class _MyStuffState extends State<MyStuff> {
       floatingActionButton: Padding(
           padding: const EdgeInsets.only(left: 30),
           child: FloatingActionButton(
-            onPressed: _incrementCounter,
+            onPressed: () {_incrementCounter();},
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           )),
