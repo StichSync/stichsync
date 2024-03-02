@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/startup.dart';
 import 'package:stichsync/shared/config/app_config.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
