@@ -23,7 +23,7 @@ class _RequireAuthenticatedState extends State<RequireAuthenticated> {
       isAuthenticated = await authService.isAuthenticated();
       if (!isAuthenticated) {
         if (context.mounted) {
-          Navigator.pushReplacementNamed(context, "/login");
+          Navigator.pushReplacementNamed(context, "/Authorization");
         }
       }
     });
