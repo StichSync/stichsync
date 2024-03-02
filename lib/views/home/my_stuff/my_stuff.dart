@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stichsync/shared/components/horizontal_carousel.dart';
 import 'package:stichsync/shared/models/crochet_model.dart';
 import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 // This page will display users in-progress projects
 // This is the default place the user gets redirected after successful login.
@@ -51,7 +52,7 @@ class _MyStuffState extends State<MyStuff> {
       floatingActionButton: Padding(
           padding: const EdgeInsets.only(left: 30),
           child: FloatingActionButton(
-            onPressed: _incrementCounter,
+            onPressed: () {_incrementCounter();},
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           )),
