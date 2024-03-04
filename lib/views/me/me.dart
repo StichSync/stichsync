@@ -5,7 +5,7 @@ import 'package:stichsync/shared/components/require_authenticated.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
 import 'package:stichsync/shared/components/horizontal_carousel.dart';
 import 'package:stichsync/shared/components/editable_text_item.dart';
-
+import 'package:stichsync/shared/components/editable_avatar.dart';
 
 // this site will contain users account settings
 class Me extends StatefulWidget {
@@ -61,12 +61,12 @@ class _MeState extends State<Me> {
         body: Column(
           children: [
 
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(16.0),
               child: Center(
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage("https://placehold.co/400x400/png"),
-                  radius: 80,
+                child: EditableAvatar(
+                  imageUrl: "https://placehold.co/400x400/png",
+                  onPressed: () => print("placeholder"),
                 ),
               ),
             ),
