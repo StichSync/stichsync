@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/require_authenticated.dart';
+import 'package:stichsync/shared/services/auth_service.dart';
 
 // this site will contain general app settings
 // will also contain big sidebar with all settings subsites and/or
 // small settings (eg dark mode switch)
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({super.key});
 
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  final _authService = GetIt.I<AuthService>();
   @override
   Widget build(BuildContext context) {
     return RequireAuthenticated(
@@ -37,8 +45,10 @@ class Settings extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        body: const Center(
-          child: Text("Settings"),
+        body: Center(
+          child: Text(
+            "Current user role is: ${_authService.claims.applicationRole}",
+          ),
         ),
       ),
     );
