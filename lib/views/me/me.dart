@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/require_authenticated.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
+import 'package:stichsync/shared/components/horizontal_carousel.dart';
+import 'package:stichsync/shared/components/editable_text_item.dart';
+
 
 // this site will contain users account settings
 class Me extends StatefulWidget {
@@ -56,12 +60,33 @@ class _MeState extends State<Me> {
         ),
         body: Column(
           children: [
+
             const Padding(
               padding: EdgeInsets.all(16.0),
-              child: Text(
-                "Logout here for testing purposes until we find out a comfy place for it",
+              child: Center(
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage("https://placehold.co/400x400/png"),
+                  radius: 80,
+                ),
               ),
             ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 16.0),
+              child: EditableTextItem(
+                text:  "Name",
+                onPressed: () => print("placeholder"),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 16.0),
+              child: EditableTextItem(
+                text:  "Email",
+                onPressed: () => print("placeholder"),
+              ),
+            ),
+            
             Center(
               child: ElevatedButton(
                 onPressed: _logout,
@@ -85,6 +110,7 @@ class _MeState extends State<Me> {
                 ),
               ),
             ),
+
           ],
         ),
       ),
