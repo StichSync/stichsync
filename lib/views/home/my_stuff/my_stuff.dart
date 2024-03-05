@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:stichsync/shared/components/horizontal_carousel.dart';
-import 'package:stichsync/shared/models/crochet_model.dart';
-import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
 
 // This page will display users in-progress projects
 // This is the default place the user gets redirected after successful login.
