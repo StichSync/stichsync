@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class EditableAvatar extends StatelessWidget {
   final String imageUrl;
   final VoidCallback onPressed;
+  final double radius;
 
   const EditableAvatar({
     super.key,
     required this.imageUrl,
     required this.onPressed,
+    required this.radius
   });
 
   @override
@@ -16,7 +18,7 @@ class EditableAvatar extends StatelessWidget {
       children: [
         CircleAvatar(
           backgroundImage: NetworkImage(imageUrl),
-          radius: 80,
+          radius: radius,
         ),
         Positioned(
           bottom: 4.0,
