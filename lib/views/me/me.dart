@@ -79,7 +79,7 @@ class _MeState extends State<Me> {
     if (!context.mounted) return;
     if (result) {
       Navigator.of(context).pushNamedAndRemoveUntil(
-        '/login',
+        '/Authorization',
         (Route<dynamic> route) => false,
       );
     }

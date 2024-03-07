@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stichsync/startup.dart';
 import 'package:stichsync/shared/config/app_config.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
-import 'package:stichsync/views/auth/login.dart';
-import 'package:stichsync/views/auth/register.dart';
+import 'package:stichsync/views/auth/Authorization.dart';
 import 'package:stichsync/views/home/home.dart';
 import 'package:stichsync/views/me/me.dart';
 import 'package:stichsync/views/me/settings/settings.dart';
@@ -21,8 +20,6 @@ class StichSyncApp extends StatefulWidget {
 }
 
 class _StichSyncAppState extends State<StichSyncApp> {
-  // todo: create a main component that would decide where does
-  // the user gets routed to (not logged in -> auth, logged in -> home, etc)
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,8 +28,7 @@ class _StichSyncAppState extends State<StichSyncApp> {
       home: const Home(),
       routes: {
         '': (context) => const Home(),
-        '/login': (context) => const Login(),
-        '/register': (context) => const Register(),
+        '/Authorization': (context) => const Authorization(),
         '/me': (context) => const Me(),
         '/settings': (context) => const Settings()
       },
