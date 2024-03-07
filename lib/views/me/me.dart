@@ -1,11 +1,15 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/require_authenticated.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
+import 'package:stichsync/shared/services/account_service.dart';
 import 'package:stichsync/shared/components/horizontal_carousel.dart';
 import 'package:stichsync/shared/components/editable_text_item.dart';
 import 'package:stichsync/shared/components/editable_avatar.dart';
+import 'package:stichsync/shared/components/image_picker_util.dart';
+import 'package:stichsync/shared/components/text_edit_dialog.dart';
 
 // this site will contain users account settings
 class Me extends StatefulWidget {
@@ -16,6 +20,59 @@ class Me extends StatefulWidget {
 }
 
 class _MeState extends State<Me> {
+  late AccountService accountService;
+  late String username;
+  late String email;
+  late String avatarUrl;
+  late File avatarFile;
+
+  _MeState() {
+    username = "";
+    email = "";
+    avatarUrl = "";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    accountService = GetIt.I<AccountService>();
+    getProfile();
+    setState(() {
+      
+    });
+  }
+
+  Future<void> getProfile() async {
+    await accountService.getUserData();
+    avatarUrl = accountService.getAvatarUrl();
+    username = accountService.getUsername();
+    email = accountService.getEmail(); 
+  }
+
+  Future<void> updateAvatar() async {
+    avatarFile = (await ImagePickerUtil.pickImageFromGallery())!;
+    await accountService.setAvatar(avatarFile);
+    getProfile();
+  }
+
+  Future<void> updateUsername() async {
+    Future<String?> editedText = TextEditDialog(placeholder: username, title: 'Update username').show(context);
+    editedText.then((text) async {
+      if (text != null) {
+        await accountService.setUsername(text);
+      }
+    });
+  }
+
+  Future<void> updateEmail() async {
+    Future<String?> editedText = TextEditDialog(placeholder: email, title: 'Update email').show(context);
+    editedText.then((text) async {
+      if (text != null) {
+        await accountService.setEmail(text);
+      }
+    });
+  }
+
   Future<void> _logout() async {
     final authService = GetIt.I<AuthService>();
     var result = await authService.logout();
@@ -62,29 +119,65 @@ class _MeState extends State<Me> {
           children: [
 
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Center(
-                child: EditableAvatar(
-                  imageUrl: "https://placehold.co/400x400/png",
-                  onPressed: () => print("placeholder"),
-                ),
+                child: FutureBuilder<void>(
+                future: getProfile(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return EditableAvatar(
+                        imageUrl: "https://placehold.co/400x400/png",
+                        onPressed: () => print("placeholder"),
+                      );
+                  } else {
+                    return EditableAvatar(
+                        imageUrl: avatarUrl,
+                        onPressed: () => updateAvatar(),
+                      );
+                  }
+                },
+              )
               ),
             ),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 16.0),
-              child: EditableTextItem(
-                text:  "Name",
-                onPressed: () => print("placeholder"),
-              ),
+              child: FutureBuilder<void>(
+                future: getProfile(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return EditableTextItem(
+                      text: "",
+                      onPressed: () => print("placeholder"),
+                    );
+                  } else {
+                    return EditableTextItem(
+                      text: username,
+                      onPressed: () => updateUsername(),
+                    );
+                  }
+                },
+              )
             ),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 16.0),
-              child: EditableTextItem(
-                text:  "Email",
-                onPressed: () => print("placeholder"),
-              ),
+              child: FutureBuilder<void>(
+                future: getProfile(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return EditableTextItem(
+                      text: "",
+                      onPressed: () => print("placeholder"),
+                    );
+                  } else {
+                    return EditableTextItem(
+                      text: email,
+                      onPressed: () => updateEmail(),
+                    );
+                  }
+                },
+              )
             ),
             
             Center(
