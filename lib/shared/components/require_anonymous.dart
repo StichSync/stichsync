@@ -22,7 +22,14 @@ class _RequireAnonymousState extends State<RequireAnonymous> {
     Future.microtask(() async {
       if (await authService.isAuthenticated()) {
         Future.microtask(
-          () => Navigator.popAndPushNamed(context, ""),
+          () {
+            if (Uri.base.toString().split("/").last.split("?")[0] == "password-reset"){
+              Navigator.pushReplacementNamed(context, "/passwordReset");
+            }
+            else{
+              Navigator.popAndPushNamed(context, "");
+            }
+          }
         );
       }
     });

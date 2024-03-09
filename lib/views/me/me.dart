@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/require_authenticated.dart';
-import 'package:stichsync/shared/services/auth_service.dart';
+// ignore: implementation_imports
+import 'package:supabase_auth_ui/src/utils/constants.dart';
 
 // this site will contain users account settings
 class Me extends StatefulWidget {
@@ -13,15 +13,13 @@ class Me extends StatefulWidget {
 
 class _MeState extends State<Me> {
   Future<void> _logout() async {
-    final authService = GetIt.I<AuthService>();
-    var result = await authService.logout();
     if (!context.mounted) return;
-    if (result) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        '/Authorization',
-        (Route<dynamic> route) => false,
-      );
-    }
+    await supabase.auth.signOut();
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/login',
+      (Route<dynamic> route) => false,
+    );
   }
 
   @override
