@@ -1,3 +1,4 @@
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 // ignore: implementation_imports
@@ -11,15 +12,27 @@ class AuthService {
   setSession(Session? session) => _session = session;
   Session? get getSession => _session;
 
+  Session get session {
+    if (_session == null) throw Exception("Could not get user session");
+    return _session!;
+  }
+
+  UserClaims get claims {
+    final tokenClaims = Jwt.parseJwt(session.accessToken);
+    return UserClaims(tokenClaims: tokenClaims);
+  }
+
+  // setters
+  void setSession(Session? session) {
+    if (session == null) return;
+    if (session.isExpired) return;
+    _session = session;
+  }
+
   Future<bool> isAuthenticated() async {
-    try {
-      var refreshResult = (await _client.refreshSession());
-      setSession(refreshResult.session);
-      
-    } catch (_) {
-      return false;
-    }
-    return !_session!.isExpired;
+    if (_session == null) return false;
+    if (_session!.isExpired) await refreshSession();
+    return true;
   }
   
   Future<bool> register(email, password, username) async {
@@ -53,7 +66,7 @@ class AuthService {
   
   Future<bool> forgotPassword(email) async {
     try {
-      await supabase.auth.resetPasswordForEmail(email, redirectTo: "http://localhost:56858/password-reset");
+      await supabase.auth.resetPasswordForEmail(email, redirectTo: "http://localhost:63171/password-reset");
       Toaster.toast(msg: "Email with password reset had been sent", type: ToastType.success);
     } on AuthException catch (error) {
       Toaster.toast(msg: error.message, type: ToastType.error);
@@ -78,5 +91,22 @@ class AuthService {
       Toaster.toast(msg: error.toString(), type: ToastType.error);
     }
     return false;
+  }
+  
+  Future<bool> logout() async {
+    try {
+      await _client.signOut();
+      setSession(null);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<Session> refreshSession() async {
+    var refreshed = await _client.refreshSession();
+    if (refreshed.session == null) logout();
+    setSession(refreshed.session!);
+    return refreshed.session!;
   }
 }
