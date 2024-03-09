@@ -1,17 +1,16 @@
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:stichsync/shared/components/toaster.dart';
+import 'package:stichsync/shared/models/context/user_claims_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 // ignore: implementation_imports
 import 'package:supabase_auth_ui/src/utils/constants.dart';
 import 'package:universal_html/html.dart' as html;
 
 class AuthService {
-  final GoTrueClient _client = Supabase.instance.client.auth;
+  final _client = Supabase.instance.client.auth;
   late Session? _session;
 
-  setSession(Session? session) => _session = session;
-  Session? get getSession => _session;
-
+  // getters
   Session get session {
     if (_session == null) throw Exception("Could not get user session");
     return _session!;
@@ -29,6 +28,7 @@ class AuthService {
     _session = session;
   }
 
+  // public methods
   Future<bool> isAuthenticated() async {
     if (_session == null) return false;
     if (_session!.isExpired) await refreshSession();

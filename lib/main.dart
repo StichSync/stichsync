@@ -22,9 +22,6 @@ class StichSyncApp extends StatefulWidget {
 }
 
 class _StichSyncAppState extends State<StichSyncApp> {
-  // todo: create a main component that would decide where does
-  // the user gets routed to (not logged in -> auth, logged in -> home, etc)
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
