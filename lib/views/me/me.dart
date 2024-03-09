@@ -44,6 +44,11 @@ class _MeState extends State<Me> {
     getProfile();
   }
 
+  Future<void> updateUI() async{
+    getProfile();
+    setState(() {});
+  }
+
   Future<void> getProfile() async {
     var result = await accountService.getUserData();
     if(result){
@@ -67,7 +72,8 @@ class _MeState extends State<Me> {
     if(avatarFile != null){
       var result = await accountService.setAvatar(avatarFile!);
       if(result){
-        Toaster.toast(msg: "Avatar updated. It may take some time to see the changes.", type: ToastType.success);
+        Toaster.toast(msg: "Avatar updated.", type: ToastType.success);
+        updateUI();
       }
       else{
         Toaster.toast(msg: "We couldn't update your avatar. Make sure you have stable internet connection and try again.", type: ToastType.error);
@@ -84,7 +90,8 @@ class _MeState extends State<Me> {
       if (text != null) {
         var result = await accountService.setUsername(text);
         if(result){
-          Toaster.toast(msg: "Username updated. Pull down to refresh.", type: ToastType.success);
+          Toaster.toast(msg: "Username updated", type: ToastType.success);
+          updateUI();
         }
         else{
           Toaster.toast(msg: "We couldn't update your username. Make sure you have stable internet connection and try again.", type: ToastType.error);
@@ -99,7 +106,8 @@ class _MeState extends State<Me> {
       if (text != null) {
         var result = await accountService.setEmail(text);
         if(result){
-          Toaster.toast(msg: "Email updated. Check your inbox for the confirmation link.", type: ToastType.success);
+          Toaster.toast(msg: "Check your inbox for the confirmation link.", type: ToastType.success);
+          updateUI();
         }
         else{
           Toaster.toast(msg: "We couldn't update your email. Make sure you have stable internet connection and try again.", type: ToastType.error);
@@ -150,180 +158,182 @@ class _MeState extends State<Me> {
             ),
           ),
         ),
-        body: ListView(
-          children: [
-
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: FutureBuilder<void>(
-                future: getProfile(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    return EditableAvatar(
-                      radius: 60,
-                        imageUrl: avatarUrl,
-                        onPressed: () => updateAvatar(),
-                      );
-                  }
-                },
-              )
-              ),
-            ),
-
-            const Center(
-                child: Text(
-                  "Username",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20
-                  ),
+        body: RefreshIndicator(
+          onRefresh: () async {updateUI();},
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: FutureBuilder<void>(
+                  future: getProfile(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return EditableAvatar(
+                        radius: 60,
+                          imageUrl: avatarUrl,
+                          onPressed: () => updateAvatar(),
+                        );
+                    }
+                  },
+                )
                 ),
               ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 8.0),
-              child: FutureBuilder<void>(
-                future: getProfile(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    return EditableTextItem(
-                      text: username,
-                      onPressed: () => updateUsername(),
-                    );
-                  }
-                },
-              )
-            ),
-
-            const Center(
-                child: Text(
-                  "E-mail",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20
-                  ),
-                ),
-              ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 8.0),
-              child: FutureBuilder<void>(
-                future: getProfile(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    return EditableTextItem(
-                      text: email,
-                      onPressed: () => updateEmail(),
-                    );
-                  }
-                },
-              )
-            ),
-
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Center(
+          
+              const Center(
                   child: Text(
-                    "Your projects",
+                    "Username",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20
                     ),
                   ),
                 ),
-            ),
-
-            const Divider(
-              height: 4,
-              thickness: 2,
-              color: Colors.white,
-              endIndent: 100,
-              indent: 100,
-            ),
-
-            FutureBuilder<void>(
-                future: getProfile(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    if(items.isEmpty){
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Align(
-                            alignment: FractionalOffset.bottomCenter,
-                            child: ElevatedButton(
-                              onPressed: () => print("placeholder"),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                  Text(
-                                    "Create project",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+          
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 8.0),
+                child: FutureBuilder<void>(
+                  future: getProfile(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return EditableTextItem(
+                        text: username,
+                        onPressed: () => updateUsername(),
                       );
                     }
-                    else{
-                      return HorizCarousel(items: items, optionsOver: CarouselOptions(
-                          enableInfiniteScroll: false,
-                          initialPage: 1,
-                          enlargeCenterPage: true,
-                        ),
-                      );                     
-                    }
-                  }
-                },
+                  },
+                )
               ),
-
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: ElevatedButton(
-                    onPressed: _logout,
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.logout,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        Text(
-                          "Logout",
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ],
+          
+              const Center(
+                  child: Text(
+                    "E-mail",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20
                     ),
                   ),
                 ),
-            ),
-
-          ],
+          
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 8.0),
+                child: FutureBuilder<void>(
+                  future: getProfile(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return EditableTextItem(
+                        text: email,
+                        onPressed: () => updateEmail(),
+                      );
+                    }
+                  },
+                )
+              ),
+          
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: Center(
+                    child: Text(
+                      "Your projects",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20
+                      ),
+                    ),
+                  ),
+              ),
+          
+              const Divider(
+                height: 4,
+                thickness: 2,
+                color: Colors.white,
+                endIndent: 100,
+                indent: 100,
+              ),
+          
+              FutureBuilder<void>(
+                  future: getProfile(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      if(items.isEmpty){
+                        return Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Align(
+                              alignment: FractionalOffset.bottomCenter,
+                              child: ElevatedButton(
+                                onPressed: () => print("placeholder"),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                    Text(
+                                      "Create project",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                        );
+                      }
+                      else{
+                        return HorizCarousel(items: items, optionsOver: CarouselOptions(
+                            enableInfiniteScroll: false,
+                            initialPage: 1,
+                            enlargeCenterPage: true,
+                          ),
+                        );                     
+                      }
+                    }
+                  },
+                ),
+          
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: ElevatedButton(
+                      onPressed: _logout,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          Text(
+                            "Logout",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ),
+          
+            ],
+          ),
         ),
       ),
     );
