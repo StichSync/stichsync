@@ -25,7 +25,7 @@ class _MeState extends State<Me> {
   late String username;
   late String email;
   late String avatarUrl;
-  late File avatarFile;
+  late File? avatarFile;
   late List<InspirationPost> items;
 
   final accountService = GetIt.I<AccountService>();
@@ -45,30 +45,50 @@ class _MeState extends State<Me> {
   }
 
   Future<void> getProfile() async {
-    await accountService.getUserData();
-    avatarUrl = accountService.getAvatarUrl();
-    username = accountService.getUsername();
-    email = accountService.getEmail();
+    var result = await accountService.getUserData();
+    if(result){
+      avatarUrl = accountService.getAvatarUrl();
+      username = accountService.getUsername();
+      email = accountService.getEmail();
 
-    items = [
-    InspirationPost(crochet: crochetService.get(1, 1)[0]),
-    InspirationPost(crochet: crochetService.get(1, 1)[0]),
-    InspirationPost(crochet: crochetService.get(1, 1)[0]),  
-    ];
+      items = [
+        InspirationPost(crochet: crochetService.get(1, 1)[0]),
+        InspirationPost(crochet: crochetService.get(1, 1)[0]),
+        InspirationPost(crochet: crochetService.get(1, 1)[0]),  
+      ];
+    }
+    else{
+      Toaster.toast(msg: "We're having troubles obtaining your account data. Make sure you have stable internet connection and try again.", type: ToastType.error);
+    }
   }
 
   Future<void> updateAvatar() async {
-    avatarFile = (await ImagePickerUtil.pickImageFromGallery())!;
-    await accountService.setAvatar(avatarFile);
-    Toaster.toast(msg: "Avatar updated. It may take some time to see the changes.", type: ToastType.success);
+    avatarFile = await ImagePickerUtil.pickImageFromGallery();
+    if(avatarFile != null){
+      var result = await accountService.setAvatar(avatarFile!);
+      if(result){
+        Toaster.toast(msg: "Avatar updated. It may take some time to see the changes.", type: ToastType.success);
+      }
+      else{
+        Toaster.toast(msg: "We couldn't update your avatar. Make sure you have stable internet connection and try again.", type: ToastType.error);
+      }
+    }
+    else{
+      Toaster.toast(msg: "Operation cancelled.", type: ToastType.message);
+    }
   }
 
   Future<void> updateUsername() async {
     Future<String?> editedText = TextEditDialog(placeholder: username, title: 'Update username').show(context);
     editedText.then((text) async {
       if (text != null) {
-        await accountService.setUsername(text);
-        Toaster.toast(msg: "Username updated. Pull down to refresh.", type: ToastType.success);
+        var result = await accountService.setUsername(text);
+        if(result){
+          Toaster.toast(msg: "Username updated. Pull down to refresh.", type: ToastType.success);
+        }
+        else{
+          Toaster.toast(msg: "We couldn't update your username. Make sure you have stable internet connection and try again.", type: ToastType.error);
+        }
       }
     });
   }
@@ -77,8 +97,13 @@ class _MeState extends State<Me> {
     Future<String?> editedText = TextEditDialog(placeholder: email, title: 'Update email').show(context);
     editedText.then((text) async {
       if (text != null) {
-        await accountService.setEmail(text);
-        Toaster.toast(msg: "Email updated. Pull down to refresh.", type: ToastType.success);
+        var result = await accountService.setEmail(text);
+        if(result){
+          Toaster.toast(msg: "Email updated. Check your inbox for the confirmation link.", type: ToastType.success);
+        }
+        else{
+          Toaster.toast(msg: "We couldn't update your email. Make sure you have stable internet connection and try again.", type: ToastType.error);
+        }
       }
     });
   }
@@ -135,11 +160,7 @@ class _MeState extends State<Me> {
                 future: getProfile(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return EditableAvatar(
-                      radius: 60,
-                        imageUrl: "https://placehold.co/400x400/png",
-                        onPressed: () => updateAvatar(),
-                      );
+                    return const CircularProgressIndicator();
                   } else {
                     return EditableAvatar(
                       radius: 60,
@@ -168,10 +189,7 @@ class _MeState extends State<Me> {
                 future: getProfile(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return EditableTextItem(
-                      text: "",
-                      onPressed: () => updateUsername(),
-                    );
+                    return const CircularProgressIndicator();
                   } else {
                     return EditableTextItem(
                       text: username,
@@ -198,10 +216,7 @@ class _MeState extends State<Me> {
                 future: getProfile(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return EditableTextItem(
-                      text: "",
-                      onPressed: () => updateEmail(),
-                    );
+                    return const CircularProgressIndicator();
                   } else {
                     return EditableTextItem(
                       text: email,
@@ -239,41 +254,74 @@ class _MeState extends State<Me> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();
                   } else {
-                    return HorizCarousel(items: items, optionsOver: CarouselOptions(
-                        enableInfiniteScroll: false,
-                        initialPage: 1,
-                        enlargeCenterPage: true,
-                        height: 300,
-                      ),
-                    );
+                    if(items.isEmpty){
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Align(
+                            alignment: FractionalOffset.bottomCenter,
+                            child: ElevatedButton(
+                              onPressed: () => print("placeholder"),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  Text(
+                                    "Create project",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                      );
+                    }
+                    else{
+                      return HorizCarousel(items: items, optionsOver: CarouselOptions(
+                          enableInfiniteScroll: false,
+                          initialPage: 1,
+                          enlargeCenterPage: true,
+                        ),
+                      );                     
+                    }
                   }
                 },
               ),
 
-            Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: ElevatedButton(
-                  onPressed: _logout,
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      Text(
-                        "Logout",
-                        style: TextStyle(
-                          fontSize: 20,
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: ElevatedButton(
+                    onPressed: _logout,
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.logout,
                           color: Colors.white,
-                          fontWeight: FontWeight.normal,
+                          size: 20,
                         ),
-                      ),
-                    ],
+                        Text(
+                          "Logout",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+            ),
 
           ],
         ),
