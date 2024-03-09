@@ -1,6 +1,6 @@
 import 'dart:io';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/require_authenticated.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
@@ -10,8 +10,10 @@ import 'package:stichsync/shared/components/editable_text_item.dart';
 import 'package:stichsync/shared/components/editable_avatar.dart';
 import 'package:stichsync/shared/components/image_picker_util.dart';
 import 'package:stichsync/shared/components/text_edit_dialog.dart';
+import 'package:stichsync/shared/components/toaster.dart';
+import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
+import 'package:stichsync/views/home/inspirations/data_access/inspirations_service.dart';
 
-// this site will contain users account settings
 class Me extends StatefulWidget {
   const Me({super.key});
 
@@ -20,39 +22,45 @@ class Me extends StatefulWidget {
 }
 
 class _MeState extends State<Me> {
-  late AccountService accountService;
   late String username;
   late String email;
   late String avatarUrl;
   late File avatarFile;
+  late List<InspirationPost> items;
 
+  final accountService = GetIt.I<AccountService>();
+  final crochetService = GetIt.instance.get<CrochetService>();
+  
   _MeState() {
     username = "";
     email = "";
     avatarUrl = "";
+    items = [];
   }
 
   @override
   void initState() {
     super.initState();
-    accountService = GetIt.I<AccountService>();
     getProfile();
-    setState(() {
-      
-    });
   }
 
   Future<void> getProfile() async {
     await accountService.getUserData();
     avatarUrl = accountService.getAvatarUrl();
     username = accountService.getUsername();
-    email = accountService.getEmail(); 
+    email = accountService.getEmail();
+
+    items = [
+    InspirationPost(crochet: crochetService.get(1, 1)[0]),
+    InspirationPost(crochet: crochetService.get(1, 1)[0]),
+    InspirationPost(crochet: crochetService.get(1, 1)[0]),  
+    ];
   }
 
   Future<void> updateAvatar() async {
     avatarFile = (await ImagePickerUtil.pickImageFromGallery())!;
     await accountService.setAvatar(avatarFile);
-    getProfile();
+    Toaster.toast(msg: "Avatar updated. It may take some time to see the changes.", type: ToastType.success);
   }
 
   Future<void> updateUsername() async {
@@ -60,6 +68,7 @@ class _MeState extends State<Me> {
     editedText.then((text) async {
       if (text != null) {
         await accountService.setUsername(text);
+        Toaster.toast(msg: "Username updated. Pull down to refresh.", type: ToastType.success);
       }
     });
   }
@@ -69,6 +78,7 @@ class _MeState extends State<Me> {
     editedText.then((text) async {
       if (text != null) {
         await accountService.setEmail(text);
+        Toaster.toast(msg: "Email updated. Pull down to refresh.", type: ToastType.success);
       }
     });
   }
@@ -115,7 +125,7 @@ class _MeState extends State<Me> {
             ),
           ),
         ),
-        body: Column(
+        body: ListView(
           children: [
 
             Padding(
@@ -126,11 +136,13 @@ class _MeState extends State<Me> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return EditableAvatar(
+                      radius: 60,
                         imageUrl: "https://placehold.co/400x400/png",
-                        onPressed: () => print("placeholder"),
+                        onPressed: () => updateAvatar(),
                       );
                   } else {
                     return EditableAvatar(
+                      radius: 60,
                         imageUrl: avatarUrl,
                         onPressed: () => updateAvatar(),
                       );
@@ -140,15 +152,25 @@ class _MeState extends State<Me> {
               ),
             ),
 
+            const Center(
+                child: Text(
+                  "Username",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20
+                  ),
+                ),
+              ),
+
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 8.0),
               child: FutureBuilder<void>(
                 future: getProfile(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return EditableTextItem(
                       text: "",
-                      onPressed: () => print("placeholder"),
+                      onPressed: () => updateUsername(),
                     );
                   } else {
                     return EditableTextItem(
@@ -160,15 +182,25 @@ class _MeState extends State<Me> {
               )
             ),
 
+            const Center(
+                child: Text(
+                  "E-mail",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20
+                  ),
+                ),
+              ),
+
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 64.0, vertical: 8.0),
               child: FutureBuilder<void>(
                 future: getProfile(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return EditableTextItem(
                       text: "",
-                      onPressed: () => print("placeholder"),
+                      onPressed: () => updateEmail(),
                     );
                   } else {
                     return EditableTextItem(
@@ -179,30 +211,69 @@ class _MeState extends State<Me> {
                 },
               )
             ),
-            
-            Center(
-              child: ElevatedButton(
-                onPressed: _logout,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.logout,
+
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              child: Center(
+                  child: Text(
+                    "Your projects",
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 36,
+                      fontSize: 20
                     ),
-                    Text(
-                      "Logout",
-                      style: TextStyle(
-                        fontSize: 28,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
+                  ),
+                ),
+            ),
+
+            const Divider(
+              height: 4,
+              thickness: 2,
+              color: Colors.white,
+              endIndent: 100,
+              indent: 100,
+            ),
+
+            FutureBuilder<void>(
+                future: getProfile(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return HorizCarousel(items: items, optionsOver: CarouselOptions(
+                        enableInfiniteScroll: false,
+                        initialPage: 1,
+                        enlargeCenterPage: true,
+                        height: 300,
                       ),
-                    ),
-                  ],
+                    );
+                  }
+                },
+              ),
+
+            Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: _logout,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      Text(
+                        "Logout",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
 
           ],
         ),
