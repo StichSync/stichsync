@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class TextEditDialog extends StatelessWidget {
   final String placeholder;
   final String title;
+  final int limit;
   final TextEditingController _textController = TextEditingController();
 
   TextEditDialog({
     super.key, 
     required this.placeholder,
     required this.title,
+    required this.limit
     });
 
   Future<String?> show(BuildContext context) {
@@ -18,6 +20,7 @@ class TextEditDialog extends StatelessWidget {
       builder: (context) => AlertDialog(
         title: Text(title),
         content: TextField(
+          maxLength: limit,
           controller: _textController,
           decoration: InputDecoration(
             suffixIcon: IconButton(

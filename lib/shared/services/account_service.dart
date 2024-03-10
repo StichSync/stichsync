@@ -4,45 +4,43 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AccountService {
   late final SupabaseClient supabase;
-  late final String userId;
-  List<Map<String, dynamic>>? userData;
 
   AccountService() {
     supabase = Supabase.instance.client;
-    userId = getUserId();
   }
 
   String getUserId() {
     return supabase.auth.currentUser?.id ?? '';
   }
 
-  Future<bool> getUserData() async {
+  Future<Map<String, dynamic>> getUserData() async {
     try{
-      userData = await supabase
+      var userId = getUserId();
+      var response = await supabase
         .from('UserProfile')
         .select('username, email, picUrl')
         .eq('userId', userId);
-        return true;
+
+        return {
+          "username": response[0]["username"] ?? "",
+          "email": response[0]["email"] ?? "",
+          "picUrl": response[0]["picUrl"] ?? "",
+          "error": false
+          };
         }
     catch (e) {
-        return false;
+        return {
+          "username": "",
+          "email": "",
+          "picUrl": "",
+          "error": true
+        };
     }
-  }
-
-  String getUsername() {
-    return userData?[0]["username"] ?? '';
-  }
-
-  String getEmail() {
-    return userData?[0]["email"] ?? '';
-  }
-
-  String getAvatarUrl() {
-    return userData?[0]["picUrl"] ?? '';
   }
 
   Future<bool> setUsername(String username) async {
     try{
+      var userId = getUserId();
       await supabase
         .from('UserProfile')
         .update({ 'username': username })
@@ -71,6 +69,7 @@ class AccountService {
 
   Future<bool> setAvatar(File avatarFile) async {
     try{
+      var userId = getUserId();
       await supabase.storage.from('avatars').update(
         '$userId/avatar.jpg',
         avatarFile,
@@ -78,8 +77,25 @@ class AccountService {
       );
       return true;
     }
-    catch (e) {
-        return false;
+    on StorageException {
+      try{
+        var userId = getUserId();
+
+        await supabase.storage.from('avatars').upload(
+          '$userId/avatar.jpg',
+          avatarFile,
+          fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+        );
+
+        await supabase
+        .from('UserProfile')
+        .update({ 'picUrl': 'https://iaxqejougvvfhxqhpmre.supabase.co/storage/v1/object/public/avatars/$userId/avatar.jpg' })
+        .match({ 'userId': userId });
+        return true;
+      }
+      catch (e) {
+          return false;
+      }
     }
   }
 }
