@@ -22,19 +22,14 @@ class Me extends StatefulWidget {
 }
 
 class _MeState extends State<Me> {
-  late String username;
-  late String email;
-  late String avatarUrl;
-  late File? avatarFile;
+  File? avatarFile;
   late List<InspirationPost> items;
+  late Map<String, dynamic> userData;
 
   final accountService = GetIt.I<AccountService>();
   final crochetService = GetIt.instance.get<CrochetService>();
   
   _MeState() {
-    username = "";
-    email = "";
-    avatarUrl = "";
     items = [];
   }
 
@@ -50,20 +45,17 @@ class _MeState extends State<Me> {
   }
 
   Future<void> getProfile() async {
-    var result = await accountService.getUserData();
-    if(result){
-      avatarUrl = accountService.getAvatarUrl();
-      username = accountService.getUsername();
-      email = accountService.getEmail();
-
-      items = [
+    userData = await accountService.getUserData();
+    if(userData["error"]){
+      Toaster.toast(msg: "We're having troubles obtaining your account data. Make sure you have stable internet connection and try again.", type: ToastType.error);
+    }
+    else{
+      //placeholders for now
+        items = [
         InspirationPost(crochet: crochetService.get(1, 1)[0]),
         InspirationPost(crochet: crochetService.get(1, 1)[0]),
         InspirationPost(crochet: crochetService.get(1, 1)[0]),  
       ];
-    }
-    else{
-      Toaster.toast(msg: "We're having troubles obtaining your account data. Make sure you have stable internet connection and try again.", type: ToastType.error);
     }
   }
 
@@ -85,7 +77,7 @@ class _MeState extends State<Me> {
   }
 
   Future<void> updateUsername() async {
-    Future<String?> editedText = TextEditDialog(placeholder: username, title: 'Update username').show(context);
+    Future<String?> editedText = TextEditDialog(limit: 40, placeholder: userData["username"], title: 'Update username').show(context);
     editedText.then((text) async {
       if (text != null) {
         var result = await accountService.setUsername(text);
@@ -101,7 +93,7 @@ class _MeState extends State<Me> {
   }
 
   Future<void> updateEmail() async {
-    Future<String?> editedText = TextEditDialog(placeholder: email, title: 'Update email').show(context);
+    Future<String?> editedText = TextEditDialog(limit: 40, placeholder: userData["email"], title: 'Update email').show(context);
     editedText.then((text) async {
       if (text != null) {
         var result = await accountService.setEmail(text);
@@ -173,7 +165,7 @@ class _MeState extends State<Me> {
                     } else {
                       return EditableAvatar(
                         radius: 60,
-                          imageUrl: avatarUrl,
+                          imageUrl: userData["picUrl"],
                           onPressed: () => updateAvatar(),
                         );
                     }
@@ -198,10 +190,17 @@ class _MeState extends State<Me> {
                   future: getProfile(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
+                      return const SizedBox(
+                        width: 1,
+                        height: 1,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
                     } else {
                       return EditableTextItem(
-                        text: username,
+                        text: userData["username"],
                         onPressed: () => updateUsername(),
                       );
                     }
@@ -228,7 +227,7 @@ class _MeState extends State<Me> {
                       return const CircularProgressIndicator();
                     } else {
                       return EditableTextItem(
-                        text: email,
+                        text: userData["email"],
                         onPressed: () => updateEmail(),
                       );
                     }

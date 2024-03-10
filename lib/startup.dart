@@ -24,6 +24,6 @@ class Startup {
     // singletons - living since the moment of initialization until closing the whole app
     // each singleton is ensured to have only one instance
     getIt.registerLazySingleton<AuthService>(() => AuthService());
-    getIt.registerFactory<AccountService>(() => AccountService());
+    getIt.registerLazySingleton<AccountService>(() => AccountService());
   }
 }
