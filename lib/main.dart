@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:stichsync/startup.dart';
 import 'package:stichsync/shared/config/app_config.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
-import 'package:stichsync/views/auth/Authorization.dart';
+import 'package:stichsync/views/auth/forgot_password.dart';
+import 'package:stichsync/views/auth/login.dart';
+import 'package:stichsync/views/auth/register.dart';
 import 'package:stichsync/views/home/home.dart';
 import 'package:stichsync/views/me/me.dart';
 import 'package:stichsync/views/me/settings/settings.dart';
@@ -28,10 +30,13 @@ class _StichSyncAppState extends State<StichSyncApp> {
       home: const Home(),
       routes: {
         '': (context) => const Home(),
-        '/Authorization': (context) => const Authorization(),
+        '/login': (context) => const Login(),
+        '/register': (context) => const Register(),
+        '/passwordReset': (context) => const ForgotPassword(),
         '/me': (context) => const Me(),
         '/settings': (context) => const Settings()
       },
+      
     );
   }
 }

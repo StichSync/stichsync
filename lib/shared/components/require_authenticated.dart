@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
@@ -21,12 +23,18 @@ class _RequireAuthenticatedState extends State<RequireAuthenticated> {
 
     Future.microtask(() async {
       isAuthenticated = await authService.isAuthenticated();
-      if (!isAuthenticated) {
         if (context.mounted) {
-          Navigator.pushReplacementNamed(context, "/Authorization");
+          if (Uri.base.toString().split("/").last.split("?")[0] == "password-reset"){
+            Navigator.pushReplacementNamed(context, "/passwordReset");
+          }
+          else{
+            if (!isAuthenticated) {
+              Navigator.pushReplacementNamed(context, "/login");
+            }
+          }
         }
       }
-    });
+    );
   }
 
   @override
