@@ -267,6 +267,7 @@ class _MeState extends State<Me> {
                           child: Align(
                               alignment: FractionalOffset.bottomCenter,
                               child: ElevatedButton(
+                                // ignore: avoid_print
                                 onPressed: () => print("placeholder"),
                                 child: const Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
