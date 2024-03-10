@@ -1,0 +1,25 @@
+on: 
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+
+name: Tests
+
+jobs:
+  build:
+    name: Tests app
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Flutter
+        uses: britannio/action-install-flutter@v1
+      - name: Install app dependencies
+        run: flutter pub get
+      - name: Test app
+        run: flutter test --coverage
