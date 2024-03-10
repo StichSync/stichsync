@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/require_authenticated.dart';
-import 'package:stichsync/shared/services/auth_service.dart';
 import 'package:stichsync/shared/services/account_service.dart';
 import 'package:stichsync/shared/components/horizontal_carousel.dart';
 import 'package:stichsync/shared/components/editable_text_item.dart';
