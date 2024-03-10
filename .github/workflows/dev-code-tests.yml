@@ -13,7 +13,7 @@ name: Tests
 jobs:
   build:
     name: Tests app
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
