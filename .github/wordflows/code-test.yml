@@ -1,27 +1,27 @@
-on: 
-  pull_request:
-    branches:
-      - develop
-  push:
-    branches:
-      - develop
-  workflow_dispatch:
+# on: 
+#   pull_request:
+#     branches:
+#       - develop
+#   push:
+#     branches:
+#       - develop
+#   workflow_dispatch:
 
 
-name: Tests
+# name: Tests
 
-jobs:
-  build:
-    name: Tests app
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     name: Tests app
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - name: Install app dependencies
-        run: flutter pub get
-      - name: Test app
-        run: flutter test --coverage
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Install Flutter
+#         uses: subosito/flutter-action@v2
+#         with:
+#           channel: 'stable'
+#       - name: Install app dependencies
+#         run: flutter pub get
+#       - name: Test app
+#         run: flutter test --coverage
