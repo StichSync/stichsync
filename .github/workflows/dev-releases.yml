@@ -1,0 +1,47 @@
+on: 
+  push:
+    branches: 
+      - develop
+  workflow_dispatch:
+
+name: Development release
+run-name: Dev build triggered by @${{ github.actor }}
+
+env:
+  environment: develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup tag name
+        uses: olegtarasov/get-tag@v2.1.3
+        id: tagName
+        with:
+          tagRegex: "v(.*)"
+          tagRegexGroup: 3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - name: Install app dependencies
+        run: flutter pub get
+      - name: Analyze app code
+        run: flutter analyze
+      - name: Android release build
+        run: flutter build apk
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Upload Android release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v0.0.${{ github.run_number }}
+          artifacts: "build/app/outputs/apk/release/app-release.apk"
+          name: android-${{ env.environment }}-release-v0.0.${{ github.run_number }}
