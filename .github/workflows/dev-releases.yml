@@ -40,10 +40,9 @@ jobs:
         if: ${{ matrix.for }} == 'android'
         run: flutter build apk --release
       - name: Update artifact
-        if: ${{ matrix.for }} == 'android'
         uses: actions/upload-artifact@v2
         with:
-          name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk
+          name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}
           path: "build/app/outputs/apk/release/app-release.apk"
 
   deploy:
@@ -56,11 +55,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Download artifact
-        if: ${{ matrix.for }} == 'android'
         uses: actions/download-artifact@v2
         with:
-          name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk
-      - run: ls
+          name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}
+      - name: Change package name
+        if: ${{ matrix.for }} == 'android'
+        run: mv app-release.apk stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:
