@@ -60,6 +60,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk
+      - run: ls
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:
