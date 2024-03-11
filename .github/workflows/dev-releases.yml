@@ -9,7 +9,6 @@ run-name: Dev build triggered by @${{ github.actor }}
 
 env:
   environment: develop
-  android_app_name: "android-develop-release-v0.0.${{ github.run_number }}"
 
 jobs:
   build:
@@ -35,7 +34,7 @@ jobs:
         run: flutter build apk --release
       - uses: actions/upload-artifact@v2
         with:
-          name: "${{ env.android_app_name }}"
+          name: app-release.apk
           path: "build/app/outputs/apk/release/app-release.apk"
   deploy:
     runs-on: ubuntu-latest
@@ -44,11 +43,11 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: "${{ env.android_app_name }}"
+          name: app-release.apk
       - name: Upload Android release
         uses: ncipollo/release-action@v1
         with:
           tag: v0.0.${{ github.run_number }}
-          artifacts: "${{ env.android_app_name }}"
-          name: "${{ env.android_app_name }}"
+          artifacts: "app-release.apk"
+          name: android-${{ env.environment }}-release-v0.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
