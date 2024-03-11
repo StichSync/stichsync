@@ -45,6 +45,7 @@ jobs:
         with:
           name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk
           path: "build/app/outputs/apk/release/app-release.apk"
+
   deploy:
     needs: build
     strategy:
@@ -59,11 +60,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk
-      - name: Upload Android release
-        if: ${{ matrix.for }} == 'android'
+      - name: Upload release
         uses: ncipollo/release-action@v1
         with:
           tag: v0.0.${{ github.run_number }}
-          artifacts: "stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk"
+          artifacts: "stichsync-${{ env.environment }}-*"
           name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
