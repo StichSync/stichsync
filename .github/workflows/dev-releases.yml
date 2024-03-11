@@ -64,6 +64,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: v0.0.${{ github.run_number }}
-          artifacts: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk
+          artifacts: "stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk"
           name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
