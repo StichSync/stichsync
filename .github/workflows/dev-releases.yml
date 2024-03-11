@@ -12,7 +12,13 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            for: android
+    runs-on: ${{ matrix.os }}
+
     steps:
       - uses: actions/checkout@v1
       - name: Setup Java
@@ -30,24 +36,35 @@ jobs:
         run: flutter analyze
       - name: Flutter doctor
         run: flutter doctor
-      - name: Android release build
+      - name: Build andorid apk
+        if: ${{ matrix.for }} == 'android'
         run: flutter build apk --release
-      - uses: actions/upload-artifact@v2
+      - name: Update artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: app-release.apk
+          name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}
           path: "build/app/outputs/apk/release/app-release.apk"
+
   deploy:
-    runs-on: ubuntu-latest
     needs: build
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            for: android
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: app-release.apk
-      - name: Upload Android release
+          name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}
+      - name: Change package name
+        if: ${{ matrix.for }} == 'android'
+        run: mv app-release.apk stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}.apk
+      - name: Upload release
         uses: ncipollo/release-action@v1
         with:
           tag: v0.0.${{ github.run_number }}
-          artifacts: "app-release.apk"
-          name: android-${{ env.environment }}-release-v0.0.${{ github.run_number }}
+          artifacts: "stichsync-${{ env.environment }}-*"
+          name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
