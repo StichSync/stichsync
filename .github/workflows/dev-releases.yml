@@ -8,7 +8,7 @@ name: Development release
 run-name: Dev build triggered by @${{ github.actor }}
 
 env:
-  environment: develop
+  environment: dev
 
 jobs:
   build:
@@ -64,7 +64,7 @@ jobs:
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:
-          tag: v0.0.${{ github.run_number }}
+          tag: ${{ env.environment }}-v0.0.${{ github.run_number }}
           artifacts: "stichsync-${{ env.environment }}-*"
           name: stichsync-${{ env.environment }}-${{ matrix.for }}-v0.0.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}
