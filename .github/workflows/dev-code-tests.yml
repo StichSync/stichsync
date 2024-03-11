@@ -6,7 +6,7 @@ on:
 
 
 name: Tests
-run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+run-name: Tests triggered by @${{ github.actor }}
 
 jobs:
   analyze:
