@@ -32,7 +32,7 @@ jobs:
         run: flutter doctor
       - name: Android release build
         run: flutter build apk --release
-      - uses: actions/upload-artifacts@v2
+      - uses: actions/upload-artifact@v2
         with:
           name: app-release.apk
   deploy:
