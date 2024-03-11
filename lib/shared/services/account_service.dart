@@ -14,23 +14,18 @@ class AccountService {
   }
 
   Future<Map<String, dynamic>> getUserData() async {
-    try{
-      var userId = getUserId();
-      var response = await supabase
-        .from('UserProfile')
-        .select('username, email, picUrl')
-        .eq('userId', userId);
+    var userId = getUserId();
+    var response = await supabase
+      .from('UserProfile')
+      .select('username, email, picUrl')
+      .eq('userId', userId);
 
-        return {
-          "username": response[0]["username"],
-          "email": response[0]["email"],
-          "picUrl": response[0]["picUrl"],
-          "error": false
-          };
-        }
-    catch (e) {
-      rethrow;
-      }
+      return {
+        "username": response[0]["username"],
+        "email": response[0]["email"],
+        "picUrl": response[0]["picUrl"],
+        "error": false
+        };
   }
 
   Future<bool> setUsername(String username) async {
