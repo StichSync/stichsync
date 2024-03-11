@@ -6,6 +6,7 @@ on:
 
 
 name: Tests
+run-name: Tests triggered by @${{ github.actor }}
 
 jobs:
   analyze:
