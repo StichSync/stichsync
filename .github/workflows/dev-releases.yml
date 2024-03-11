@@ -36,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v1
       - name: Upload Android release
         uses: ncipollo/release-action@v1
         with:
