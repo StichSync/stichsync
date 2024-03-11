@@ -47,17 +47,13 @@ class _MeState extends State<Me> {
 
   Future<void> getProfile() async {
     userData = await accountService.getUserData();
-    if(userData["error"]){
-      Toaster.toast(msg: "We're having troubles obtaining your account data. Make sure you have stable internet connection and try again.", type: ToastType.error);
-    }
-    else{
-      //placeholders for now
-        items = [
-        InspirationPost(crochet: crochetService.get(1, 1)[0]),
-        InspirationPost(crochet: crochetService.get(1, 1)[0]),
-        InspirationPost(crochet: crochetService.get(1, 1)[0]),  
-      ];
-    }
+    
+    //placeholders for now
+    items = [
+      InspirationPost(crochet: crochetService.get(1, 1)[0]),
+      InspirationPost(crochet: crochetService.get(1, 1)[0]),
+      InspirationPost(crochet: crochetService.get(1, 1)[0]),  
+    ];
   }
 
   Future<void> updateAvatar() async {

@@ -22,20 +22,15 @@ class AccountService {
         .eq('userId', userId);
 
         return {
-          "username": response[0]["username"] ?? "",
-          "email": response[0]["email"] ?? "",
-          "picUrl": response[0]["picUrl"] ?? "",
+          "username": response[0]["username"],
+          "email": response[0]["email"],
+          "picUrl": response[0]["picUrl"],
           "error": false
           };
         }
     catch (e) {
-        return {
-          "username": "",
-          "email": "",
-          "picUrl": "",
-          "error": true
-        };
-    }
+      rethrow;
+      }
   }
 
   Future<bool> setUsername(String username) async {
