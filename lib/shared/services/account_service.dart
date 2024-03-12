@@ -24,7 +24,6 @@ class AccountService {
         "username": response[0]["username"],
         "email": response[0]["email"],
         "picUrl": response[0]["picUrl"],
-        "error": false
         };
   }
 
