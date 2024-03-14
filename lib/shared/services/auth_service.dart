@@ -8,7 +8,7 @@ import 'package:universal_html/html.dart' as html;
 
 class AuthService {
   final _client = Supabase.instance.client.auth;
-  late Session? _session;
+  Session? _session;
 
   // getters
   Session get session {

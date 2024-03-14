@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class SsTextInput extends StatefulWidget {
   final String text;
+  final TextStyle? style;
   final IconData? icon;
   final Size? size;
   final bool isPassword;
   const SsTextInput({
     super.key,
     required this.text,
+    this.style,
     this.icon,
     this.size,
     this.isPassword = false,
@@ -56,6 +58,7 @@ class SsTextInputState extends State<SsTextInput> {
             },
           ) : null
         ),
+        style: widget.style,
         obscureText: isClosed ? true : false,
         enableSuggestions: isClosed ? false : true,
         autocorrect: isClosed ? false : true,
