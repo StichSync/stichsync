@@ -2,8 +2,6 @@ on:
   pull_request:
     branches:
       - develop
-  workflow_dispatch:
-
 
 name: Tests
 run-name: Tests triggered by @${{ github.actor }}
