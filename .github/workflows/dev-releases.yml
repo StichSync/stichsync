@@ -2,7 +2,6 @@ on:
   push:
     branches: 
       - develop
-  workflow_dispatch:
 
 name: Development release
 run-name: Dev build triggered by @${{ github.actor }}
