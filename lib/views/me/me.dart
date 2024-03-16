@@ -106,10 +106,7 @@ class _MeState extends State<Me> {
   Future<void> _logout() async {
     await _client.signOut();
     if (context.mounted) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-        '/login',
-        (Route<dynamic> route) => false,
-      );
+      await Navigator.of(context).pushNamed('/login');
     }
   }
 

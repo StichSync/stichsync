@@ -28,7 +28,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       Toaster.toast(msg: "Password must be at least 6 characters long", type: ToastType.error);
     } else {
       if (await authService.resetPassword(password) && context.mounted) {
-        Navigator.pushNamed(context, "/login");
+        await Navigator.pushNamed(context, "/login");
       }
     }
   }
