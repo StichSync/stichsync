@@ -105,9 +105,9 @@ class _MeState extends State<Me> {
 
   Future<void> _logout() async {
     await _client.signOut();
-    if (context.mounted) {
-      await Navigator.of(context).pushNamed('/login');
-    }
+    if (!context.mounted) return;
+    // ignore: use_build_context_synchronously
+    Navigator.pushNamed(context, "/login");
   }
 
   Future<UserProfileModel> _getUserData() async {
