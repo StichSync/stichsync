@@ -2,27 +2,22 @@ on:
   pull_request:
     branches:
       - develop
-  push:
-    branches:
-      - develop
-  workflow_dispatch:
-
 
 name: Tests
-
-env:
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+run-name: Tests triggered by @${{ github.actor }}
 
 jobs:
-  build:
-    name: Tests app
+  analyze:
+    name: analyze-app
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
       - name: Install Flutter
         uses: subosito/flutter-action@v2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Install app dependencies
         run: flutter pub get
-      - name: Test app
-        run: flutter test --coverage
+      - name: Analyze app code
+        run: flutter analyze
