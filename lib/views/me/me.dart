@@ -104,13 +104,13 @@ class _MeState extends State<Me> {
   }
 
   Future<void> _logout() async {
-    if (!context.mounted) return;
     await _client.signOut();
-    if (!context.mounted) return;
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/login',
-      (Route<dynamic> route) => false,
-    );
+    if (context.mounted) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        '/login',
+        (Route<dynamic> route) => false,
+      );
+    }
   }
 
   Future<UserProfileModel> _getUserData() async {
