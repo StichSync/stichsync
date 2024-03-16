@@ -69,7 +69,12 @@ class _LoginState extends State<Login> {
                               image: NetworkImage(
                                   "https://media.discordapp.net/attachments/864791833309085707/1214270526206255194/image.png?ex=65f8808d&is=65e60b8d&hm=b861929d04eebff70a738227bab4d4cf5ef6b030214e930bf7e392295d4973ae&=&format=webp&quality=lossless")))),
                   SsTextInput(key: keyEmail, size: Size(width * 0.8, height * 0.07), text: "E-mail", icon: Icons.mail),
-                  SsTextInput(key: keyPass, isPassword: true, size: Size(width * 0.8, height * 0.07), text: "Password", icon: Icons.lock),
+                  SsTextInput(
+                      key: keyPass,
+                      isPassword: true,
+                      size: Size(width * 0.8, height * 0.07),
+                      text: "Password",
+                      icon: Icons.lock),
                   Align(
                       alignment: Alignment.centerRight,
                       child: RichText(
@@ -114,7 +119,7 @@ class _LoginState extends State<Login> {
                         colored: true,
                         redirectUrl: '',
                         onSuccess: (Session response) {
-                          authService.setSession(response);
+                          Navigator.pushReplacementNamed(context, "/");
                         },
                         onError: (error) {},
                       )
