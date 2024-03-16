@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/require_authenticated.dart';
+import 'package:stichsync/shared/models/context/user_claims_model.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
 
 // this site will contain general app settings
@@ -15,6 +16,14 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final _authService = GetIt.I<AuthService>();
+  late final UserClaims userClaims;
+
+  @override
+  void initState() {
+    super.initState();
+    userClaims = _authService.claims!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return RequireAuthenticated(
@@ -46,8 +55,17 @@ class _SettingsState extends State<Settings> {
           centerTitle: true,
         ),
         body: Center(
-          child: Text(
-            "Current user role is: ${_authService.claims.applicationRole}",
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Current user email is: ${userClaims.email}",
+              ),
+              Text(
+                "Current user role is: ${userClaims.applicationRole}",
+              ),
+            ],
           ),
         ),
       ),

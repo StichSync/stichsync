@@ -28,7 +28,7 @@ class _StichSyncAppState extends State<StichSyncApp> {
     return MaterialApp(
       title: AppConfig.appTitle,
       theme: ThemeConfig.themeData,
-      home: const Home(),
+      home: const RequireAuthenticated(child: Home()),
       routes: {
         '': (context) => const RequireAuthenticated(child: Home()),
         '/me': (context) => const RequireAuthenticated(child: Me()),

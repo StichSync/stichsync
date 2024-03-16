@@ -119,7 +119,7 @@ class _LoginState extends State<Login> {
                         colored: true,
                         redirectUrl: '',
                         onSuccess: (Session response) {
-                          Navigator.pushReplacementNamed(context, "/");
+                          Navigator.pushReplacementNamed(context, "");
                         },
                         onError: (error) {},
                       )

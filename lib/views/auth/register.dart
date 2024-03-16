@@ -116,7 +116,7 @@ class _RegisterState extends State<Register> {
                         colored: true,
                         redirectUrl: '',
                         onSuccess: (Session response) {
-                          Navigator.pushReplacementNamed(context, "/");
+                          Navigator.pushReplacementNamed(context, "");
                         },
                         onError: (error) {},
                       )

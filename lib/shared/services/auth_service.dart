@@ -2,24 +2,17 @@ import 'package:jwt_decode/jwt_decode.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/models/context/user_claims_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:universal_html/html.dart' as html;
 
 class AuthService {
   final _client = Supabase.instance.client.auth;
 
   // getters
-  Session get session {
-    return _client.currentSession!;
-  }
-
-  UserClaims get claims {
-    final tokenClaims = Jwt.parseJwt(session.accessToken);
+  Session? get session => _client.currentSession;
+  bool get isAuthenticated => session != null && !session!.isExpired;
+  UserClaims? get claims {
+    if (!isAuthenticated) return null;
+    final tokenClaims = Jwt.parseJwt(session!.accessToken);
     return UserClaims(tokenClaims: tokenClaims);
-  }
-
-  // public methods
-  Future<bool> isAuthenticated() async {
-    return !session.isExpired;
   }
 
   Future<bool> register(
@@ -31,7 +24,9 @@ class AuthService {
       await _client.signUp(
         email: email,
         password: password,
-        data: {'username': username},
+        data: {
+          'username': username,
+        },
       );
       Toaster.toast(msg: "Account created, Please log in", type: ToastType.success, longTime: true);
       return true;
@@ -101,11 +96,6 @@ class AuthService {
       Toaster.toast(
         msg: "Password had been reset",
         type: ToastType.success,
-      );
-      html.window.history.pushState(
-        null,
-        "",
-        "",
       );
 
       return true;

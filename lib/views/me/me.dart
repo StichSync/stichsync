@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -20,11 +19,10 @@ class Me extends StatefulWidget {
 }
 
 class _MeState extends State<Me> {
-  final _client = Supabase.instance.client.auth;
-  File? avatarFile;
-  late UserProfileModel userData;
-
   final accountService = GetIt.I<AccountService>();
+  final _client = Supabase.instance.client.auth;
+
+  late UserProfileModel userData;
 
   Future<void> updateUI() async {
     userData = await accountService.getUserData();
@@ -32,9 +30,9 @@ class _MeState extends State<Me> {
   }
 
   Future<void> updateAvatar() async {
-    avatarFile = await ImagePickerUtil.pickImageFromGallery();
+    final avatarFile = await ImagePickerUtil.pickImageFromGallery();
     if (avatarFile != null) {
-      var result = await accountService.setAvatar(avatarFile!);
+      var result = await accountService.setAvatar(avatarFile);
       if (result) {
         Toaster.toast(
           msg: "Avatar updated.",
@@ -115,51 +113,50 @@ class _MeState extends State<Me> {
     );
   }
 
+  Future<UserProfileModel> _getUserData() async {
+    await Future.delayed(Durations.long1);
+    return accountService.getUserData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<UserProfileModel>(
-      future: accountService.getUserData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: SizedBox(
-              width: 25,
-              height: 25,
-              child: RefreshProgressIndicator(),
+    return Scaffold(
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.only(
+            left: 8.0,
+            right: 8.0,
+          ),
+          child: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_rounded,
+              color: Colors.white,
+              size: 36,
             ),
-          );
-        } else if (snapshot.hasError) {
-          return Text("Error: ${snapshot.error}");
-        } else if (snapshot.hasData) {
-          userData = snapshot.data!;
-          return Scaffold(
-            appBar: AppBar(
-              forceMaterialTransparency: true,
-              centerTitle: true,
-              leading: Padding(
-                padding: const EdgeInsets.only(
-                  left: 8.0,
-                  right: 8.0,
-                ),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_rounded,
-                    color: Colors.white,
-                    size: 36,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              title: const Text(
-                "Account",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            body: RefreshIndicator(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        title: const Text(
+          "Account",
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+      body: FutureBuilder<UserProfileModel>(
+        future: _getUserData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator.adaptive());
+          } else if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          } else if (snapshot.hasData) {
+            userData = snapshot.data!;
+            return RefreshIndicator(
               onRefresh: () async {
                 updateUI();
               },
@@ -271,12 +268,12 @@ class _MeState extends State<Me> {
                   ),
                 ],
               ),
-            ),
-          );
-        } else {
-          return const Text("Unhandled case");
-        }
-      },
+            );
+          } else {
+            return const Text("Unhandled case");
+          }
+        },
+      ),
     );
   }
 }
