@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "yyy project cap",
+            "name": "StichSync",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "yyy project cap (profile mode)",
+            "name": "StichSync (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "yyy project cap (release mode)",
+            "name": "StichSync (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
