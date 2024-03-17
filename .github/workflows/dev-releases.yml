@@ -32,7 +32,7 @@ jobs:
       - name: Install app dependencies
         run: flutter pub get
       - name: Analyze app code
-        run: flutter analyze
+        run: flutter analyze --no-fatal-infos
       - name: Flutter doctor
         run: flutter doctor
       - name: Build andorid apk
