@@ -1,0 +1,32 @@
+on: 
+  push:
+    branches: 
+      - krycha1248
+  workflow_dispatch:
+
+name: Semantic versioning test
+run-name: Semantic versioning test triggered by ${{ github.actor }}
+
+env:
+  environment: dev
+
+jobs:
+  version:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            for: android
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install Semantic Release and Dependencies
+        run: npm install -g semantic-release @semantic-release/branch @semantic-release/github
+      - name: Semantic Release
+        run: semantic-release
+      - name: Show semantic release outputs
+        run: echo ${{ steps.semantic_release.outputs.version }}

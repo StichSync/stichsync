@@ -1,0 +1,10 @@
+{
+  "branches": ["main"],
+  "plugins": [
+    ["@semantic-release/branch", {
+      "branches": ["main", "fix/*", "feat/*"],
+      "preset": "conventionalcommits"
+    }],
+    "@semantic-release/github"
+  ]
+}
