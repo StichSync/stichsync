@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
+import 'package:stichsync/views/auth/login.dart';
 
 class RequireAnonymous extends StatefulWidget {
   final Widget child;
@@ -11,32 +12,10 @@ class RequireAnonymous extends StatefulWidget {
 }
 
 class _RequireAnonymousState extends State<RequireAnonymous> {
-  late AuthService authService;
-  late bool isAuthenticated;
-
-  @override
-  void initState() {
-    super.initState();
-    authService = GetIt.I<AuthService>();
-
-    Future.microtask(() async {
-      if (await authService.isAuthenticated()) {
-        Future.microtask(
-          () {
-            if (Uri.base.toString().split("/").last.split("?")[0] == "password-reset"){
-              Navigator.pushReplacementNamed(context, "/passwordReset");
-            }
-            else{
-              Navigator.popAndPushNamed(context, "");
-            }
-          }
-        );
-      }
-    });
-  }
+  final _authService = GetIt.I<AuthService>();
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return !_authService.isAuthenticated ? widget.child : const Login();
   }
 }

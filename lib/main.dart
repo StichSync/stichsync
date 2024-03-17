@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stichsync/shared/components/require_authenticated.dart';
 import 'package:stichsync/startup.dart';
 import 'package:stichsync/shared/config/app_config.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
@@ -27,16 +28,15 @@ class _StichSyncAppState extends State<StichSyncApp> {
     return MaterialApp(
       title: AppConfig.appTitle,
       theme: ThemeConfig.themeData,
-      home: const Home(),
+      home: const RequireAuthenticated(child: Home()),
       routes: {
-        '': (context) => const Home(),
+        '': (context) => const RequireAuthenticated(child: Home()),
+        '/me': (context) => const RequireAuthenticated(child: Me()),
+        '/settings': (context) => const RequireAuthenticated(child: Settings()),
         '/login': (context) => const Login(),
         '/register': (context) => const Register(),
         '/passwordReset': (context) => const ForgotPassword(),
-        '/me': (context) => const Me(),
-        '/settings': (context) => const Settings()
       },
-      
     );
   }
 }

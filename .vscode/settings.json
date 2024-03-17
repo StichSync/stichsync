@@ -1,1 +1,19 @@
-{}
+{
+    "dart.lineLength": 120,
+    "dart.enableCompletionCommitCharacters": false,
+    "dart.documentation": "full",
+    "dart.openDevTools": "flutter",
+    "dart.previewFlutterUiGuides": true,
+    "dart.enableSnippets": true,
+    "[dart]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false,
+        "editor.suggest.insertMode": "replace",
+        "editor.defaultFormatter": "Dart-Code.dart-code",
+        "editor.inlayHints.enabled": "offUnlessPressed",
+        "editor.rulers": [
+            80, 120
+        ],
+    }
+}

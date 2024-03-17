@@ -1,9 +1,14 @@
 import 'dart:io';
+import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/toaster.dart';
+import 'package:stichsync/shared/models/user_profile_model.dart';
+import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
+import 'package:stichsync/views/home/inspirations/data_access/inspirations_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AccountService {
   late final SupabaseClient supabase;
+  final crochetService = GetIt.instance.get<CrochetService>();
 
   AccountService() {
     supabase = Supabase.instance.client;
@@ -13,77 +18,73 @@ class AccountService {
     return supabase.auth.currentUser?.id ?? '';
   }
 
-  Future<Map<String, dynamic>> getUserData() async {
+  Future<UserProfileModel> getUserData() async {
     var userId = getUserId();
-    var response = await supabase
-      .from('UserProfile')
-      .select('username, email, picUrl')
-      .eq('userId', userId);
+    var response = await supabase.from('UserProfile').select('username, email, picUrl').eq('userId', userId);
 
-      return {
-        "username": response[0]["username"],
-        "email": response[0]["email"],
-        "picUrl": response[0]["picUrl"],
-        };
+    return UserProfileModel(
+      email: response[0]["email"],
+      username: response[0]["username"],
+      picUrl: response[0]["picUrl"],
+      posts: [
+        InspirationPost(crochet: crochetService.get(1, 1)[0]),
+        InspirationPost(crochet: crochetService.get(1, 1)[0]),
+        InspirationPost(crochet: crochetService.get(1, 1)[0]),
+      ],
+    );
   }
 
   Future<bool> setUsername(String username) async {
-    try{
+    try {
       var userId = getUserId();
-      await supabase
-        .from('UserProfile')
-        .update({ 'username': username })
-        .match({ 'userId': userId });
-        return true;
-    }
-    catch (e) {
-        return false;
+      await supabase.from('UserProfile').update({'username': username}).match({'userId': userId});
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 
   Future<bool> setEmail(String email) async {
-    try{
+    try {
       await supabase.auth.updateUser(
         UserAttributes(
           email: email,
         ),
       );
       return true;
-    }
-    catch (e) {
-        Toaster.toast(msg: "We couldn't update your email. Make sure you have stable internet connection and try again.", type: ToastType.error);
-        return false;
+    } catch (e) {
+      Toaster.toast(
+          msg: "We couldn't update your email. Make sure you have stable internet connection and try again.",
+          type: ToastType.error);
+      return false;
     }
   }
 
   Future<bool> setAvatar(File avatarFile) async {
-    try{
+    try {
       var userId = getUserId();
       await supabase.storage.from('avatars').update(
-        '$userId/avatar.jpg',
-        avatarFile,
-        fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
-      );
+            '$userId/avatar.jpg',
+            avatarFile,
+            fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+          );
       return true;
-    }
-    on StorageException {
-      try{
+    } on StorageException {
+      try {
         var userId = getUserId();
 
         await supabase.storage.from('avatars').upload(
-          '$userId/avatar.jpg',
-          avatarFile,
-          fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
-        );
+              '$userId/avatar.jpg',
+              avatarFile,
+              fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
+            );
 
-        await supabase
-        .from('UserProfile')
-        .update({ 'picUrl': 'https://iaxqejougvvfhxqhpmre.supabase.co/storage/v1/object/public/avatars/$userId/avatar.jpg' })
-        .match({ 'userId': userId });
+        await supabase.from('UserProfile').update({
+          'picUrl': 'https://iaxqejougvvfhxqhpmre.supabase.co/storage/v1/object/public/avatars/$userId/avatar.jpg'
+        }).match({'userId': userId});
         return true;
-      }
-      catch (e) {
-          return false;
+      } catch (e) {
+        return false;
       }
     }
   }
