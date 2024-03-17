@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: '14'
       - name: Install Semantic Release and Dependencies
-        run: npm install -g semantic-release
+        run: npm install -g semantic-release @semantic-release/branch @semantic-release/github @semantic-release/exec @semantic-release/changelog @semantic-release/git
       - name: Semantic Release
         run: semantic-release
       - name: Show semantic release outputs
