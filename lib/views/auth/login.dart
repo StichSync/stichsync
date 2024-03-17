@@ -5,6 +5,7 @@ import 'package:stichsync/shared/components/text_input.dart';
 import 'package:stichsync/shared/components/text_button.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
+import 'package:stichsync/shared/services/router/router.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class Login extends StatefulWidget {
@@ -29,8 +30,7 @@ class _LoginState extends State<Login> {
       Toaster.toast(msg: "E-mail is not valid", type: ToastType.error);
     } else {
       if (await authService.login(email, password)) {
-        // ignore: use_build_context_synchronously
-        Navigator.pushNamed(context, "/");
+        router.goNamed('home');
       }
     }
   }
@@ -95,15 +95,18 @@ class _LoginState extends State<Login> {
                     },
                   ),
                   Column(children: [
-                    const Text("Don't have an account yet?", style: TextStyle(color: Color.fromARGB(255, 82, 82, 82))),
+                    const Text(
+                      "Don't have an account yet?",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 82, 82, 82),
+                      ),
+                    ),
                     RichText(
                       text: TextSpan(
-                          text: "Sign Up",
-                          style: const TextStyle(color: Colors.orange),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.pushNamed(context, "/register");
-                            }),
+                        text: "Sign Up",
+                        style: const TextStyle(color: Colors.orange),
+                        recognizer: TapGestureRecognizer()..onTap = () => router.goNamed('register'),
+                      ),
                     )
                   ]),
                   Padding(
@@ -118,9 +121,7 @@ class _LoginState extends State<Login> {
                         showSuccessSnackBar: false,
                         colored: true,
                         redirectUrl: '',
-                        onSuccess: (Session response) {
-                          Navigator.pushReplacementNamed(context, "");
-                        },
+                        onSuccess: (Session response) => router.goNamed('home'),
                         onError: (error) {},
                       )
                     ]),

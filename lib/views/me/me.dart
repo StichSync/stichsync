@@ -9,6 +9,7 @@ import 'package:stichsync/shared/components/editable_avatar.dart';
 import 'package:stichsync/shared/components/image_picker_util.dart';
 import 'package:stichsync/shared/components/text_edit_dialog.dart';
 import 'package:stichsync/shared/components/toaster.dart';
+import 'package:stichsync/shared/services/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Me extends StatefulWidget {
@@ -105,8 +106,7 @@ class _MeState extends State<Me> {
 
   Future<void> _logout() async {
     await _client.signOut();
-    if (!context.mounted) return;
-    await Navigator.pushNamed(context, "/login");
+    router.goNamed('home');
   }
 
   Future<UserProfileModel> _getUserData() async {
@@ -131,9 +131,7 @@ class _MeState extends State<Me> {
               color: Colors.white,
               size: 36,
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () => router.pop(),
           ),
         ),
         title: const Text(

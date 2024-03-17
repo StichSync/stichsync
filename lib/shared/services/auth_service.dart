@@ -9,9 +9,15 @@ class AuthService {
   // getters
   // todo: refresh session on demand
   Session? get session => _client.currentSession;
-  bool get isAuthenticated => session != null && !session!.isExpired;
+
+  Future<bool> get isAuthenticated async {
+    if (session == null) return false;
+    if (session!.isExpired) await _client.refreshSession();
+    return session != null && !session!.isExpired;
+  }
+
   UserClaims? get claims {
-    if (!isAuthenticated) return null;
+    if (session == null) return null;
     final tokenClaims = Jwt.parseJwt(session!.accessToken);
     return UserClaims(tokenClaims: tokenClaims);
   }
