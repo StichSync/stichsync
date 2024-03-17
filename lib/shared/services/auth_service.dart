@@ -7,7 +7,6 @@ class AuthService {
   final _client = Supabase.instance.client.auth;
 
   // getters
-  // todo: refresh session on demand
   Session? get session => _client.currentSession;
 
   Future<bool> get isAuthenticated async {

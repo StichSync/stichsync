@@ -7,7 +7,12 @@ class TextEditDialog extends StatelessWidget {
   final int limit;
   final TextEditingController _textController = TextEditingController();
 
-  TextEditDialog({super.key, required this.placeholder, required this.title, required this.limit});
+  TextEditDialog({
+    super.key,
+    required this.placeholder,
+    required this.title,
+    required this.limit,
+  });
 
   Future<String?> show(BuildContext context) {
     _textController.text = placeholder;

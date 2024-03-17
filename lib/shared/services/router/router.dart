@@ -10,7 +10,7 @@ final router = GoRouter(
   redirect: (context, state) async {
     final authService = GetIt.I<AuthService>();
 
-    final isAnonymousRoute = allowAnonymousRoutes.contains(state.path);
+    final isAnonymousRoute = allowAnonymousRoutes.contains(state.matchedLocation);
     final isAuthenticated = await authService.isAuthenticated;
 
     if (!isAuthenticated && !isAnonymousRoute) {
