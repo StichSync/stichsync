@@ -22,13 +22,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v1
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Setup gitversion
+        uses: gittools/actions/gitversion/setup@v1.1.1
         with:
-          node-version: '14'
-      - name: Install Semantic Release and Dependencies
-        run: npm install -g semantic-release @semantic-release/github @semantic-release/exec @semantic-release/changelog @semantic-release/git @semantic-release/commit-analyzer
-      - name: Semantic Release
-        run: semantic-release
-      - name: Show semantic release outputs
-        run: echo ${{ steps.semantic_release.outputs.version }}
+          versionSpec: '5.x'
+      - name: Determine version
+        uses: gittools/actions/gitversion/execute@v1.1.1
