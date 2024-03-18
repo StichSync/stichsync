@@ -7,7 +7,5 @@ branches:
 
   fix:
     mode: ContinuousDeployment
-    regex: fix\/.*
     increment: Patch
-
-legacy-semver-padding: 4
+    regex: fix\/.*
