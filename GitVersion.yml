@@ -1,18 +1,8 @@
-next-version: 1.0
-assembly-versioning-scheme: MajorMinorPatch
-mode: ContinuousDeployment
 branches:
   krycha1248:
-    mode: ContinuousDeployment
-    tag: ''
-    increment: Inherit
-    source-branches:
-      - fix
-    prevent-increment-of-merged-branch-version: true
-  fix:
-    regex: fix[/-]
-    mode: ContinuousDeployment
     tag: ''
     increment: Minor
-    source-branches:
-      - krycha1248
+    prevent-increment-of-merged-branch-version: true
+  develop:
+    tag: ''
+    increment: Patch
