@@ -3,13 +3,8 @@ next-version: 1.0.0
 branches:
   krycha1248:
     mode: ContinuousDeployment
+    increment: Patch
 
-major-version-bump-message: '\[Major\]'
-minor-version-bump-message: '\[Minor\]'
-patch-version-bump-message: '\[Patch\]'
-no-bump-message: '\[NoBump\]'
-
-branches:
   fix:
     mode: ContinuousDeployment
     regex: fix\/.*
