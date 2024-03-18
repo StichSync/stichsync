@@ -1,14 +1,14 @@
 mode: Mainline
 commit-message-incrementing: MergeMessageOnly
 branches:
-  develop:
-    regex: ^develop$
+  krycha1248:
+    regex: ^krycha1248$
     tag: ''
   feature:
     regex: ^feature/
-    tag: useBranchName
+    tag: ''
     increment: Minor
   hotfix:
     regex: ^fix/
-    tag: useBranchName
+    tag: ''
     increment: Patch
