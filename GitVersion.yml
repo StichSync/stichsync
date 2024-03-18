@@ -5,14 +5,19 @@ branches:
     tag: ''
     increment: Minor
     prevent-increment-of-merged-branch-version: true
+    tracks-release-branches: true
 
-branchIncrement:
   fix:
     regex: 'fix/.*'
+    mode: ContinuousDeployment
     increment: Patch
+
   feature:
     regex: 'feature/.*'
+    mode: ContinuousDeployment
     increment: Minor
+
   release:
     regex: 'release/.*'
+    mode: ContinuousDeployment
     increment: Major
