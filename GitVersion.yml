@@ -8,10 +8,6 @@ branches:
     mode: ContinuousDeployment
     tag: ''
 
-commit-message-incrementing:
-  Disabled: false
-  MessageRegex: '\[mM]ajor(\r?\n|$)|\[mM]inor(\r?\n|$)|\[pP]atch(\r?\n|$)|\[nN]o[bB]ump(\r?\n|$)'
-
 tag-prefix: '[vV]'
 
 major-version-bump-message: '\[Major\]'
