@@ -8,7 +8,9 @@ branches:
     regex: ^feature/
     tag: ''
     increment: Minor
+    source-branches: ['krycha1248']
   hotfix:
     regex: ^fix/
     tag: ''
     increment: Patch
+    source-branches: ['krycha1248']
