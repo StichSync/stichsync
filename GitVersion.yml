@@ -5,7 +5,7 @@ branches:
     mode: ContinuousDeployment
 
 commit-message-incrementing:
-  Enabled: true
+  Enabled: false
   MessageRegex: '\[Major\](\r?\n|$)|\[Minor\](\r?\n|$)|\[Patch\](\r?\n|$)|\[NoBump\](\r?\n|$)'
 
 major-version-bump-message: '\[Major\]'
