@@ -1,0 +1,22 @@
+next-version: 1.0.0
+
+branches:
+  master:
+    mode: ContinuousDeployment
+    tag: ''
+  develop:
+    mode: ContinuousDeployment
+    tag: ''
+
+commit-message-incrementing:
+  Disabled: false
+  MessageRegex: '\[mM]ajor(\r?\n|$)|\[mM]inor(\r?\n|$)|\[pP]atch(\r?\n|$)|\[nN]o[bB]ump(\r?\n|$)'
+
+tag-prefix: '[vV]'
+
+major-version-bump-message: '\[Major\]'
+minor-version-bump-message: '\[Minor\]'
+patch-version-bump-message: '\[Patch\]'
+no-bump-message: '\[NoBump\]'
+
+legacy-semver-padding: 4
