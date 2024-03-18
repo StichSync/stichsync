@@ -1,0 +1,44 @@
+next-version: 0.1.0
+
+branches:
+  master:
+    mode: ContinuousDeployment
+  develop:
+    mode: ContinuousDeployment
+
+commit-message-incrementing:
+  Enabled: true
+  MessageRegex: '\[Major\](\r?\n|$)|\[Minor\](\r?\n|$)|\[Patch\](\r?\n|$)|\[NoBump\](\r?\n|$)'
+
+major-version-bump-message: '\[Major\]'
+minor-version-bump-message: '\[Minor\]'
+patch-version-bump-message: '\[Patch\]'
+no-bump-message: '\[NoBump\]'
+
+branches:
+  develop:
+    mode: ContinuousDeployment
+    increment: Inherit
+
+legacy-semver-padding: 4
+
+merge-message-formats:
+  minor: 'Merge branch ''{0}'' into {1} to bump minor version'
+  patch: 'Merge branch ''{0}'' into {1} to bump patch version'
+  ignore: 'Merge branch ''{0}'' into {1}'
+
+branches:
+  develop:
+    regex: develop
+    mode: ContinuousDeployment
+    prevent-increment-of-merged-branch-version: true
+
+  fix:
+    mode: ContinuousDeployment
+    regex: fix\/.*
+    increment: Patch
+
+  feature:
+    mode: ContinuousDeployment
+    regex: feature\/.*
+    increment: Minor
