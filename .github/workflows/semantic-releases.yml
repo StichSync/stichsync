@@ -28,3 +28,6 @@ jobs:
           versionSpec: '5.x'
       - name: Determine version
         uses: gittools/actions/gitversion/execute@v1.1.1
+        id: version_step
+      - name: Show version
+        run: echo ${{ steps.version_step.outputs.fullSemVer }}
