@@ -4,13 +4,12 @@ branches:
   krycha1248:
     regex: ^krycha1248$
     tag: ''
+    source-branches: ["feature", "hotfix"]
   feature:
     regex: ^feature/
     tag: ''
     increment: Minor
-    source-branches: ['krycha1248']
   hotfix:
     regex: ^fix/
     tag: ''
     increment: Patch
-    source-branches: ['krycha1248']
