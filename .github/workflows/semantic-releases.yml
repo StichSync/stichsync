@@ -31,4 +31,4 @@ jobs:
         id: version_step
       - name: Show version
         run: echo ${{ steps.version_step.outputs.majorMinorPatch }}
-        ##
+        #
