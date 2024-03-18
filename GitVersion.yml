@@ -6,6 +6,10 @@ branches:
     increment: Minor
     prevent-increment-of-merged-branch-version: true
     tracks-release-branches: true
+    source_branches:
+      - fix
+      - feature
+      - release
 
   fix:
     regex: 'fix/.*'
