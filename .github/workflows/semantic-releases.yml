@@ -30,7 +30,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v1.1.1
         id: version_step
         with:
-          config-path: 'GitVersion.yml'
+          configFilePath: 'GitVersion.yml'
           
       - name: Show version
         run: echo ${{ steps.version_step.outputs.majorMinorPatch }}
