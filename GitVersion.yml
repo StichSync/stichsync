@@ -1,9 +1,6 @@
 next-version: 1.0.0
 
 branches:
-  krycha1248:
-    mode: ContinuousDeployment
-    increment: Patch
 
   fix:
     mode: ContinuousDeployment
