@@ -1,5 +1,5 @@
 mode: Mainline
-commit-message-incrementing: MergeMessageOnly
+commit-message-incrementing: MergeMessageAndCommitMessage
 branches:
   krycha1248:
     regex: ^krycha1248$
