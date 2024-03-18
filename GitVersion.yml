@@ -4,20 +4,12 @@ branches:
   krycha1248:
     mode: ContinuousDeployment
 
-#commit-message-incrementing:
-#  Enabled: true
-#  MessageRegex: '\[Major\](\r?\n|$)|\[Minor\](\r?\n|$)|\[Patch\](\r?\n|$)|\[NoBump\](\r?\n|$)'
-
 major-version-bump-message: '\[Major\]'
 minor-version-bump-message: '\[Minor\]'
 patch-version-bump-message: '\[Patch\]'
 no-bump-message: '\[NoBump\]'
 
 branches:
-  krycha1248:
-    mode: ContinuousDeployment
-    increment: Minor
-
   fix:
     mode: ContinuousDeployment
     regex: fix\/.*
