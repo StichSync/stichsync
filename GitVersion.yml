@@ -15,9 +15,6 @@ build-metadata-padding: 4
 commits-since-version-source-padding: 4
 commit-message-incrementing: Enabled
 commit-date-format: 'yyyy-MM-dd'
-# ignore:
-#   sha: []
-#   commits-before: yyyy-MM-ddTHH:mm:ss
 merge-message-formats: {}
 branches:
   main:
@@ -33,7 +30,7 @@ branches:
     regex: ^releases?[/-]
     mode: ContinuousDelivery
     tag: beta
-    increment: Patch
+    increment: Major
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
     tracks-release-branches: false
@@ -43,7 +40,7 @@ branches:
     regex: ^features?[/-]
     mode: ContinuousDelivery
     tag: useBranchName
-    increment: Inherit
+    increment: Minor
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
     tracks-release-branches: false
@@ -81,6 +78,15 @@ branches:
     mode: ContinuousDeployment
     tag: unstable
     increment: Minor
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: true
+    tracks-release-branches: true
+    is-release-branch: false
+  krycha1248:
+    regex: ^krycha1248[/-]
+    mode: ContinuousDelivery
+    tag: ''
+    increment: BuildMetaData
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
     tracks-release-branches: true
