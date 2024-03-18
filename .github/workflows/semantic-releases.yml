@@ -31,6 +31,7 @@ jobs:
         id: version_step
         with:
           configFilePath: 'GitVersion.yml'
+          useConfigFile: true
           
       - name: Show version
         run: echo ${{ steps.version_step.outputs.majorMinorPatch }}
