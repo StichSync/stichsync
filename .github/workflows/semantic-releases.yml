@@ -23,11 +23,11 @@ jobs:
       - name: checkout
         uses: actions/checkout@v1
       - name: Setup gitversion
-        uses: gittools/actions/gitversion/setup@v1.1.1
+        uses: gittools/actions/gitversion/setup@latest
         with:
           versionSpec: '5.x'
       - name: Determine version
-        uses: gittools/actions/gitversion/execute@v1.1.1
+        uses: gittools/actions/gitversion/execute@latest
         id: version_step
         with:
           configFilePath: './GitVersion.yml'
