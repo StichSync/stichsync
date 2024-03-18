@@ -1,9 +1,7 @@
 next-version: 0.1.0
 
 branches:
-  master:
-    mode: ContinuousDeployment
-  develop:
+  krycha1248:
     mode: ContinuousDeployment
 
 commit-message-incrementing:
@@ -29,7 +27,7 @@ merge-message-formats:
 
 branches:
   develop:
-    regex: develop
+    regex: krycha1248
     mode: ContinuousDeployment
     prevent-increment-of-merged-branch-version: true
 
