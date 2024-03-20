@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stichsync/shared/components/text_input.dart';
 import 'package:stichsync/shared/constants/attribute.dart';
+import 'package:stichsync/shared/enumerated/attribute_enums.dart';
 
 enum AttribInputType { type, unit, quantity }
 
