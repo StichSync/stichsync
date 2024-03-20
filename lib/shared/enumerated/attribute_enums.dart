@@ -1,5 +1,7 @@
 enum AttributeType { thickness, length, width, size, weight, height }
+
 enum WeightAttributeType { weight }
+
 enum LengthAttributeType { thickness, length, width, size, height }
 
 enum AttributeUnit {
@@ -14,9 +16,10 @@ enum AttributeUnit {
   ounce,
   pound,
 }
+
 enum ShortAttributeUnit { mm, cm, m, inch, ft, yd, g, kg, oz, lb }
 
-Map<AttributeUnit, ShortAttributeUnit> AttributeUnitMap = {
+Map<AttributeUnit, ShortAttributeUnit> attributeUnitMap = {
   AttributeUnit.milimeter: ShortAttributeUnit.mm,
   AttributeUnit.centimeter: ShortAttributeUnit.cm,
   AttributeUnit.meter: ShortAttributeUnit.m,
@@ -29,22 +32,22 @@ Map<AttributeUnit, ShortAttributeUnit> AttributeUnitMap = {
   AttributeUnit.pound: ShortAttributeUnit.lb,
 };
 
-
 enum WeightUnit { gram, kilogram, ounce, pound }
+
 enum ShortWeightUnit { g, kg, oz, lb }
 
-Map<WeightUnit, ShortWeightUnit> WeightUnitMap = {
+Map<WeightUnit, ShortWeightUnit> weightUnitMap = {
   WeightUnit.gram: ShortWeightUnit.g,
   WeightUnit.kilogram: ShortWeightUnit.kg,
   WeightUnit.ounce: ShortWeightUnit.oz,
   WeightUnit.pound: ShortWeightUnit.lb,
 };
 
-
 enum LengthUnit { milimeter, centimeter, meter, inch, foot, yard }
+
 enum ShortLengthUnit { mm, cm, m, inch, ft, yd }
 
-Map<LengthUnit, ShortLengthUnit> LenghtUnitMap = {
+Map<LengthUnit, ShortLengthUnit> lenghtUnitMap = {
   LengthUnit.milimeter: ShortLengthUnit.mm,
   LengthUnit.centimeter: ShortLengthUnit.cm,
   LengthUnit.meter: ShortLengthUnit.m,
@@ -52,4 +55,3 @@ Map<LengthUnit, ShortLengthUnit> LenghtUnitMap = {
   LengthUnit.foot: ShortLengthUnit.ft,
   LengthUnit.yard: ShortLengthUnit.yd,
 };
-
