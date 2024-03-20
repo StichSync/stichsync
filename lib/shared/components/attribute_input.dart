@@ -18,7 +18,7 @@ class AttribInput extends StatefulWidget {
 
 class AttribInputState extends State<AttribInput> {
   final GlobalKey<SsTextInputState> inputKey = GlobalKey<SsTextInputState>();
-  String assetDir = "assets/thickness.png";
+  String assetDir = "/thickness.png";
   String attribType = "thickness";
   double amount = 10;
   String unit = "mm";
@@ -34,15 +34,15 @@ class AttribInputState extends State<AttribInput> {
           String name = assetDir.split("/")[1].split(".")[0];
           if (up) {
             if (types.indexOf(name) + 1 < types.length) {
-              assetDir = "assets/${types[types.indexOf(name) + 1].toString()}.png";
+              assetDir = "/${types[types.indexOf(name) + 1].toString()}.png";
             } else {
-              assetDir = "assets/thickness.png";
+              assetDir = "/thickness.png";
             }
           } else {
             if (types.indexOf(name) != 0) {
-              assetDir = "assets/${types[types.indexOf(name) - 1].toString()}.png";
+              assetDir = "/${types[types.indexOf(name) - 1].toString()}.png";
             } else {
-              assetDir = "assets/height.png";
+              assetDir = "/height.png";
             }
           }
           name = assetDir.split("/")[1].split(".")[0];
