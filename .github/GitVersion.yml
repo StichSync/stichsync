@@ -1,0 +1,10 @@
+assembly-versioning-scheme: MajorMinorPatch
+assembly-file-versioning-scheme: MajorMinorPatch
+assembly-informational-format: '{InformationalVersion}'
+continuous-delivery-fallback-tag: ci
+mode: Mainline
+major-version-bump-message: '^(breaking|major):'
+minor-version-bump-message: '^(feature|minor):'
+patch-version-bump-message: '^(fix|patch):'
+no-bump-message: .*
+commit-message-incrementing: Enabled

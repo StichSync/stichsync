@@ -1,0 +1,35 @@
+on: 
+  push:
+    branches: 
+      - develop
+  workflow_dispatch:
+
+name: Semantic versioning test
+run-name: Semantic versioning test triggered by ${{ github.actor }}
+
+env:
+  environment: dev
+
+jobs:
+  version:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            for: android
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: Setup gitversion
+        uses: gittools/actions/gitversion/setup@v1.1.1
+        with:
+          versionSpec: '5.x'
+      - name: Determine version
+        uses: gittools/actions/gitversion/execute@v1.1.1
+        id: version_step
+        with:
+          configFilePath: .gituhb/GitVersion.yml
+      - name: Show version
+        run: echo ${{ steps.version_step.outputs.majorMinorPatch }}
