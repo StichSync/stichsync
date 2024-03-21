@@ -73,7 +73,7 @@ jobs:
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ env.environment }}-v0.0.${{ github.run_number }}
-          artifacts: "stichsync.*-${{ env.environment }}-*"
-          name: stichsync-v${{ needs.build.outputs.version_output }}-${{ env.environment }}-${{ matrix.for }}
+          tag: v${{ needs.build.outputs.version_output }}-${{ env.environment }}
+          artifacts: "stichsync*-${{ env.environment }}-*"
+          name: stichsync-v${{ needs.build.outputs.version_output }}-${{ env.environment }}
           token: ${{ secrets.TOKEN }}
