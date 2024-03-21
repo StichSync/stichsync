@@ -4,6 +4,7 @@ import 'package:stichsync/shared/components/text_input.dart';
 import 'package:stichsync/shared/components/text_button.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
+import 'package:stichsync/shared/services/router/router.dart';
 import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class Register extends StatefulWidget {
@@ -35,8 +36,7 @@ class _RegisterState extends State<Register> {
       Toaster.toast(msg: "E-mail is not valid", type: ToastType.error);
     } else {
       if (await authService.register(email, password, username)) {
-        // ignore: use_build_context_synchronously
-        Navigator.pushNamed(context, "/login");
+        router.goNamed('login');
       }
     }
   }
@@ -61,9 +61,7 @@ class _RegisterState extends State<Register> {
                         width: width * 0.1,
                         child: IconButton(
                           icon: const Icon(Icons.arrow_back),
-                          onPressed: () {
-                            Navigator.pushNamed(context, "/login");
-                          },
+                          onPressed: () => router.goNamed('login'),
                         ),
                       ),
                       const Text("Register", style: TextStyle(fontSize: 50)),
@@ -115,9 +113,7 @@ class _RegisterState extends State<Register> {
                         showSuccessSnackBar: false,
                         colored: true,
                         redirectUrl: '',
-                        onSuccess: (Session response) {
-                          Navigator.pushReplacementNamed(context, "");
-                        },
+                        onSuccess: (Session response) => router.goNamed('home'),
                         onError: (error) {},
                       )
                     ]),

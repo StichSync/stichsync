@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:stichsync/shared/components/require_authenticated.dart';
+import 'package:stichsync/shared/services/router/router.dart';
 import 'package:stichsync/startup.dart';
 import 'package:stichsync/shared/config/app_config.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
-import 'package:stichsync/views/auth/forgot_password.dart';
-import 'package:stichsync/views/auth/login.dart';
-import 'package:stichsync/views/auth/register.dart';
-import 'package:stichsync/views/home/home.dart';
-import 'package:stichsync/views/me/me.dart';
-import 'package:stichsync/views/me/settings/settings.dart';
 
 Future<void> main() async {
   await Startup().registerServices();
@@ -25,18 +19,10 @@ class StichSyncApp extends StatefulWidget {
 class _StichSyncAppState extends State<StichSyncApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: AppConfig.appTitle,
       theme: ThemeConfig.themeData,
-      home: const RequireAuthenticated(child: Home()),
-      routes: {
-        '': (context) => const RequireAuthenticated(child: Home()),
-        '/me': (context) => const RequireAuthenticated(child: Me()),
-        '/settings': (context) => const RequireAuthenticated(child: Settings()),
-        '/login': (context) => const Login(),
-        '/register': (context) => const Register(),
-        '/passwordReset': (context) => const ForgotPassword(),
-      },
+      routerConfig: router,
     );
   }
 }

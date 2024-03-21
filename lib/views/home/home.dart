@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stichsync/shared/config/app_config.dart';
+import 'package:stichsync/shared/services/router/router.dart';
 import 'package:stichsync/views/home/inspirations/inspirations.dart';
 import 'package:stichsync/views/home/my_stuff/my_stuff.dart';
 import 'package:stichsync/views/home/saved/saved.dart';
@@ -76,9 +77,7 @@ class _HomeState extends State<Home> {
               color: Colors.white,
               size: 36,
             ),
-            onPressed: () {
-              Navigator.pushNamed(context, "/me");
-            },
+            onPressed: () => router.pushNamed('me'),
           ),
           Padding(
             padding: const EdgeInsets.only(
@@ -90,9 +89,7 @@ class _HomeState extends State<Home> {
                 color: Colors.white,
                 size: 36,
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, "/settings");
-              },
+              onPressed: () => router.pushNamed('settings'),
             ),
           ),
         ],

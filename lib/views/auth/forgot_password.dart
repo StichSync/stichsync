@@ -4,6 +4,7 @@ import 'package:stichsync/shared/components/text_input.dart';
 import 'package:stichsync/shared/components/text_button.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
+import 'package:stichsync/shared/services/router/router.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -28,7 +29,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       Toaster.toast(msg: "Password must be at least 6 characters long", type: ToastType.error);
     } else {
       if (await authService.resetPassword(password) && context.mounted) {
-        await Navigator.pushNamed(context, "/login");
+        router.goNamed('login');
       }
     }
   }
@@ -55,9 +56,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           icon: const Icon(
                             Icons.arrow_back,
                           ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, "/login");
-                          },
+                          onPressed: () => router.goNamed('login'),
                         ),
                       ),
                       const Text("Password reset", style: TextStyle(fontSize: 50)),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stichsync/shared/services/router/router.dart';
 
 class TextEditDialog extends StatelessWidget {
   final String placeholder;
@@ -7,11 +8,11 @@ class TextEditDialog extends StatelessWidget {
   final TextEditingController _textController = TextEditingController();
 
   TextEditDialog({
-    super.key, 
+    super.key,
     required this.placeholder,
     required this.title,
-    required this.limit
-    });
+    required this.limit,
+  });
 
   Future<String?> show(BuildContext context) {
     _textController.text = placeholder;
@@ -31,11 +32,11 @@ class TextEditDialog extends StatelessWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => router.pop(),
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context, _textController.text),
+            onPressed: () => router.pop(_textController.text),
             child: const Text('Save'),
           ),
         ],
@@ -51,5 +52,4 @@ class TextEditDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SizedBox.shrink();
   }
-
 }
