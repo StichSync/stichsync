@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:stichsync/views/auth/forgot_password.dart';
 import 'package:stichsync/views/auth/login.dart';
 import 'package:stichsync/views/auth/register.dart';
 import 'package:stichsync/views/home/home.dart';
@@ -33,10 +34,10 @@ final List<GoRoute> routerRoutes = [
   ),
   GoRoute(
     path: '/resetPassword',
-    redirect: (context, state) => '/login',
+    builder: (context, state) => const ForgotPassword(),
   ),
   GoRoute(
     path: '/reset-password',
-    redirect: (context, state) => '/login',
+    builder: (context, state) => const ForgotPassword(),
   ),
 ];

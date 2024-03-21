@@ -72,7 +72,7 @@ class AuthService {
     try {
       await _client.resetPasswordForEmail(
         email,
-        redirectTo: "http://localhost:63171/password-reset", // ?
+        redirectTo: "/resetPassword", // todo: determine redirect link based on users current platform
       );
       Toaster.toast(
         msg: "Email with password reset had been sent",
