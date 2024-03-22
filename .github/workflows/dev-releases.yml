@@ -61,7 +61,7 @@ jobs:
         if: ${{ matrix.for }} == 'android'
         run: mv build/app/outputs/apk/release/app-release.apk stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}.apk
       - name: Update artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}"
           path: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
@@ -73,9 +73,9 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
-          name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
+          pattern: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:
