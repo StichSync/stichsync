@@ -43,7 +43,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'oracle'
-          java-version: '17'
+          java-version: '21'
       - name: Setup flutter
         uses: subosito/flutter-action@v2
         env:
@@ -86,3 +86,4 @@ jobs:
           name: stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}
           token: ${{ secrets.TOKEN }}
           allowUpdates: true
+          artifactErrorsFailBuild: true
