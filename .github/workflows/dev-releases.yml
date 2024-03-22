@@ -69,12 +69,7 @@ jobs:
     needs:
       - determine_version
       - build
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            for: android
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Download artifact
