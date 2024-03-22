@@ -63,7 +63,7 @@ jobs:
       - name: Update artifact
         uses: actions/upload-artifact@v2
         with:
-          name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
+          name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}"
           path: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
   deploy:
     needs:
