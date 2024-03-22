@@ -76,6 +76,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
+          path: './'
+          merge-multiple: true
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:
