@@ -90,8 +90,9 @@ jobs:
       - name: Update artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}"
+          name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}"
           path: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
+          if-no-files-found: error
   deploy:
     needs:
       - determine_version
