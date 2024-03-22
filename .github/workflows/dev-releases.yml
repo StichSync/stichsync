@@ -77,3 +77,4 @@ jobs:
           artifacts: "stichsync*-${{ env.environment }}-*"
           name: stichsync-v${{ needs.build.outputs.version_output }}-${{ env.environment }}
           token: ${{ secrets.TOKEN }}
+# Deploy for windows, linux, macos, ios
