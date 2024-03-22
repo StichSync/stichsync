@@ -11,9 +11,25 @@ env:
   environment: dev
 
 jobs:
+  analyze:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - name: Install app dependencies
+        run: flutter pub get
+      - name: Flutter doctor
+        run: flutter doctor
+      - name: Analyze app code
+        run: flutter analyze --no-fatal-infos
   determine_version:
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    needs: analyze
     steps:
       - uses: actions/checkout@v1
       - name: Setup GitVersion
@@ -50,10 +66,6 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Install app dependencies
         run: flutter pub get
-      - name: Analyze app code
-        run: flutter analyze --no-fatal-infos
-      - name: Flutter doctor
-        run: flutter doctor
       - name: Build andorid apk
         if: ${{ matrix.for }} == 'android'
         run: flutter build apk --release --split-debug-info=build/app/outputs/symbols
