@@ -53,6 +53,8 @@ jobs:
         include:
           - os: ubuntu-latest
             for: android
+          - os: ubuntu-latest
+            for: linux
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:
@@ -66,21 +68,31 @@ jobs:
         uses: subosito/flutter-action@v2
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - name: Install dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get install ninja-build clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev -y
       - name: Install app dependencies
         run: flutter pub get
       - name: Flutter doctor
         run: flutter doctor
       - name: Build andorid apk
-        if: ${{ matrix.for }} == 'android'
+        if: matrix.for == 'android'
         run: flutter build apk --release --split-debug-info=build/app/outputs/symbols
-      - name: Change package name
-        if: ${{ matrix.for }} == 'android'
+      - name: Change name and move package (android)
+        if: matrix.for == 'android'
         run: mv build/app/outputs/apk/release/app-release.apk stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}.apk
+      - name: Build linux app
+        if: matrix.for  == 'linux'
+        run: flutter build linux --release --split-debug-info=build/app/outputs/symbols
+      - name: Change name and move package (linux)
+        if: matrix.for == 'linux'
+        run: mv build/linux/x64/release/bundle/stichsync stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}
       - name: Update artifact
         uses: actions/upload-artifact@v4
         with:
           name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}"
           path: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
+          if-no-files-found: error
   deploy:
     needs:
       - determine_version
