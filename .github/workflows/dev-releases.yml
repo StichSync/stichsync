@@ -22,8 +22,6 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Install app dependencies
         run: flutter pub get
-      - name: Flutter doctor
-        run: flutter doctor
       - name: Analyze app code
         run: flutter analyze --no-fatal-infos
   determine_version:
@@ -66,6 +64,8 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Install app dependencies
         run: flutter pub get
+      - name: Flutter doctor
+        run: flutter doctor
       - name: Build andorid apk
         if: ${{ matrix.for }} == 'android'
         run: flutter build apk --release --split-debug-info=build/app/outputs/symbols
