@@ -10,7 +10,7 @@ run-name: Dev build triggered by @${{ github.actor }}
 env:
   environment: dev
 
-concurrency: 
+concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: false
 
