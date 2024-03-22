@@ -85,6 +85,7 @@ jobs:
         if: matrix.for  == 'linux'
         run: flutter build linux --release --split-debug-info=build/app/outputs/symbols
       - name: Change name and move package (linux)
+        if: matrix.for == 'linux'
         run: mv build/linux/x64/release/bundle/stichsync stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}
       - name: Update artifact
         uses: actions/upload-artifact@v4
