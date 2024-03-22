@@ -77,7 +77,7 @@ jobs:
         run: flutter build apk --release --split-debug-info=build/app/outputs/symbols
       - name: Install dependencies for linux release
         if: matrix.for  == 'linux'
-        run: apt-get install ninja-build clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev
+        run: apt-get install ninja-build clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev -y
       - name: Build linux app
         if: matrix.for  == 'linux'
         run: flutter build linux --release --split-debug-info=build/app/outputs/symbols
