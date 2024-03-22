@@ -75,20 +75,21 @@ jobs:
       - name: Build andorid apk
         if: matrix.for == 'android'
         run: flutter build apk --release --split-debug-info=build/app/outputs/symbols
+      - name: Change name and move package (android)
+        if: matrix.for == 'android'
+        run: mv build/app/outputs/apk/release/app-release.apk stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}.apk
       - name: Install dependencies for linux release
         if: matrix.for  == 'linux'
         run: sudo apt-get install ninja-build clang cmake git ninja-build pkg-config libgtk-3-dev liblzma-dev libstdc++-12-dev -y
       - name: Build linux app
         if: matrix.for  == 'linux'
         run: flutter build linux --release --split-debug-info=build/app/outputs/symbols
-      - run: tree build
-      - name: Change package name
-        if: matrix.for == 'android'
-        run: mv build/app/outputs/apk/release/app-release.apk stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}.apk
+      - name: Change name and move package (linux)
+        run: mv build/linux/x64/release/bundle/stichsync stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}
       - name: Update artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}"
+          name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}"
           path: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
   deploy:
     needs:
