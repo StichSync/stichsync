@@ -2,6 +2,7 @@ on:
   push:
     branches: 
       - develop
+      - krycha1248
 
 name: Development release
 run-name: Dev build triggered by @${{ github.actor }}
@@ -9,15 +10,28 @@ run-name: Dev build triggered by @${{ github.actor }}
 env:
   environment: dev
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  build:
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            for: android
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+  analyze:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - name: Install app dependencies
+        run: flutter pub get
+      - name: Analyze app code
+        run: flutter analyze --no-fatal-infos
+  determine_version:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs: analyze
     steps:
       - uses: actions/checkout@v1
       - name: Setup GitVersion
@@ -30,6 +44,19 @@ jobs:
         with:
           useConfigFile: true
           configFilePath: '.github/GitVersion.yml'
+    outputs:
+      version: ${{ steps.version_step.outputs.majorMinorPatch }}
+  build:
+    needs: determine_version
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            for: android
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v1
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -41,42 +68,38 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Install app dependencies
         run: flutter pub get
-      - name: Analyze app code
-        run: flutter analyze --no-fatal-infos
       - name: Flutter doctor
         run: flutter doctor
       - name: Build andorid apk
         if: ${{ matrix.for }} == 'android'
         run: flutter build apk --release --split-debug-info=build/app/outputs/symbols
+      - name: Change package name
+        if: ${{ matrix.for }} == 'android'
+        run: mv build/app/outputs/apk/release/app-release.apk stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}.apk
       - name: Update artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: stichsync-v${{ steps.version_step.outputs.majorMinorPatch }}-${{ env.environment }}-${{ matrix.for }}
-          path: "build/app/outputs/apk/release/app-release.apk"
-    outputs:
-      version_output: ${{ steps.version_step.outputs.majorMinorPatch }}
+          name: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}"
+          path: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
   deploy:
-    needs: build
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            for: android
-    runs-on: ${{ matrix.os }}
+    needs:
+      - determine_version
+      - build
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
-          name: stichsync-v${{ needs.build.outputs.version_output }}-${{ env.environment }}-${{ matrix.for }}
-      - name: Change package name
-        if: ${{ matrix.for }} == 'android'
-        run: mv app-release.apk stichsync-v${{ needs.build.outputs.version_output }}-${{ env.environment }}-${{ matrix.for }}.apk
+          pattern: "stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-*"
+          path: './'
+          merge-multiple: true
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:
-          tag: v${{ needs.build.outputs.version_output }}-${{ env.environment }}
+          tag: v${{ needs.determine_version.outputs.version }}-${{ env.environment }}
           artifacts: "stichsync*-${{ env.environment }}-*"
-          name: stichsync-v${{ needs.build.outputs.version_output }}-${{ env.environment }}
+          name: stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}
           token: ${{ secrets.TOKEN }}
           allowUpdates: true
+          artifactErrorsFailBuild: true
