@@ -81,7 +81,7 @@ jobs:
       - name: Build linux app
         if: matrix.for  == 'linux'
         run: flutter build linux --release --split-debug-info=build/app/outputs/symbols
-      - run: tree build/app/outputs
+      - run: tree build
       - name: Change package name
         if: matrix.for == 'android'
         run: mv build/app/outputs/apk/release/app-release.apk stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}.apk
