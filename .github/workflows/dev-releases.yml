@@ -90,7 +90,7 @@ jobs:
 ### TMP - Make ldd on the linux package to ensure additional dependencies to install
       - name: Make ldd on the linux package
         if: matrix.for == 'linux'        
-        run: stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}
+        run: ldd stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}
 ### END TMP
       - name: Update artifact
         uses: actions/upload-artifact@v4
