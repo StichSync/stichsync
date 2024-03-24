@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:stichsync/shared/components/nav/ss_nav_back_button.dart';
 import 'package:stichsync/shared/models/context/user_claims_model.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
-import 'package:stichsync/shared/services/router/router.dart';
 
 // this site will contain general app settings
 // will also contain big sidebar with all settings subsites and/or
@@ -29,20 +29,7 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
-        leading: Padding(
-          padding: const EdgeInsets.only(
-            left: 8.0,
-            right: 8.0,
-          ),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-              size: 36,
-            ),
-            onPressed: () => router.pop(),
-          ),
-        ),
+        leading: const SsNavBackBtn(),
         title: const Text(
           "Settings",
           style: TextStyle(
