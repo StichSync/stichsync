@@ -75,9 +75,7 @@ class _RegisterState extends State<Register> {
                       height: height * 0.4,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(300),
-                          child: const Image(
-                              image: NetworkImage(
-                                  "https://media.discordapp.net/attachments/864791833309085707/1214270526206255194/image.png?ex=65f8808d&is=65e60b8d&hm=b861929d04eebff70a738227bab4d4cf5ef6b030214e930bf7e392295d4973ae&=&format=webp&quality=lossless")))),
+                          child: const Image(image: NetworkImage("https://i.imgur.com/pGXCsPs.png")))),
                   SsTextInput(
                       key: keyUsername, size: Size(width * 0.8, height * 0.07), text: "Username", icon: Icons.person),
                   SsTextInput(key: keyEmail, size: Size(width * 0.8, height * 0.07), text: "E-mail", icon: Icons.mail),

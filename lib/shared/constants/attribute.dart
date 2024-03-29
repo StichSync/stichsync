@@ -6,3 +6,10 @@ class AttributeClass {
   double quantity;
   AttributeClass(this.type, this.unit, this.quantity);
 }
+
+class DatabaseAttributeClass {
+  String type;
+  String unit;
+  double quantity;
+  DatabaseAttributeClass(this.type, this.unit, this.quantity);
+}

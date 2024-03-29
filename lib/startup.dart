@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:stichsync/secrets.dart';
 import 'package:stichsync/shared/services/account_service.dart';
 import 'package:stichsync/shared/services/auth_service.dart';
+import 'package:stichsync/shared/services/project_service.dart';
 import 'package:stichsync/views/home/inspirations/data_access/inspirations_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,6 +25,7 @@ class Startup {
     // singletons - living since the moment of initialization until closing the whole app
     // each singleton is ensured to have only one instance
     getIt.registerLazySingleton<AuthService>(() => AuthService());
+    getIt.registerLazySingleton<ProjectService>(() => ProjectService());
     getIt.registerLazySingleton<AccountService>(() => AccountService());
   }
 }

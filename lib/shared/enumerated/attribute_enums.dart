@@ -32,26 +32,23 @@ Map<AttributeUnit, ShortAttributeUnit> attributeUnitMap = {
   AttributeUnit.pound: ShortAttributeUnit.lb,
 };
 
+Map<String, String> stringAttributeUnitMap = {
+  "milimeter": "mm",
+  "centimeter": "cm",
+  "meter": "m",
+  "inch": "inch",
+  "foot": "ft",
+  "yard": "yd",
+  "gram": "g",
+  "kilogram": "kg",
+  "ounce": "oz",
+  "pound": "lb",
+};
+
 enum WeightUnit { gram, kilogram, ounce, pound }
 
 enum ShortWeightUnit { g, kg, oz, lb }
 
-Map<WeightUnit, ShortWeightUnit> weightUnitMap = {
-  WeightUnit.gram: ShortWeightUnit.g,
-  WeightUnit.kilogram: ShortWeightUnit.kg,
-  WeightUnit.ounce: ShortWeightUnit.oz,
-  WeightUnit.pound: ShortWeightUnit.lb,
-};
-
 enum LengthUnit { milimeter, centimeter, meter, inch, foot, yard }
 
 enum ShortLengthUnit { mm, cm, m, inch, ft, yd }
-
-Map<LengthUnit, ShortLengthUnit> lenghtUnitMap = {
-  LengthUnit.milimeter: ShortLengthUnit.mm,
-  LengthUnit.centimeter: ShortLengthUnit.cm,
-  LengthUnit.meter: ShortLengthUnit.m,
-  LengthUnit.inch: ShortLengthUnit.inch,
-  LengthUnit.foot: ShortLengthUnit.ft,
-  LengthUnit.yard: ShortLengthUnit.yd,
-};

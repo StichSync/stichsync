@@ -226,7 +226,22 @@ class _MeState extends State<Me> {
                     indent: 100,
                   ),
                   HorizCarousel(
-                    items: userData.posts,
+                    items: userData.posts.isEmpty
+                        ? [
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 32.0,
+                              ),
+                              child: Text(
+                                "You don't have any projects :C",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ]
+                        : userData.posts,
                     optionsOver: CarouselOptions(
                       enableInfiniteScroll: false,
                       initialPage: 1,
