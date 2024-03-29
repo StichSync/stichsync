@@ -1,34 +1,29 @@
 import 'dart:async';
-import 'dart:developer';
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
-import 'package:stichsync/shared/components/attribute_input.dart';
 import 'package:stichsync/shared/components/editable_avatar.dart';
 import 'package:stichsync/shared/components/editable_text_item.dart';
 import 'package:stichsync/shared/components/image_picker_util.dart';
+import 'package:stichsync/shared/components/nav/ss_nav_back_button.dart';
 import 'package:stichsync/shared/components/pattern_section.dart';
 import 'package:stichsync/shared/components/text_edit_dialog.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/constants/attribute.dart';
 import 'package:stichsync/shared/constants/pattern_section.dart';
-import 'package:stichsync/shared/enumerated/attribute_enums.dart';
 import 'package:stichsync/shared/services/project_service.dart';
 
-class Project extends StatefulWidget {
+class SsProject extends StatefulWidget {
   final String id;
-  const Project({
+  const SsProject({
     required this.id,
     super.key,
   });
 
   @override
-  State<Project> createState() => _ProjectState();
+  State<SsProject> createState() => _SsProjectState();
 }
 
-class _ProjectState extends State<Project> {
+class _SsProjectState extends State<SsProject> {
   String projectName = "";
   String projectDesc = "";
   String projectMedia = "";
@@ -42,15 +37,15 @@ class _ProjectState extends State<Project> {
       [DatabaseAttributeClass("length", "foot", 12), DatabaseAttributeClass("length", "foot", 12)],
     )
   ];
-  List<GlobalKey<PatternSectionState>> listPatterns = [];
+  List<GlobalKey<SsPatternSectionState>> listPatterns = [];
 
   Future<void> addWidget(Key key) async {
     setState(() {
       isVisible = true;
-      listPatterns.add(GlobalKey<PatternSectionState>());
+      listPatterns.add(GlobalKey<SsPatternSectionState>());
     });
     while (listPatterns.last.currentState == null) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
     setState(() {
       listPatterns.last.currentState!.addWidget();
@@ -74,7 +69,7 @@ class _ProjectState extends State<Project> {
         DatabasePatternSectionEnum(
           e.currentState!.sectionName,
           e.currentState!.descName,
-          [e.currentState!.SectionImage],
+          [e.currentState!.sectionImage],
           await e.currentState!.getAttributes(),
         ),
       );
@@ -82,6 +77,7 @@ class _ProjectState extends State<Project> {
     projectService.saveProject(projectList, widget.id);
   }
 
+  @override
   void initState() {
     super.initState();
     fetchProject();
@@ -93,17 +89,17 @@ class _ProjectState extends State<Project> {
     if (response != null) {
       for (var i = 0; i < response.length; i++) {
         setState(() {
-          listPatterns.add(GlobalKey<PatternSectionState>());
+          listPatterns.add(GlobalKey<SsPatternSectionState>());
         });
       }
       for (var i = 0; i < response.length; i++) {
         while (listPatterns[i].currentState == null) {
-          await Future.delayed(Duration(milliseconds: 100));
+          await Future.delayed(const Duration(milliseconds: 100));
         }
         setState(() {
           listPatterns[i].currentState!.sectionName = response[i]["name"];
           listPatterns[i].currentState!.descName = response[i]["description"];
-          listPatterns[i].currentState!.SectionImage = response[i]["mediaUrls"][0];
+          listPatterns[i].currentState!.sectionImage = response[i]["mediaUrls"][0];
           listPatterns[i].currentState!.fetchAttributes(response[i]["id"]);
         });
       }
@@ -120,7 +116,7 @@ class _ProjectState extends State<Project> {
   }
 
   Future<void> updateProjectName() async {
-    Future<String?> editedText = TextEditDialog(
+    Future<String?> editedText = SsTextEditDialog(
       limit: 40,
       placeholder: projectName,
       title: 'Update project name',
@@ -129,15 +125,15 @@ class _ProjectState extends State<Project> {
       if (text != null) {
         var response = await projectService.updateProject(projectName, projectDesc, projectMedia, widget.id);
         if (response != null) {
-          Toaster.toast(msg: "Project updated succesfully", type: ToastType.success);
+          SsToaster.toast(msg: "Project updated succesfully", type: ToastType.success);
         } else {
-          Toaster.toast(msg: "Something went wrong", type: ToastType.error);
+          SsToaster.toast(msg: "Something went wrong", type: ToastType.error);
         }
         setState(() {
           projectName = text;
         });
       } else {
-        Toaster.toast(
+        SsToaster.toast(
           msg: "Text cannot be empty",
           type: ToastType.error,
         );
@@ -146,7 +142,7 @@ class _ProjectState extends State<Project> {
   }
 
   Future<void> updateProjectDesc() async {
-    Future<String?> editedText = TextEditDialog(
+    Future<String?> editedText = SsTextEditDialog(
       limit: 250,
       placeholder: projectDesc,
       title: 'Update project description',
@@ -155,15 +151,15 @@ class _ProjectState extends State<Project> {
       if (text != null) {
         var response = await projectService.updateProject(projectName, projectDesc, projectMedia, widget.id);
         if (response != null) {
-          Toaster.toast(msg: "Project updated succesfully", type: ToastType.success);
+          SsToaster.toast(msg: "Project updated succesfully", type: ToastType.success);
         } else {
-          Toaster.toast(msg: "Something went wrong", type: ToastType.error);
+          SsToaster.toast(msg: "Something went wrong", type: ToastType.error);
         }
         setState(() {
           projectDesc = text;
         });
       } else {
-        Toaster.toast(
+        SsToaster.toast(
           msg: "Text cannot be empty",
           type: ToastType.error,
         );
@@ -173,10 +169,9 @@ class _ProjectState extends State<Project> {
 
   Future<void> updateProjectMedia() async {
     final file = await ImagePickerUtil.pickImageFromGallery();
-    print(file != null);
     if (file != null) {
       var result = await projectService.setProjectImage(file, widget.id);
-      Toaster.toast(
+      SsToaster.toast(
         msg: "Image updated.",
         type: ToastType.success,
       );
@@ -184,22 +179,21 @@ class _ProjectState extends State<Project> {
         projectMedia = result;
       });
     } else {
-      Toaster.toast(
+      SsToaster.toast(
         msg: "Operation cancelled.",
         type: ToastType.message,
       );
     }
   }
 
+  @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("Change project info"),
+            const Text("Change project info"),
             IconButton(
               icon: const Icon(Icons.arrow_forward),
               onPressed: () {
@@ -242,7 +236,7 @@ class _ProjectState extends State<Project> {
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 8.0,
                                       ),
-                                      child: EditableTextItem(
+                                      child: SsEditableTextItem(
                                         text: projectName,
                                         onPressed: () async {
                                           await updateProjectName();
@@ -263,7 +257,7 @@ class _ProjectState extends State<Project> {
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 8.0,
                                       ),
-                                      child: EditableTextItem(
+                                      child: SsEditableTextItem(
                                         text: projectDesc,
                                         onPressed: () async {
                                           await updateProjectDesc();
@@ -283,7 +277,7 @@ class _ProjectState extends State<Project> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Center(
-                                        child: EditableAvatar(
+                                        child: SsEditableAvatar(
                                           radius: 300,
                                           square: true,
                                           imageUrl: projectMedia,
@@ -312,13 +306,7 @@ class _ProjectState extends State<Project> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: width * 0.1,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => context.goNamed('home'),
-            ),
-          ),
+          const SsNavBackBtn(),
           Expanded(
             child: ListView(
               children: [
@@ -329,7 +317,7 @@ class _ProjectState extends State<Project> {
                   itemBuilder: (BuildContext context, int index) {
                     return Column(
                       children: [
-                        PatternSection(
+                        SsPatternSection(
                           key: listPatterns[index],
                           addPatternSection: (Key key) {
                             addWidget(key);

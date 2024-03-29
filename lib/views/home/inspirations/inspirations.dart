@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/toaster.dart';
-import 'package:stichsync/shared/models/crochet_model.dart';
 import 'package:stichsync/shared/services/project_service.dart';
 import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
 import 'package:stichsync/views/home/inspirations/data_access/inspirations_service.dart';
@@ -30,10 +29,10 @@ class _InspirationsState extends State<Inspirations> with AutomaticKeepAliveClie
   void getProjects() async {
     var projects = await projectService.getNewestProjects();
     if (projects != null) {
-      crochets = crochetService.getProjectsFromData(projects!);
+      crochets = crochetService.getProjectsFromData(projects);
       setState(() {});
     } else {
-      Toaster.toast(msg: "Something went wrong", type: ToastType.error);
+      SsToaster.toast(msg: "Something went wrong", type: ToastType.error);
     }
   }
 

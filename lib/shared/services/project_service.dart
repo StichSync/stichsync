@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/constants/pattern_section.dart';
 import 'package:stichsync/shared/services/account_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -91,11 +90,13 @@ class ProjectService {
               );
             }
             if (projectList[i].attributes.length < attributes.length) {
-              attributes.forEach((e) async {
-                if (!updatedAttribIds.contains(e["id"])) {
-                  await supabase.from('IngredientAttribute').delete().match({'id': e["id"]});
+              for (var i = 0; i < attributes.length; i++) {
+                {
+                  if (!updatedAttribIds.contains(attributes[i]["id"])) {
+                    await supabase.from('IngredientAttribute').delete().match({'id': attributes[i]["id"]});
+                  }
                 }
-              });
+              }
             }
           }
         } else {
@@ -124,11 +125,13 @@ class ProjectService {
         }
       }
       if (projectList.length < schemas.length) {
-        schemas.forEach((e) async {
-          if (!updatedIds.contains(e["id"])) {
-            await supabase.from('Schema').delete().match({'id': e["id"]});
+        for (var i = 0; i < schemas.length; i++) {
+          {
+            if (!updatedIds.contains(schemas[i]["id"])) {
+              await supabase.from('Schema').delete().match({'id': schemas[i]["id"]});
+            }
           }
-        });
+        }
       }
       return "";
     } on Exception {

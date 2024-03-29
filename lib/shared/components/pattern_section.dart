@@ -1,9 +1,5 @@
 import 'dart:async';
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:stichsync/shared/components/attribute_input.dart';
 import 'package:stichsync/shared/components/editable_avatar.dart';
@@ -15,28 +11,28 @@ import 'package:stichsync/shared/constants/attribute.dart';
 import 'package:stichsync/shared/enumerated/attribute_enums.dart';
 import 'package:stichsync/shared/services/project_service.dart';
 
-class PatternSection extends StatefulWidget {
+class SsPatternSection extends StatefulWidget {
   final void Function(Key key)? addPatternSection;
   final void Function(Key key)? removePatternSection;
   final void Function()? changed;
   final String? patternId;
-  const PatternSection({super.key, this.addPatternSection, this.removePatternSection, this.changed, this.patternId});
+  const SsPatternSection({super.key, this.addPatternSection, this.removePatternSection, this.changed, this.patternId});
 
   @override
-  State<PatternSection> createState() => PatternSectionState();
+  State<SsPatternSection> createState() => SsPatternSectionState();
 }
 
-class PatternSectionState extends State<PatternSection> {
-  List<DatabaseAttributeClass> AttributesList = [];
+class SsPatternSectionState extends State<SsPatternSection> {
+  List<DatabaseAttributeClass> attributesList = [];
   final projectService = GetIt.I<ProjectService>();
-  List<GlobalKey<AttribInputState>> attributesKeys = [];
+  List<GlobalKey<SsAttribInputState>> attributesKeys = [];
   String sectionName = "Section name";
   String descName = "Description";
-  String SectionImage = "https://placehold.co/600x400/png";
+  String sectionImage = "https://placehold.co/600x400/png";
 
   void addWidget() {
     setState(() {
-      attributesKeys.add(GlobalKey<AttribInputState>());
+      attributesKeys.add(GlobalKey<SsAttribInputState>());
       widget.changed?.call();
     });
   }
@@ -49,18 +45,18 @@ class PatternSectionState extends State<PatternSection> {
   }
 
   Future<List<DatabaseAttributeClass>> getAttributes() async {
-    AttributesList = [];
+    attributesList = [];
     for (var e in attributesKeys) {
       String unit =
           stringAttributeUnitMap.keys.firstWhere((ele) => stringAttributeUnitMap[ele] == e.currentState!.unit);
 
-      double? quantity = double.tryParse(await e.currentState!.inputKey.currentState!.getText());
+      double? quantity = double.tryParse(e.currentState!.inputKey.currentState!.getText());
 
-      AttributesList.add(
+      attributesList.add(
         DatabaseAttributeClass(e.currentState!.attribType, unit, quantity ?? 0),
       );
     }
-    return Future.value(AttributesList);
+    return Future.value(attributesList);
   }
 
   Future<void> fetchAttributes(String patternId) async {
@@ -68,17 +64,17 @@ class PatternSectionState extends State<PatternSection> {
     if (response != null) {
       for (var i = 0; i < response.length; i++) {
         setState(() {
-          attributesKeys.add(GlobalKey<AttribInputState>());
+          attributesKeys.add(GlobalKey<SsAttribInputState>());
         });
       }
       for (var i = 0; i < response.length; i++) {
         while (
             attributesKeys[i].currentState == null || attributesKeys[i].currentState?.inputKey.currentState == null) {
-          await Future.delayed(Duration(milliseconds: 100));
+          await Future.delayed(const Duration(milliseconds: 100));
         }
         setState(() {
           attributesKeys[i].currentState!.attribType = response[i]["type"];
-          attributesKeys[i].currentState!.assetDir = "${"/" + response[i]["type"]}.png";
+          attributesKeys[i].currentState!.assetDir = "${"/${response[i]["type"]}"}.png";
           attributesKeys[i].currentState!.unit = stringAttributeUnitMap[response[i]["unit"]]!;
           attributesKeys[i].currentState!.amount = response[i]["quantity"];
           attributesKeys[i].currentState!.inputKey.currentState!.setText(response[i]["quantity"].toString());
@@ -88,7 +84,7 @@ class PatternSectionState extends State<PatternSection> {
   }
 
   Future<void> updateName() async {
-    Future<String?> editedText = TextEditDialog(
+    Future<String?> editedText = SsTextEditDialog(
       limit: 40,
       placeholder: "",
       title: 'Update section Name',
@@ -96,7 +92,7 @@ class PatternSectionState extends State<PatternSection> {
     editedText.then((text) async {
       if (text != "") {
         widget.changed?.call();
-        Toaster.toast(
+        SsToaster.toast(
           msg: "Section name updated",
           type: ToastType.success,
         );
@@ -104,7 +100,7 @@ class PatternSectionState extends State<PatternSection> {
           sectionName = text!;
         });
       } else {
-        Toaster.toast(
+        SsToaster.toast(
           msg: "Section name cannot be empty",
           type: ToastType.warning,
         );
@@ -113,7 +109,7 @@ class PatternSectionState extends State<PatternSection> {
   }
 
   Future<void> updateDesc() async {
-    Future<String?> editedText = TextEditDialog(
+    Future<String?> editedText = SsTextEditDialog(
       limit: 250,
       placeholder: "",
       title: 'Update description',
@@ -121,7 +117,7 @@ class PatternSectionState extends State<PatternSection> {
     editedText.then((text) async {
       if (text != "") {
         widget.changed?.call();
-        Toaster.toast(
+        SsToaster.toast(
           msg: "Description updated",
           type: ToastType.success,
         );
@@ -129,7 +125,7 @@ class PatternSectionState extends State<PatternSection> {
           descName = text!;
         });
       } else {
-        Toaster.toast(
+        SsToaster.toast(
           msg: "Description cannot be empty",
           type: ToastType.warning,
         );
@@ -139,28 +135,27 @@ class PatternSectionState extends State<PatternSection> {
 
   Future<void> updateImage() async {
     final file = await ImagePickerUtil.pickImageFromGallery();
-    print(file != null);
     if (file != null) {
-      Toaster.toast(
+      SsToaster.toast(
         msg: "Image updated.",
         type: ToastType.success,
       );
       setState(() {
-        SectionImage = file.path;
+        sectionImage = file.path;
       });
     } else {
-      Toaster.toast(
+      SsToaster.toast(
         msg: "Operation cancelled.",
         type: ToastType.message,
       );
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.blueAccent, width: 10),
@@ -173,26 +168,26 @@ class PatternSectionState extends State<PatternSection> {
                       onPressed: () {
                         widget.addPatternSection?.call(widget.key!);
                       },
-                      icon: Icon(Icons.add_circle_outline),
-                      label: Text(""),
+                      icon: const Icon(Icons.add_circle_outline),
+                      label: const Text(""),
                     )
                   : Container(),
-              EditableTextItem(
+              SsEditableTextItem(
                 text: sectionName,
                 onPressed: () {
                   updateName();
                 },
               ),
-              EditableTextItem(
+              SsEditableTextItem(
                 text: descName,
                 onPressed: () {
                   updateDesc();
                 },
               ),
-              EditableAvatar(
+              SsEditableAvatar(
                 radius: width * 0.8,
                 square: true,
-                imageUrl: SectionImage,
+                imageUrl: sectionImage,
                 onPressed: () => (updateImage()),
               ),
               ListView.builder(
@@ -202,7 +197,7 @@ class PatternSectionState extends State<PatternSection> {
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
                     children: [
-                      AttribInput(
+                      SsAttribInput(
                         key: attributesKeys[index],
                         addAttribute: (Key key) {
                           addWidget();
@@ -223,8 +218,8 @@ class PatternSectionState extends State<PatternSection> {
                       onPressed: () {
                         widget.removePatternSection?.call(widget.key!);
                       },
-                      icon: Icon(Icons.close_sharp),
-                      label: Text(""),
+                      icon: const Icon(Icons.close_sharp),
+                      label: const Text(""),
                     )
                   : Container(),
             ],

@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/models/user_profile_model.dart';
-import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
 import 'package:stichsync/views/home/inspirations/data_access/inspirations_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -34,7 +33,7 @@ class AccountService {
       email: response[0]["email"],
       username: response[0]["username"],
       picUrl: response[0]["picUrl"],
-      posts: await projects,
+      posts: projects,
     );
   }
 
@@ -57,7 +56,7 @@ class AccountService {
       );
       return true;
     } catch (e) {
-      Toaster.toast(
+      SsToaster.toast(
           msg: "We couldn't update your email. Make sure you have stable internet connection and try again.",
           type: ToastType.error);
       return false;

@@ -36,19 +36,19 @@ class _MeState extends State<Me> {
     if (avatarFile != null) {
       var result = await accountService.setAvatar(avatarFile);
       if (result) {
-        Toaster.toast(
+        SsToaster.toast(
           msg: "Avatar updated.",
           type: ToastType.success,
         );
         updateUI();
       } else {
-        Toaster.toast(
+        SsToaster.toast(
           msg: "We couldn't update your avatar. Make sure you have stable internet connection and try again.",
           type: ToastType.error,
         );
       }
     } else {
-      Toaster.toast(
+      SsToaster.toast(
         msg: "Operation cancelled.",
         type: ToastType.message,
       );
@@ -56,7 +56,7 @@ class _MeState extends State<Me> {
   }
 
   Future<void> updateUsername() async {
-    Future<String?> editedText = TextEditDialog(
+    Future<String?> editedText = SsTextEditDialog(
       limit: 40,
       placeholder: userData.username ?? "",
       title: 'Update username',
@@ -65,13 +65,13 @@ class _MeState extends State<Me> {
       if (text != null) {
         var result = await accountService.setUsername(text);
         if (result) {
-          Toaster.toast(
+          SsToaster.toast(
             msg: "Username updated",
             type: ToastType.success,
           );
           updateUI();
         } else {
-          Toaster.toast(
+          SsToaster.toast(
             msg: "We couldn't update your username. Make sure you have stable internet connection and try again.",
             type: ToastType.error,
           );
@@ -81,7 +81,7 @@ class _MeState extends State<Me> {
   }
 
   Future<void> updateEmail() async {
-    Future<String?> editedText = TextEditDialog(
+    Future<String?> editedText = SsTextEditDialog(
       limit: 40,
       placeholder: userData.email,
       title: 'Update email',
@@ -90,13 +90,13 @@ class _MeState extends State<Me> {
       if (text != null) {
         var result = await accountService.setEmail(text);
         if (result) {
-          Toaster.toast(
+          SsToaster.toast(
             msg: "Check your inbox for the confirmation link.",
             type: ToastType.success,
           );
           updateUI();
         } else {
-          Toaster.toast(
+          SsToaster.toast(
             msg: "We couldn't update your email. Make sure you have stable internet connection and try again.",
             type: ToastType.error,
           );
@@ -147,7 +147,7 @@ class _MeState extends State<Me> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Center(
-                      child: EditableAvatar(
+                      child: SsEditableAvatar(
                         radius: 60,
                         imageUrl: userData.picUrl ?? "",
                         onPressed: () => updateAvatar(),
@@ -168,7 +168,7 @@ class _MeState extends State<Me> {
                       horizontal: 64.0,
                       vertical: 8.0,
                     ),
-                    child: EditableTextItem(
+                    child: SsEditableTextItem(
                       text: userData.username ?? "",
                       onPressed: () => updateUsername(),
                     ),
@@ -187,7 +187,7 @@ class _MeState extends State<Me> {
                       horizontal: 64.0,
                       vertical: 8.0,
                     ),
-                    child: EditableTextItem(
+                    child: SsEditableTextItem(
                       text: userData.email,
                       onPressed: () => updateEmail(),
                     ),
@@ -213,7 +213,7 @@ class _MeState extends State<Me> {
                     endIndent: 100,
                     indent: 100,
                   ),
-                  HorizCarousel(
+                  SsHorizCarousel(
                     items: userData.posts.isEmpty
                         ? [
                             const Padding(

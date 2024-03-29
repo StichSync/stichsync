@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:stichsync/shared/components/nav/ss_nav_back_button.dart';
 import 'package:stichsync/shared/components/text_input.dart';
 import 'package:stichsync/shared/components/text_button.dart';
 import 'package:stichsync/shared/components/toaster.dart';
@@ -22,11 +23,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     String password = keyPass.currentState!.getText();
     String rPassword = keyRPass.currentState!.getText();
     if (password == "" || rPassword == "") {
-      Toaster.toast(msg: "Fill every space", type: ToastType.error);
+      SsToaster.toast(msg: "Fill every space", type: ToastType.error);
     } else if (password != rPassword) {
-      Toaster.toast(msg: "The passwords are not the same", type: ToastType.error);
+      SsToaster.toast(msg: "The passwords are not the same", type: ToastType.error);
     } else if (password.length < 6) {
-      Toaster.toast(msg: "Password must be at least 6 characters long", type: ToastType.error);
+      SsToaster.toast(msg: "Password must be at least 6 characters long", type: ToastType.error);
     } else {
       if (await authService.resetPassword(password) && context.mounted) {
         router.goNamed('login');
@@ -50,15 +51,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: width * 0.1,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back,
-                          ),
-                          onPressed: () => router.goNamed('login'),
-                        ),
-                      ),
+                      const SsNavBackBtn(),
                       const Text("Password reset", style: TextStyle(fontSize: 50)),
                       SizedBox(
                         width: width * 0.1,

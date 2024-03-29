@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class EditableTextItem extends StatefulWidget {
+class SsEditableTextItem extends StatefulWidget {
   final String text;
   final VoidCallback? onPressed;
 
-  const EditableTextItem({
+  const SsEditableTextItem({
     super.key,
     required this.text,
     required this.onPressed,
   });
 
   @override
-  State<EditableTextItem> createState() => _EditableTextItemState();
+  State<SsEditableTextItem> createState() => _SsEditableTextItemState();
 }
 
-class _EditableTextItemState extends State<EditableTextItem> {
+class _SsEditableTextItemState extends State<SsEditableTextItem> {
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -43,6 +43,6 @@ final List<GoRoute> routerRoutes = [
   ),
   GoRoute(
     path: '/project/:id',
-    builder: (context, state) => Project(id: state.pathParameters['id']!),
+    builder: (context, state) => SsProject(id: state.pathParameters['id']!),
   ),
 ];

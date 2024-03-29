@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-class EditableAvatar extends StatelessWidget {
+// ignore: must_be_immutable
+class SsEditableAvatar extends StatelessWidget {
   final String imageUrl;
   final VoidCallback onPressed;
   final double radius;
   bool? square = false;
-  EditableAvatar({super.key, required this.imageUrl, required this.onPressed, required this.radius, this.square});
+  SsEditableAvatar({super.key, required this.imageUrl, required this.onPressed, required this.radius, this.square});
 
   @override
   Widget build(BuildContext context) {

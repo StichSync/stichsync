@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 enum ToastType { warning, error, message, success }
 
-class Toaster {
+class SsToaster {
   static Future<bool?> toast({
     required String msg,
     required ToastType type,

@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:stichsync/shared/components/text_button.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/services/project_service.dart';
@@ -23,13 +20,6 @@ class MyStuff extends StatefulWidget {
 
 class _MyStuffState extends State<MyStuff> {
   final patternService = GetIt.I<ProjectService>();
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +32,9 @@ class _MyStuffState extends State<MyStuff> {
           onPressed: () async {
             String id = await patternService.addProject();
             if (id == "") {
-              Toaster.toast(msg: "Something went wrong", type: ToastType.error);
+              SsToaster.toast(msg: "Something went wrong", type: ToastType.error);
             } else {
-              Toaster.toast(msg: "Project created", type: ToastType.success, longTime: false);
+              SsToaster.toast(msg: "Project created", type: ToastType.success, longTime: false);
               router.go('/project/$id');
             }
           },

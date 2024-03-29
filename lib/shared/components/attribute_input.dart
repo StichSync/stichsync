@@ -1,27 +1,26 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:stichsync/shared/components/text_input.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/enumerated/attribute_enums.dart';
 
 enum AttribInputType { type, unit, quantity }
 
-class AttribInput extends StatefulWidget {
+// ignore: must_be_immutable
+class SsAttribInput extends StatefulWidget {
   final void Function(Key key)? addAttribute;
   final void Function(Key key)? removeAttribute;
   final void Function()? changed;
   bool? readOnly = false;
-  AttribInput({super.key, this.addAttribute, this.removeAttribute, this.changed, this.readOnly});
+  SsAttribInput({super.key, this.addAttribute, this.removeAttribute, this.changed, this.readOnly});
 
   @override
-  State<AttribInput> createState() => AttribInputState();
+  State<SsAttribInput> createState() => SsAttribInputState();
 }
 
 // HOW TO USE
 // Pass addAttribute and removeAttribute function and create new AttribInput on addAttribute. On removeAttribute remove this AttribInput by key
 
-class AttribInputState extends State<AttribInput> {
+class SsAttribInputState extends State<SsAttribInput> {
   final GlobalKey<SsTextInputState> inputKey = GlobalKey<SsTextInputState>();
   String assetDir = "/thickness.png";
   String attribType = "thickness";
@@ -101,14 +100,14 @@ class AttribInputState extends State<AttribInput> {
               inputKey.currentState!.setText((value + 1).toString());
             } else {
               inputKey.currentState!.setText("9999");
-              Toaster.toast(msg: "Can't set more than 9999", type: ToastType.message, longTime: false);
+              SsToaster.toast(msg: "Can't set more than 9999", type: ToastType.message, longTime: false);
             }
           } else {
             if (value > 0) {
               inputKey.currentState!.setText((value - 1).toString());
             } else {
               inputKey.currentState!.setText("0");
-              Toaster.toast(msg: "Can't set less than 0", type: ToastType.message, longTime: false);
+              SsToaster.toast(msg: "Can't set less than 0", type: ToastType.message, longTime: false);
             }
           }
           break;
@@ -158,9 +157,9 @@ class AttribInputState extends State<AttribInput> {
                                     width: width * 0.08,
                                     height: width * 0.05,
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 1, 0, 1),
+                                      padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
                                       child: IconButton.filled(
-                                        padding: EdgeInsets.all(0.0),
+                                        padding: const EdgeInsets.all(0.0),
                                         onPressed: () {
                                           pressed(AttribInputType.type, true);
                                         },
@@ -172,9 +171,9 @@ class AttribInputState extends State<AttribInput> {
                                     width: width * 0.08,
                                     height: width * 0.05,
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 1, 0, 1),
+                                      padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
                                       child: IconButton.filled(
-                                        padding: EdgeInsets.all(0.0),
+                                        padding: const EdgeInsets.all(0.0),
                                         onPressed: () {
                                           pressed(AttribInputType.type, false);
                                         },
@@ -198,12 +197,10 @@ class AttribInputState extends State<AttribInput> {
                       children: [
                         Container(height: width * 0.2),
                         Container(height: width * 0.2),
-                        Container(
-                          child: Text(
-                            unit,
-                            style: TextStyle(
-                              fontSize: (width * 0.09),
-                            ),
+                        Text(
+                          unit,
+                          style: TextStyle(
+                            fontSize: (width * 0.09),
                           ),
                         ),
                         Container(height: width * 0.2),
@@ -216,9 +213,9 @@ class AttribInputState extends State<AttribInput> {
                                     width: width * 0.08,
                                     height: width * 0.05,
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 1, 0, 1),
+                                      padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
                                       child: IconButton.filled(
-                                        padding: EdgeInsets.all(0.0),
+                                        padding: const EdgeInsets.all(0.0),
                                         onPressed: () {
                                           pressed(AttribInputType.unit, true);
                                         },
@@ -230,9 +227,9 @@ class AttribInputState extends State<AttribInput> {
                                     width: width * 0.08,
                                     height: width * 0.05,
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 1, 0, 1),
+                                      padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
                                       child: IconButton.filled(
-                                        padding: EdgeInsets.all(0.0),
+                                        padding: const EdgeInsets.all(0.0),
                                         onPressed: () {
                                           pressed(AttribInputType.unit, false);
                                         },
@@ -292,9 +289,9 @@ class AttribInputState extends State<AttribInput> {
                                     width: width * 0.08,
                                     height: width * 0.05,
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 1, 0, 1),
+                                      padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
                                       child: IconButton.filled(
-                                        padding: EdgeInsets.all(0.0),
+                                        padding: const EdgeInsets.all(0.0),
                                         onPressed: () {
                                           pressed(AttribInputType.quantity, true);
                                         },
@@ -306,9 +303,9 @@ class AttribInputState extends State<AttribInput> {
                                     width: width * 0.08,
                                     height: width * 0.05,
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 1, 0, 1),
+                                      padding: const EdgeInsets.fromLTRB(0, 1, 0, 1),
                                       child: IconButton.filled(
-                                        padding: EdgeInsets.all(0.0),
+                                        padding: const EdgeInsets.all(0.0),
                                         onPressed: () {
                                           pressed(AttribInputType.quantity, false);
                                         },

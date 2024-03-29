@@ -1,5 +1,5 @@
+// ignore: file_names
 import 'dart:io';
-import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/services/account_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -26,13 +26,11 @@ class ImageCRUD {
         await supabase.storage.from('avatars').upload(
               '$userId/avatar.jpg',
               avatarFile,
-              fileOptions:
-                  const FileOptions(cacheControl: '3600', upsert: false),
+              fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
             );
 
         await supabase.from('UserProfile').update({
-          'picUrl':
-              'https://iaxqejougvvfhxqhpmre.supabase.co/storage/v1/object/public/avatars/$userId/avatar.jpg'
+          'picUrl': 'https://iaxqejougvvfhxqhpmre.supabase.co/storage/v1/object/public/avatars/$userId/avatar.jpg'
         }).match({'userId': userId});
         return true;
       } catch (e) {

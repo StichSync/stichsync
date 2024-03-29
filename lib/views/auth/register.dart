@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:stichsync/shared/components/nav/ss_nav_back_button.dart';
 import 'package:stichsync/shared/components/text_input.dart';
 import 'package:stichsync/shared/components/text_button.dart';
 import 'package:stichsync/shared/components/toaster.dart';
@@ -27,13 +28,13 @@ class _RegisterState extends State<Register> {
     String password = keyPass.currentState!.getText();
     String rPassword = keyRPass.currentState!.getText();
     if (username == "" || email == "" || password == "" || rPassword == "") {
-      Toaster.toast(msg: "Fill every space", type: ToastType.error);
+      SsToaster.toast(msg: "Fill every space", type: ToastType.error);
     } else if (password != rPassword) {
-      Toaster.toast(msg: "The passwords are not the same", type: ToastType.error);
+      SsToaster.toast(msg: "The passwords are not the same", type: ToastType.error);
     } else if (password.length < 6) {
-      Toaster.toast(msg: "Password must be at least 6 characters long", type: ToastType.error);
+      SsToaster.toast(msg: "Password must be at least 6 characters long", type: ToastType.error);
     } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email)) {
-      Toaster.toast(msg: "E-mail is not valid", type: ToastType.error);
+      SsToaster.toast(msg: "E-mail is not valid", type: ToastType.error);
     } else {
       if (await authService.register(email, password, username)) {
         router.goNamed('login');
@@ -57,13 +58,7 @@ class _RegisterState extends State<Register> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: width * 0.1,
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () => router.goNamed('login'),
-                        ),
-                      ),
+                      const SsNavBackBtn(),
                       const Text("Register", style: TextStyle(fontSize: 50)),
                       SizedBox(
                         width: width * 0.1,
