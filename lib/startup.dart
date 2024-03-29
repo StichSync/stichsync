@@ -6,12 +6,14 @@ import 'package:stichsync/shared/services/auth_service.dart';
 import 'package:stichsync/shared/services/project_service.dart';
 import 'package:stichsync/views/home/inspirations/data_access/inspirations_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 class Startup {
   final GetIt getIt = GetIt.instance;
 
   Future<void> registerServices() async {
     WidgetsFlutterBinding.ensureInitialized();
+    setPathUrlStrategy();
 
     await Supabase.initialize(
       url: Secrets.supabaseUrl,
