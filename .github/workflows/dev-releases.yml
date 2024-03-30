@@ -2,7 +2,6 @@ on:
   push:
     branches: 
       - develop
-      - krycha1248
 
 name: Development release
 run-name: Dev build triggered by @${{ github.actor }}
