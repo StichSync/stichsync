@@ -22,3 +22,8 @@ jobs:
         run: flutter pub get
       - name: Analyze app code
         run: flutter analyze --no-fatal-infos
+      - name: Test webhook
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DC_WEBHOOK }}
+          content: "Test"
