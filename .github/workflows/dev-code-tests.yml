@@ -30,4 +30,5 @@ jobs:
           username: "${{ github.actor }}"
           embed-description: |
             Witajcie!
-            Muszę się do czegoś przyznać! Właśnie okazało się, że napisałem chujowy kod i testy nie przeszły pomyślnie.
+            Muszę się do czegoś przyznać! 
+            Właśnie okazało się, że testy nie przeszły pomyślnie.
