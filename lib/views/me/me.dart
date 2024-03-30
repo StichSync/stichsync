@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:stichsync/shared/components/nav/ss_nav_back_button.dart';
 import 'package:stichsync/shared/models/user_profile_model.dart';
 import 'package:stichsync/shared/services/account_service.dart';
 import 'package:stichsync/shared/components/horizontal_carousel.dart';
@@ -120,20 +121,7 @@ class _MeState extends State<Me> {
       appBar: AppBar(
         forceMaterialTransparency: true,
         centerTitle: true,
-        leading: Padding(
-          padding: const EdgeInsets.only(
-            left: 8.0,
-            right: 8.0,
-          ),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-              size: 36,
-            ),
-            onPressed: () => router.pop(),
-          ),
-        ),
+        leading: const SsNavBackBtn(),
         title: const Text(
           "Account",
           style: TextStyle(
