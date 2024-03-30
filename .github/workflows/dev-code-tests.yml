@@ -22,3 +22,13 @@ jobs:
         run: flutter pub get
       - name: Analyze app code
         run: flutter analyze --no-fatal-infos
+      - name: Skarcenie
+        if: failure()
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DC_WEBHOOK }}
+          username: "${{ github.actor }}"
+          embed-description: |
+            Witajcie!
+            Muszę się do czegoś przyznać! 
+            Właśnie okazało się, że testy nie przeszły pomyślnie.
