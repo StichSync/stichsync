@@ -33,3 +33,4 @@ jobs:
             Witajcie!
             Muszę się do czegoś przyznać! 
             Właśnie okazało się, że testy nie przeszły pomyślnie.
+            Pozdrowienia z więzienia, ${{ github.event.pull_request.user.login }}
