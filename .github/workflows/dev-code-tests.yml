@@ -27,7 +27,7 @@ jobs:
         uses: tsickert/discord-webhook@v5.3.0
         with:
           webhook-url: ${{ secrets.DC_WEBHOOK }}
-          username: "${{ github.event.pull_request.user.name }}"
+          username: "${{ github.event.pull_request.user.login }}"
           embed-description: |
             Witajcie!
             Muszę się do czegoś przyznać! 
