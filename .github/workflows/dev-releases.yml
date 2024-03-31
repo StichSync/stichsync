@@ -74,6 +74,15 @@ jobs:
         run: flutter pub get
       - name: Flutter doctor
         run: flutter doctor
+### iOS
+      - name: Build iOS app
+        if: matrix.for == 'ios'
+        run: flutter build ipa --release --no-codesign
+      - run: brew install tree
+        if: matrix.os == 'macos-latest'
+      - run: tree build
+        if: matrix.os == 'macos-latest'
+### END iOS
       - name: Build andorid apk
         if: matrix.for == 'android'
         run: flutter build apk --release --split-debug-info=build/app/outputs/symbols
