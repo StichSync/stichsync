@@ -2,7 +2,6 @@ on:
   push:
     branches: 
       - develop
-      - krycha1248
 
 name: Development release
 run-name: Dev build triggered by @${{ github.actor }}
@@ -87,6 +86,11 @@ jobs:
       - name: Change name and move package (linux)
         if: matrix.for == 'linux'
         run: mv build/linux/x64/release/bundle/stichsync stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}
+### TMP - Make ldd on the linux package to ensure additional dependencies to install
+      - name: Make ldd on the linux package
+        if: matrix.for == 'linux'        
+        run: ldd stichsync-v${{ needs.determine_version.outputs.version }}-${{ env.environment }}-${{ matrix.for }}
+### END TMP
       - name: Update artifact
         uses: actions/upload-artifact@v4
         with:
