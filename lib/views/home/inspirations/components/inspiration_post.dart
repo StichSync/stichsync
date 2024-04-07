@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stichsync/shared/models/crochet_model.dart';
-import 'package:stichsync/shared/services/router/router.dart';
 
 class InspirationPost extends StatefulWidget {
   final CrochetModel crochet;
