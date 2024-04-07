@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:stichsync/shared/components/project.dart';
 import 'package:stichsync/shared/components/text_input.dart';
 import 'package:stichsync/shared/components/text_button.dart';
 import 'package:stichsync/shared/components/toaster.dart';

@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/models/user_profile_model.dart';
+import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
 import 'package:stichsync/views/home/inspirations/data_access/inspirations_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -27,13 +28,16 @@ class AccountService {
   Future<UserProfileModel> getUserData() async {
     var userId = getUserId();
     var response = await supabase.from('UserProfile').select('username, email, picUrl').eq('userId', userId);
-    var projects = crochetService.getProjectsFromData(await supabase.from('Project').select().eq('userId', userId));
 
     return UserProfileModel(
       email: response[0]["email"],
       username: response[0]["username"],
       picUrl: response[0]["picUrl"],
-      posts: projects,
+      posts: [
+        InspirationPost(crochet: crochetService.get(1, 1)[0]),
+        InspirationPost(crochet: crochetService.get(1, 1)[0]),
+        InspirationPost(crochet: crochetService.get(1, 1)[0]),
+      ],
     );
   }
 
