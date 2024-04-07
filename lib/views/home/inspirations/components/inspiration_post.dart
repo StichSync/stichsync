@@ -18,9 +18,6 @@ class _InspirationPostState extends State<InspirationPost> {
     double textSizeM = MediaQuery.of(context).size.width / 40;
     double textSizeL = MediaQuery.of(context).size.width / 25;
     return GestureDetector(
-      onTap: () {
-        router.go("/project/${widget.crochet.id}");
-      },
       child: Wrap(
         children: [
           Card(
