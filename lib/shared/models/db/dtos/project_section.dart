@@ -1,9 +1,10 @@
 class ProjectSection {
-  String id;
-  String title;
+  String? id;
+  String? title;
+  DateTime? createdAt;
   // todo: we will add a pattern PDF link or sth in the future
 
   // foreign keys
-  String projectId;
-  ProjectSection({required this.id, required this.title, required this.projectId});
+  String? projectId;
+  String? userId;
 }

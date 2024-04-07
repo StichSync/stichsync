@@ -2,8 +2,9 @@ import 'package:stichsync/shared/models/db/enums/attribute_unit.dart';
 import 'package:stichsync/shared/models/db/enums/tool.dart';
 
 class ToolAttribute {
-  String id;
-  Tool tool;
+  String? id;
+  DateTime? createdAt;
+  Tool? tool;
 
   // null for tools for which attribute doesnt matter.
   // Example: scissors
@@ -13,6 +14,6 @@ class ToolAttribute {
   // for now lets have 'mm' as default
 
   // foreign keys
-  String projectToolId;
-  ToolAttribute({required this.id, required this.tool, required this.projectToolId, this.size, this.unit});
+  String? projectToolId;
+  String? userId;
 }
