@@ -1,25 +1,25 @@
 import 'package:stichsync/shared/models/crochet_model.dart';
+import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
 
 class CrochetService {
-  // returning mock crochets for now
-  List<CrochetModel> get(int pageSize, int pageNumber) {
-    List<CrochetModel> crochets = [];
+  List<InspirationPost> getProjectsFromData(List<Map<String, dynamic>> data) {
+    List<InspirationPost> crochets = [];
 
-    int startIndex = (pageNumber - 1) * pageSize;
-
-    for (int i = startIndex; i < startIndex + pageSize; i++) {
+    for (int i = 0; i < data.length; i++) {
       CrochetModel crochet = CrochetModel(
-        id: 'id_$i',
-        createdAt: DateTime.now().subtract(Duration(days: i * 2)),
-        name: 'Crochet Name $i',
-        description: 'Description for Crochet $i',
-        mediaUrl: 'https://placehold.co/600x400/png',
+        id: data[i]["id"],
+        createdAt: DateTime.parse(data[i]["createdAt"]),
+        name: data[i]["name"],
+        description: data[i]["description"],
+        mediaUrl: data[i]["mediaUrls"],
         upvoteCount: i * 3,
         downvoteCount: i * 2,
         saveCount: i,
-        authorNickname: 'Author $i',
+        authorNickname: "Autor",
       );
-      crochets.add(crochet);
+      crochets.add(
+        InspirationPost(crochet: crochet),
+      );
     }
 
     return crochets;

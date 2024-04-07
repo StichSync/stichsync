@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:stichsync/shared/components/text_button.dart';
+import 'package:stichsync/shared/components/toaster.dart';
+import 'package:stichsync/shared/services/project_service.dart';
+import 'package:stichsync/shared/services/router/router.dart';
 
 // This page will display users in-progress projects
 // This is the default place the user gets redirected after successful login.
@@ -14,30 +19,27 @@ class MyStuff extends StatefulWidget {
 }
 
 class _MyStuffState extends State<MyStuff> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final patternService = GetIt.I<ProjectService>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text(
-          'Button has been pressed $_counter times',
-          style: Theme.of(context).textTheme.bodyLarge,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SsTextButton(
+          text: "Create new Project",
+          bgColor: Colors.green,
+          onPressed: () async {
+            String id = await patternService.addProject();
+            if (id == "") {
+              SsToaster.toast(msg: "Something went wrong", type: ToastType.error);
+            } else {
+              SsToaster.toast(msg: "Project created", type: ToastType.success, longTime: false);
+              router.go('/project/$id');
+            }
+          },
         ),
-      ),
-      floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left: 30),
-          child: FloatingActionButton(
-            onPressed: () {_incrementCounter();},
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),
-          )),
+      ],
     );
   }
 }

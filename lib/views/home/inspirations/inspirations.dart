@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:stichsync/shared/models/crochet_model.dart';
+import 'package:stichsync/shared/components/toaster.dart';
+import 'package:stichsync/shared/services/project_service.dart';
 import 'package:stichsync/views/home/inspirations/components/inspiration_post.dart';
 import 'package:stichsync/views/home/inspirations/data_access/inspirations_service.dart';
 
@@ -14,27 +15,47 @@ class Inspirations extends StatefulWidget {
   State<Inspirations> createState() => _InspirationsState();
 }
 
-class _InspirationsState extends State<Inspirations>
-    with AutomaticKeepAliveClientMixin<Inspirations> {
+class _InspirationsState extends State<Inspirations> with AutomaticKeepAliveClientMixin<Inspirations> {
   final crochetService = GetIt.instance.get<CrochetService>();
-  late List<CrochetModel> crochets;
+  final projectService = GetIt.instance.get<ProjectService>();
+  List<InspirationPost> crochets = [];
 
   @override
   void initState() {
     super.initState();
-    crochets = crochetService.get(10, 1);
+    getProjects();
+  }
+
+  void getProjects() async {
+    var projects = await projectService.getNewestProjects();
+    if (projects != null) {
+      crochets = crochetService.getProjectsFromData(projects);
+      setState(() {});
+    } else {
+      SsToaster.toast(msg: "Something went wrong", type: ToastType.error);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: crochets.length,
-        itemBuilder: (context, index) {
-          return InspirationPost(crochet: crochets[index]);
-        },
-      ),
+    return Column(
+      children: [
+        const Text(
+          "6 newest projects:",
+          style: TextStyle(fontSize: 30),
+        ),
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemCount: crochets.length,
+            itemBuilder: (context, index) {
+              return crochets[index];
+            },
+          ),
+        ),
+      ],
     );
   }
 

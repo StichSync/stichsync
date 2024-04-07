@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:stichsync/shared/components/project.dart';
 import 'package:stichsync/shared/components/text_input.dart';
 import 'package:stichsync/shared/components/text_button.dart';
 import 'package:stichsync/shared/components/toaster.dart';
@@ -25,9 +26,9 @@ class _LoginState extends State<Login> {
     String password = keyPass.currentState!.getText();
 
     if (email == "" || password == "") {
-      Toaster.toast(msg: "Fill every space", type: ToastType.error);
+      SsToaster.toast(msg: "Fill every space", type: ToastType.error);
     } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email)) {
-      Toaster.toast(msg: "E-mail is not valid", type: ToastType.error);
+      SsToaster.toast(msg: "E-mail is not valid", type: ToastType.error);
     } else {
       if (await authService.login(email, password)) {
         router.goNamed('home');
@@ -38,9 +39,9 @@ class _LoginState extends State<Login> {
   Future<void> forgotPassword() async {
     String email = keyEmail.currentState!.getText();
     if (email == "") {
-      Toaster.toast(msg: "Fill E-mail input", type: ToastType.error);
+      SsToaster.toast(msg: "Fill E-mail input", type: ToastType.error);
     } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email)) {
-      Toaster.toast(msg: "E-mail is not valid", type: ToastType.error);
+      SsToaster.toast(msg: "E-mail is not valid", type: ToastType.error);
     } else {
       await authService.forgotPassword(email);
     }

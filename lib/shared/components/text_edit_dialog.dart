@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:stichsync/shared/services/router/router.dart';
 
-class TextEditDialog extends StatelessWidget {
+class SsTextEditDialog extends StatelessWidget {
   final String placeholder;
   final String title;
   final int limit;
   final TextEditingController _textController = TextEditingController();
 
-  TextEditDialog({
+  SsTextEditDialog({
     super.key,
     required this.placeholder,
     required this.title,
