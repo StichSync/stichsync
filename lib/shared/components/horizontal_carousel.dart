@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:stichsync/shared/config/theme_config.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class HorizCarousel extends StatefulWidget {
+class SsHorizCarousel extends StatefulWidget {
   final List items;
   final CarouselOptions? optionsOver;
-  const HorizCarousel({
-    super.key,
-    required this.items,
-    this.optionsOver
-  });
+  const SsHorizCarousel({super.key, required this.items, this.optionsOver});
 
   @override
-  State<HorizCarousel> createState() => _HorizCarouselState();
+  State<SsHorizCarousel> createState() => _SsHorizCarouselState();
 }
 
-class _HorizCarouselState extends State<HorizCarousel> {
-  
+class _SsHorizCarouselState extends State<SsHorizCarousel> {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider.builder(
@@ -27,7 +22,7 @@ class _HorizCarouselState extends State<HorizCarousel> {
       options: CarouselOptions(
         height: widget.optionsOver?.height ?? MediaQuery.of(context).size.width * 0.78,
         enlargeCenterPage: widget.optionsOver?.enlargeCenterPage ?? true,
-        enlargeStrategy:  widget.optionsOver?.enlargeStrategy ?? CenterPageEnlargeStrategy.zoom,
+        enlargeStrategy: widget.optionsOver?.enlargeStrategy ?? CenterPageEnlargeStrategy.zoom,
         autoPlay: widget.optionsOver?.autoPlay ?? false,
         autoPlayCurve: widget.optionsOver?.autoPlayCurve ?? ThemeConfig.buttonCurve,
         enableInfiniteScroll: widget.optionsOver?.enableInfiniteScroll ?? true,

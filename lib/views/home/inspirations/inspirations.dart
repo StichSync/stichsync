@@ -14,8 +14,7 @@ class Inspirations extends StatefulWidget {
   State<Inspirations> createState() => _InspirationsState();
 }
 
-class _InspirationsState extends State<Inspirations>
-    with AutomaticKeepAliveClientMixin<Inspirations> {
+class _InspirationsState extends State<Inspirations> with AutomaticKeepAliveClientMixin<Inspirations> {
   final crochetService = GetIt.instance.get<CrochetService>();
   late List<CrochetModel> crochets;
 

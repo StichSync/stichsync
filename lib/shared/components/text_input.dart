@@ -5,13 +5,18 @@ class SsTextInput extends StatefulWidget {
   final IconData? icon;
   final Size? size;
   final bool isPassword;
-  const SsTextInput({
-    super.key,
-    required this.text,
-    this.icon,
-    this.size,
-    this.isPassword = false,
-  });
+  final TextStyle? style;
+  final int? maxCharacters;
+  final void Function(String text)? onChanged;
+  const SsTextInput(
+      {super.key,
+      required this.text,
+      this.icon,
+      this.size,
+      this.isPassword = false,
+      this.style,
+      this.maxCharacters,
+      this.onChanged});
 
   @override
   State<SsTextInput> createState() => SsTextInputState();
@@ -26,7 +31,7 @@ class SsTextInputState extends State<SsTextInput> {
     _controller.dispose();
     super.dispose();
   }
-  
+
   @override
   void initState() {
     super.initState();
@@ -37,29 +42,36 @@ class SsTextInputState extends State<SsTextInput> {
     return _controller.text;
   }
 
+  void setText(String text) {
+    _controller.text = text;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.size?.width,
-      height: widget.size?.height,
-      child: TextField(
-        controller: _controller,
-        decoration: InputDecoration(
-          prefixIcon: widget.icon != null ? Icon(widget.icon) : null,
-          label: Text(widget.text),
-          suffixIcon: widget.isPassword ? IconButton(
-            icon: Icon(isClosed ? Icons.visibility_off : Icons.visibility),
-            onPressed: () {
-              setState(() {
-                isClosed = !isClosed;
-              });
-            },
-          ) : null
-        ),
-        obscureText: isClosed ? true : false,
-        enableSuggestions: isClosed ? false : true,
-        autocorrect: isClosed ? false : true,
-      )
-    );
+        width: widget.size?.width,
+        height: widget.size?.height,
+        child: TextField(
+          onChanged: (String text) => {widget.onChanged?.call(text)},
+          maxLength: widget.maxCharacters,
+          style: widget.style,
+          controller: _controller,
+          decoration: InputDecoration(
+              prefixIcon: widget.icon != null ? Icon(widget.icon) : null,
+              label: Text(widget.text),
+              suffixIcon: widget.isPassword
+                  ? IconButton(
+                      icon: Icon(isClosed ? Icons.visibility_off : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          isClosed = !isClosed;
+                        });
+                      },
+                    )
+                  : null),
+          obscureText: isClosed ? true : false,
+          enableSuggestions: isClosed ? false : true,
+          autocorrect: isClosed ? false : true,
+        ));
   }
 }

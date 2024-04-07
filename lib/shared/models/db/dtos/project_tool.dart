@@ -1,12 +1,13 @@
 import 'package:stichsync/shared/models/db/dtos/tool_attribute.dart';
 
 class ProjectTool {
-  late final String id;
-  late String title;
+  String id;
+  String title;
 
   // virtual
-  late ToolAttribute? attribute;
+  ToolAttribute? attribute;
 
   // foreign keys
-  late String projectId;
+  String projectId;
+  ProjectTool({required this.id, required this.title, required this.projectId, this.attribute});
 }

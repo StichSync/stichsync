@@ -34,10 +34,10 @@ class AuthService {
           'username': username,
         },
       );
-      Toaster.toast(msg: "Account created, Please log in", type: ToastType.success, longTime: true);
+      SsToaster.toast(msg: "Account created, Please log in", type: ToastType.success, longTime: true);
       return true;
     } on AuthException catch (error) {
-      Toaster.toast(
+      SsToaster.toast(
         msg: error.message,
         type: ToastType.error,
         longTime: true,
@@ -52,14 +52,14 @@ class AuthService {
         email: email,
         password: password,
       );
-      Toaster.toast(
+      SsToaster.toast(
         msg: "Successfully logged in",
         type: ToastType.success,
         longTime: true,
       );
       return true;
     } on AuthException catch (error) {
-      Toaster.toast(
+      SsToaster.toast(
         msg: error.message,
         type: ToastType.error,
         longTime: true,
@@ -74,17 +74,17 @@ class AuthService {
         email,
         redirectTo: "/resetPassword", // todo: determine redirect link based on users current platform
       );
-      Toaster.toast(
+      SsToaster.toast(
         msg: "Email with password reset had been sent",
         type: ToastType.success,
       );
     } on AuthException catch (error) {
-      Toaster.toast(
+      SsToaster.toast(
         msg: error.message,
         type: ToastType.error,
       );
     } catch (error) {
-      Toaster.toast(
+      SsToaster.toast(
         msg: error.toString(),
         type: ToastType.error,
       );
@@ -99,19 +99,19 @@ class AuthService {
       await _client.updateUser(
         UserAttributes(password: password),
       );
-      Toaster.toast(
+      SsToaster.toast(
         msg: "Password had been reset",
         type: ToastType.success,
       );
 
       return true;
     } on AuthException catch (error) {
-      Toaster.toast(
+      SsToaster.toast(
         msg: error.message,
         type: ToastType.error,
       );
     } catch (error) {
-      Toaster.toast(
+      SsToaster.toast(
         msg: error.toString(),
         type: ToastType.error,
       );

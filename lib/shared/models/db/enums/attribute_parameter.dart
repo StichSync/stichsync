@@ -8,10 +8,10 @@ enum AttributeParameter {
 }
 
 final Map<AttributeParameter, String> attributeParameterNames = {
-  AttributeParameter.thickness: "Thickness",
-  AttributeParameter.length: "Length",
-  AttributeParameter.width: "Width",
-  AttributeParameter.size: "Size",
-  AttributeParameter.weight: "Weight",
-  AttributeParameter.height: "Height",
+  AttributeParameter.thickness: "thickness",
+  AttributeParameter.length: "length",
+  AttributeParameter.width: "width",
+  AttributeParameter.size: "size",
+  AttributeParameter.weight: "weight",
+  AttributeParameter.height: "height",
 };
