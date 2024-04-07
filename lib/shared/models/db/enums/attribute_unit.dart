@@ -23,3 +23,7 @@ final Map<AttributeUnit, String> attributeUnitNames = {
   AttributeUnit.ounce: "oz",
   AttributeUnit.pound: "lb",
 };
+
+enum WeightUnit { gram, kilogram, ounce, pound }
+
+enum LengthUnit { milimeter, centimeter, meter, inch, foot, yard }
