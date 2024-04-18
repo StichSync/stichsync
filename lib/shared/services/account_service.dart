@@ -71,21 +71,22 @@ class AccountService {
     try {
       var userId = getUserId();
       if (!kIsWeb) {
-        await supabase.storage.from('avatars').update(
+        await supabase.storage.from('data').update(
               '$userId/avatar.jpg',
               avatarFile,
               fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
             );
       } else {
         XFile file = XFile(avatarFile.path);
-        await supabase.storage.from('avatars').updateBinary(
+        await supabase.storage.from('data').updateBinary(
               '$userId/avatar.jpg',
               await file.readAsBytes(),
               fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
             );
       }
+      String picUrl = await supabase.storage.from("data").createSignedUrl('$userId/avatar.jpg', 315569260);
       await supabase.from('UserProfile').update({
-        'picUrl': 'https://iaxqejougvvfhxqhpmre.supabase.co/storage/v1/object/public/avatars/$userId/avatar.jpg'
+        'picUrl': picUrl
       }).match({'userId': userId});
       return true;
     } on StorageException {
@@ -93,21 +94,22 @@ class AccountService {
         var userId = getUserId();
 
         if (!kIsWeb) {
-          await supabase.storage.from('avatars').upload(
+          await supabase.storage.from('data').upload(
                 '$userId/avatar.jpg',
                 avatarFile,
                 fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
               );
         } else {
           XFile file = XFile(avatarFile.path);
-          await supabase.storage.from('avatars').uploadBinary(
+          await supabase.storage.from('data').uploadBinary(
                 '$userId/avatar.jpg',
                 await file.readAsBytes(),
                 fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
               );
         }
+        String picUrl = await supabase.storage.from("data").createSignedUrl('$userId/avatar.jpg', 315569260);
         await supabase.from('UserProfile').update({
-          'picUrl': 'https://iaxqejougvvfhxqhpmre.supabase.co/storage/v1/object/public/avatars/$userId/avatar.jpg'
+          'picUrl': picUrl
         }).match({'userId': userId});
         return true;
       } catch (e) {
