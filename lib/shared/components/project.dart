@@ -318,7 +318,7 @@ class _SsProjectState extends State<SsProject> {
                               type: ToastType.warning,
                             );
                           },
-                          textStyle: TextStyle(fontSize: 30),
+                          textStyle: const TextStyle(fontSize: 30),
                         ),
                         const Text(
                           "or",
@@ -330,7 +330,7 @@ class _SsProjectState extends State<SsProject> {
                           children: [
                             Expanded(
                               child: Padding(
-                                padding: EdgeInsets.fromLTRB(0, 0, 20, 2),
+                                padding: const EdgeInsets.fromLTRB(0, 0, 20, 2),
                                 child: SsTextInput(
                                   text: "Title",
                                   style: const TextStyle(fontSize: 20),
@@ -353,7 +353,7 @@ class _SsProjectState extends State<SsProject> {
                                         msg: "Title cannot be empty", type: ToastType.warning, longTime: false);
                                   }
                                 },
-                                textStyle: TextStyle(fontSize: 20),
+                                textStyle: const TextStyle(fontSize: 20),
                               ),
                             ),
                           ],

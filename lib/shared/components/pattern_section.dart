@@ -26,6 +26,7 @@ class SsPatternSectionState extends State<SsPatternSection> {
   final projectService = GetIt.I<ProjectService>();
   String sectionName = "";
 
+  @override
   void initState() {
     super.initState();
     setState(() {
