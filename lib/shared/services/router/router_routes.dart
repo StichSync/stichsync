@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:stichsync/shared/components/project.dart';
 import 'package:stichsync/views/auth/forgot_password.dart';
 import 'package:stichsync/views/auth/login.dart';
 import 'package:stichsync/views/auth/register.dart';
@@ -39,5 +40,10 @@ final List<GoRoute> routerRoutes = [
   GoRoute(
     path: '/reset-password',
     builder: (context, state) => const ForgotPassword(),
+  ),
+  GoRoute(
+    name: 'project/:id',
+    path: '/project/:id',
+    builder: (context, state) => SsProject(id: state.pathParameters['id']!),
   ),
 ];
