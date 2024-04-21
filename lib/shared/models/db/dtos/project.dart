@@ -1,6 +1,6 @@
 import 'package:stichsync/shared/models/db/dtos/project_section.dart';
-import 'package:stichsync/shared/models/db/dtos/project_tool.dart';
 import 'package:stichsync/shared/models/db/dtos/project_yarn.dart';
+import 'package:stichsync/shared/models/db/dtos/project_tool.dart';
 
 // note:
 // project is a data struct that saves knitting pattern and related metadata.

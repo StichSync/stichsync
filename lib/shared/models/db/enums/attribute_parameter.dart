@@ -7,6 +7,18 @@ enum AttributeParameter {
   height,
 }
 
+enum LengthParameter {
+  thickness,
+  length,
+  width,
+  size,
+  height,
+}
+
+enum WeightParameter {
+  weight,
+}
+
 final Map<AttributeParameter, String> attributeParameterNames = {
   AttributeParameter.thickness: "thickness",
   AttributeParameter.length: "length",

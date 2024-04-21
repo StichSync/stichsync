@@ -10,6 +10,7 @@ import 'package:stichsync/shared/components/editable_avatar.dart';
 import 'package:stichsync/shared/components/image_picker_util.dart';
 import 'package:stichsync/shared/components/text_edit_dialog.dart';
 import 'package:stichsync/shared/components/toaster.dart';
+import 'package:stichsync/shared/services/project_service.dart';
 import 'package:stichsync/shared/services/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,8 +23,9 @@ class Me extends StatefulWidget {
 
 class _MeState extends State<Me> {
   final accountService = GetIt.I<AccountService>();
+  final projectService = GetIt.I<ProjectService>();
   final _client = Supabase.instance.client.auth;
-
+  List<GestureDetector>? projectData;
   late UserProfileModel userData;
 
   Future<void> updateUI() async {
@@ -113,6 +115,10 @@ class _MeState extends State<Me> {
   Future<UserProfileModel> _getUserData() async {
     await Future.delayed(Durations.long1);
     return accountService.getUserData();
+  }
+
+  Future<List<GestureDetector>?> _getprojectData() async {
+    return projectService.getUserProject(accountService.getUserId());
   }
 
   @override
@@ -213,28 +219,38 @@ class _MeState extends State<Me> {
                     endIndent: 100,
                     indent: 100,
                   ),
-                  SsHorizCarousel(
-                    items: userData.posts.isEmpty
-                        ? [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
-                                vertical: 32.0,
-                              ),
-                              child: Text(
-                                "You don't have any projects :C",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),
-                              ),
+                  FutureBuilder(
+                    future: _getprojectData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator.adaptive());
+                      } else if (snapshot.hasError) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 32.0,
+                          ),
+                          child: Text(
+                            "You don't have any projects :C",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
                             ),
-                          ]
-                        : userData.posts,
-                    optionsOver: CarouselOptions(
-                      enableInfiniteScroll: false,
-                      initialPage: 1,
-                      enlargeCenterPage: true,
-                    ),
+                          ),
+                        );
+                      } else if (snapshot.hasData) {
+                        projectData = snapshot.data!;
+                        return SsHorizCarousel(
+                          items: projectData!,
+                          optionsOver: CarouselOptions(
+                            enableInfiniteScroll: false,
+                            initialPage: 1,
+                            enlargeCenterPage: true,
+                          ),
+                        );
+                      } else {
+                        return const Text("Unhandled case");
+                      }
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
