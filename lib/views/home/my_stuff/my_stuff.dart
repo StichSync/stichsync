@@ -47,9 +47,7 @@ class _MyStuffState extends State<MyStuff> {
                 bgColor: Colors.green,
                 onPressed: () async {
                   String id = await projectService.addProject();
-                  if (id == "") {
-                    SsToaster.toast(msg: "Something went wrong", type: ToastType.error);
-                  } else {
+                  if (id != "") {
                     SsToaster.toast(msg: "Project created", type: ToastType.success, longTime: false);
                     router.go('/project/$id');
                   }

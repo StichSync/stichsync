@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:stichsync/shared/components/toaster.dart';
 import 'package:stichsync/shared/models/crochet_model.dart';
 import 'package:stichsync/shared/models/db/dtos/project.dart';
 import 'package:stichsync/shared/models/db/dtos/project_section.dart';
@@ -95,6 +96,7 @@ class ProjectService {
       }).select();
       return project[0]["id"];
     } catch (e) {
+      SsToaster.toast(msg: "Something went wrong", type: ToastType.error);
       return "";
     }
   }
