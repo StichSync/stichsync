@@ -17,7 +17,7 @@ import 'package:stichsync/shared/config/theme_config.dart';
 import 'package:stichsync/shared/models/db/dtos/project.dart';
 import 'package:stichsync/shared/models/db/dtos/project_section.dart';
 import 'package:stichsync/shared/models/db/dtos/project_yarn.dart';
-import 'package:stichsync/shared/models/db/dtos/tool_attribute.dart';
+import 'package:stichsync/shared/models/db/dtos/project_tool.dart';
 import 'package:stichsync/shared/models/db/enums/attribute_parameter.dart';
 import 'package:stichsync/shared/models/db/enums/attribute_unit.dart';
 import 'package:stichsync/shared/models/db/enums/tool.dart';
@@ -247,7 +247,7 @@ class _SsProjectState extends State<SsProject> {
                     Navigator.of(context).pop();
                     toolAttribVisible = true;
                     if (pickedTool != null && pickedUnit != null && pickedParameter != null && pickedSize != null) {
-                      ToolAttribute pickedToolAttribute = ToolAttribute();
+                      ProjectTool pickedToolAttribute = ProjectTool();
                       pickedToolAttribute.id = "";
                       pickedToolAttribute.tool = pickedTool!;
                       pickedToolAttribute.unit = pickedUnit;
@@ -257,7 +257,7 @@ class _SsProjectState extends State<SsProject> {
                       createTool(pickedToolAttribute);
                     } else {
                       if (pickedTool != null) {
-                        ToolAttribute pickedToolAttribute = ToolAttribute();
+                        ProjectTool pickedToolAttribute = ProjectTool();
                         pickedToolAttribute.id = "";
                         pickedToolAttribute.tool = pickedTool!;
                         pickedToolAttribute.projectToolId = "";
@@ -280,7 +280,7 @@ class _SsProjectState extends State<SsProject> {
     );
   }
 
-  Future<void> createTool(ToolAttribute pickedToolAttribute) async {
+  Future<void> createTool(ProjectTool pickedToolAttribute) async {
     SsToaster.toast(msg: "Successfully created tool", type: ToastType.success, longTime: false);
     setState(() {
       saveVisible = true;
@@ -416,7 +416,7 @@ class _SsProjectState extends State<SsProject> {
       projectList.sections = [...projectList.sections, projectSection];
     }
     for (var tool in listTools) {
-      ToolAttribute projectTool = ToolAttribute();
+      ProjectTool projectTool = ProjectTool();
       projectTool = tool.currentState!.tool;
       projectList.tools = [...projectList.tools, projectTool];
     }

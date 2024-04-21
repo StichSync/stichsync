@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:stichsync/shared/models/db/dtos/tool_attribute.dart';
+import 'package:stichsync/shared/models/db/dtos/project_tool.dart';
 import 'package:stichsync/shared/models/db/enums/attribute_parameter.dart';
 import 'package:stichsync/shared/models/db/enums/attribute_unit.dart';
 import 'package:stichsync/shared/models/db/enums/tool.dart';
 
 class SsToolAttribute extends StatefulWidget {
   final void Function(Key key)? removeToolAttribute;
-  final ToolAttribute? toolAttribute;
+  final ProjectTool? toolAttribute;
   const SsToolAttribute({
     super.key,
     this.removeToolAttribute,
@@ -18,7 +18,7 @@ class SsToolAttribute extends StatefulWidget {
 }
 
 class SsToolAttributeState extends State<SsToolAttribute> {
-  ToolAttribute tool = ToolAttribute();
+  ProjectTool tool = ProjectTool();
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class SsToolAttributeState extends State<SsToolAttribute> {
     }
   }
 
-  changeTools(ToolAttribute toolAttribute) {
+  changeTools(ProjectTool toolAttribute) {
     tool = toolAttribute;
   }
 

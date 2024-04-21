@@ -4,7 +4,7 @@ import 'package:stichsync/shared/models/crochet_model.dart';
 import 'package:stichsync/shared/models/db/dtos/project.dart';
 import 'package:stichsync/shared/models/db/dtos/project_section.dart';
 import 'package:stichsync/shared/models/db/dtos/project_yarn.dart';
-import 'package:stichsync/shared/models/db/dtos/tool_attribute.dart';
+import 'package:stichsync/shared/models/db/dtos/project_tool.dart';
 import 'package:stichsync/shared/models/db/dtos/yarn_attribute.dart';
 import 'package:stichsync/shared/models/db/enums/attribute_parameter.dart';
 import 'package:stichsync/shared/models/db/enums/attribute_unit.dart';
@@ -281,7 +281,7 @@ class ProjectService {
         project.sections[i].title = sectionData[i]["title"];
       }
       for (var i = 0; i < toolsData.length; i++) {
-        project.tools = [...project.tools, ToolAttribute()];
+        project.tools = [...project.tools, ProjectTool()];
         project.tools[i].parameter = toolsData[i]["tool"] != "scissors"
             ? AttributeParameter.values
                 .firstWhere((e) => e.toString() == 'AttributeParameter.${toolsData[i]["parameter"]}')

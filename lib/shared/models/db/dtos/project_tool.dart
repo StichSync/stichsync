@@ -2,7 +2,7 @@ import 'package:stichsync/shared/models/db/enums/attribute_parameter.dart';
 import 'package:stichsync/shared/models/db/enums/attribute_unit.dart';
 import 'package:stichsync/shared/models/db/enums/tool.dart';
 
-class ToolAttribute {
+class ProjectTool {
   String? id;
   DateTime? createdAt;
   Tool? tool;

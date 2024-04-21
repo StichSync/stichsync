@@ -1,6 +1,6 @@
 import 'package:stichsync/shared/models/db/dtos/project_section.dart';
 import 'package:stichsync/shared/models/db/dtos/project_yarn.dart';
-import 'package:stichsync/shared/models/db/dtos/tool_attribute.dart';
+import 'package:stichsync/shared/models/db/dtos/project_tool.dart';
 
 // note:
 // project is a data struct that saves knitting pattern and related metadata.
@@ -17,7 +17,7 @@ class Project {
 
   // virtual
   List<ProjectSection> sections = List<ProjectSection>.empty();
-  List<ToolAttribute> tools = List<ToolAttribute>.empty();
+  List<ProjectTool> tools = List<ProjectTool>.empty();
   List<ProjectYarn> yarn = List<ProjectYarn>.empty();
 
   // foreign keys
