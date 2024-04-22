@@ -26,13 +26,18 @@ class AccountService {
   }
 
   Future<UserProfileModel> getUserData() async {
+    String picUrl;
     var userId = getUserId();
-    var response = await supabase.from('UserProfile').select('username, email, picUrl').eq('userId', userId);
-
+    var response = await supabase.from('UserProfile').select('username, email').eq('userId', userId);
+    try{
+      picUrl = await supabase.storage.from("data").createSignedUrl('$userId/avatar.jpg', 3600);
+    } on StorageException{
+      picUrl = "https://eu.ui-avatars.com/api/?name=${response[0]["username"]}";
+    }
     return UserProfileModel(
       email: response[0]["email"],
       username: response[0]["username"],
-      picUrl: response[0]["picUrl"],
+      picUrl: picUrl,
       posts: [
         InspirationPost(crochet: crochetService.get(1, 1)[0]),
         InspirationPost(crochet: crochetService.get(1, 1)[0]),
@@ -84,10 +89,6 @@ class AccountService {
               fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
             );
       }
-      String picUrl = await supabase.storage.from("data").createSignedUrl('$userId/avatar.jpg', 315569260);
-      await supabase.from('UserProfile').update({
-        'picUrl': picUrl
-      }).match({'userId': userId});
       return true;
     } on StorageException {
       try {
@@ -107,10 +108,6 @@ class AccountService {
                 fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
               );
         }
-        String picUrl = await supabase.storage.from("data").createSignedUrl('$userId/avatar.jpg', 315569260);
-        await supabase.from('UserProfile').update({
-          'picUrl': picUrl
-        }).match({'userId': userId});
         return true;
       } catch (e) {
         return false;
