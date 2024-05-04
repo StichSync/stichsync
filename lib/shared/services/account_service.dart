@@ -32,7 +32,7 @@ class AccountService {
     try{
       picUrl = await supabase.storage.from("data").createSignedUrl('$userId/avatar.jpg', 3600);
     } on StorageException{
-      picUrl = "https://eu.ui-avatars.com/api/?name=${response[0]["username"]}";
+      picUrl = await supabase.storage.from("data").createSignedUrl('avatar_placeholder.png', 3600);
     }
     return UserProfileModel(
       email: response[0]["email"],
