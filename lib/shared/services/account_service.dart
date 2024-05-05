@@ -26,13 +26,18 @@ class AccountService {
   }
 
   Future<UserProfileModel> getUserData() async {
+    String picUrl;
     var userId = getUserId();
-    var response = await supabase.from('UserProfile').select('username, email, picUrl').eq('userId', userId);
-
+    var response = await supabase.from('UserProfile').select('username, email').eq('userId', userId);
+    try{
+      picUrl = await supabase.storage.from("data").createSignedUrl('$userId/avatar.jpg', 3600);
+    } on StorageException{
+      picUrl = await supabase.storage.from("data").createSignedUrl('avatar_placeholder.png', 3600);
+    }
     return UserProfileModel(
       email: response[0]["email"],
       username: response[0]["username"],
-      picUrl: response[0]["picUrl"],
+      picUrl: picUrl,
       posts: [
         InspirationPost(crochet: crochetService.get(1, 1)[0]),
         InspirationPost(crochet: crochetService.get(1, 1)[0]),
@@ -71,44 +76,38 @@ class AccountService {
     try {
       var userId = getUserId();
       if (!kIsWeb) {
-        await supabase.storage.from('avatars').update(
+        await supabase.storage.from('data').update(
               '$userId/avatar.jpg',
               avatarFile,
               fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
             );
       } else {
         XFile file = XFile(avatarFile.path);
-        await supabase.storage.from('avatars').updateBinary(
+        await supabase.storage.from('data').updateBinary(
               '$userId/avatar.jpg',
               await file.readAsBytes(),
               fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
             );
       }
-      await supabase.from('UserProfile').update({
-        'picUrl': 'https://iaxqejougvvfhxqhpmre.supabase.co/storage/v1/object/public/avatars/$userId/avatar.jpg'
-      }).match({'userId': userId});
       return true;
     } on StorageException {
       try {
         var userId = getUserId();
 
         if (!kIsWeb) {
-          await supabase.storage.from('avatars').upload(
+          await supabase.storage.from('data').upload(
                 '$userId/avatar.jpg',
                 avatarFile,
                 fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
               );
         } else {
           XFile file = XFile(avatarFile.path);
-          await supabase.storage.from('avatars').uploadBinary(
+          await supabase.storage.from('data').uploadBinary(
                 '$userId/avatar.jpg',
                 await file.readAsBytes(),
                 fileOptions: const FileOptions(cacheControl: '3600', upsert: false),
               );
         }
-        await supabase.from('UserProfile').update({
-          'picUrl': 'https://iaxqejougvvfhxqhpmre.supabase.co/storage/v1/object/public/avatars/$userId/avatar.jpg'
-        }).match({'userId': userId});
         return true;
       } catch (e) {
         return false;
